@@ -1,0 +1,5 @@
+# Strictly for tests
+pytest
+pytest-cov<3.0.0
+pytest-homeassistant-custom-component>=0.4.8
+aiohttp_cors

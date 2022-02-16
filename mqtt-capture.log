@@ -1,0 +1,135 @@
+/go-eCharger/000001/acs 0
+/go-eCharger/000001/acu 10
+/go-eCharger/000001/adi true
+/go-eCharger/000001/alw true
+/go-eCharger/000001/ama 16
+/go-eCharger/000001/amp 10
+/go-eCharger/000001/amt 32
+/go-eCharger/000001/ara true
+/go-eCharger/000001/ate 18000
+/go-eCharger/000001/att 21600
+/go-eCharger/000001/awcp {"start":1645038000,"end":1645041600,"marketprice":19.395}
+/go-eCharger/000001/awp 3
+/go-eCharger/000001/bac true
+/go-eCharger/000001/car 1
+/go-eCharger/000001/cards [{"name":"User 1","energy":0,"cardId":true},{"name":"User 2","energy":0,"cardId":false},{"name":"User 3","energy":0,"cardId":false},{"name":"User 4","energy":0,"cardId":false},{"name":"User 5","energy":0,"cardId":false},{"name":"User 6","energy":0,"cardId":false},{"name":"User 7","energy":0,"cardId":false},{"name":"User 8","energy":0,"cardId":false},{"name":"User 9","energy":0,"cardId":false},{"name":"User 10","energy":0,"cardId":false}]
+/go-eCharger/000001/cbl null
+/go-eCharger/000001/cch "#00FFFF"
+/go-eCharger/000001/ccw {"ssid":"redacted", "redacted": "redacted"}
+/go-eCharger/000001/cdi {"type":1,"value":0}
+/go-eCharger/000001/cfi "#00FF00"
+/go-eCharger/000001/cid "#0000FF"
+/go-eCharger/000001/clp [6,10,12,14,16]
+/go-eCharger/000001/cwc "#FFFF00"
+/go-eCharger/000001/deltap 0
+/go-eCharger/000001/dll "https://data.v3.go-e.io/export?e=redacted"
+/go-eCharger/000001/dns {"dns":"0.0.0.0"}
+/go-eCharger/000001/dwo null
+/go-eCharger/000001/err 0
+/go-eCharger/000001/eto 0
+/go-eCharger/000001/fhz 49.774
+/go-eCharger/000001/fhz 49.83
+/go-eCharger/000001/fhz 49.88
+/go-eCharger/000001/fhz 49.884
+/go-eCharger/000001/fhz 49.897
+/go-eCharger/000001/fhz 49.898
+/go-eCharger/000001/fhz 49.909
+/go-eCharger/000001/fhz 49.915
+/go-eCharger/000001/fhz 49.919
+/go-eCharger/000001/fhz 49.921
+/go-eCharger/000001/fhz 49.926
+/go-eCharger/000001/fhz 49.933
+/go-eCharger/000001/fhz 49.939
+/go-eCharger/000001/fhz 50.023
+/go-eCharger/000001/fhz 50.043
+/go-eCharger/000001/fhz 50.111
+/go-eCharger/000001/frc 0
+/go-eCharger/000001/fsp false
+/go-eCharger/000001/fwv "053.1"
+/go-eCharger/000001/hla false
+/go-eCharger/000001/lbp null
+/go-eCharger/000001/lbr 255
+/go-eCharger/000001/lccfc null
+/go-eCharger/000001/lccfi null
+/go-eCharger/000001/lcctc null
+/go-eCharger/000001/lmo 3
+/go-eCharger/000001/lmsc 1608
+/go-eCharger/000001/loa null
+/go-eCharger/000001/loc "2022-02-16T20:27:34.043.167 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:35.108.686 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:36.039.346 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:37.037.827 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:38.039.326 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:39.041.830 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:40.361.504 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:41.362.271 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:42.039.266 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:43.038.220 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:44.038.835 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:45.039.331 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:46.037.905 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:47.037.725 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:48.038.986 +01:00"
+/go-eCharger/000001/loc "2022-02-16T20:27:49.040.081 +01:00"
+/go-eCharger/000001/lrc null
+/go-eCharger/000001/lri null
+/go-eCharger/000001/lrr null
+/go-eCharger/000001/mca 6
+/go-eCharger/000001/men false
+/go-eCharger/000001/modelStatus 15
+/go-eCharger/000001/nrg [15,0,0,220,0,0,0,0,0,0,0,0,0,0,0,0]
+/go-eCharger/000001/nrg [15,0,0,221,0,0,0,0,0,0,0,0,0,0,0,0]
+/go-eCharger/000001/nrg [15,0,0,222,0,0,0,0,0,0,0,0,0,0,0,0]
+/go-eCharger/000001/nrg [15,0,0,223,0,0,0,0,0,0,0,0,0,0,0,0]
+/go-eCharger/000001/ocu ["052.2","V 051.9 OUTDATED","V 052.0 OUTDATED","V 052.1 OUTDATED","V 053.0 BETA","V 053.1 BETA"]
+/go-eCharger/000001/pakku null
+/go-eCharger/000001/pgrid null
+/go-eCharger/000001/pha [false,false,false,true,false,false]
+/go-eCharger/000001/ppv null
+/go-eCharger/000001/psm 2
+/go-eCharger/000001/rbc 7
+/go-eCharger/000001/rbt 9563735
+/go-eCharger/000001/rbt 9564801
+/go-eCharger/000001/rbt 9565732
+/go-eCharger/000001/rbt 9566730
+/go-eCharger/000001/rbt 9567732
+/go-eCharger/000001/rbt 9568734
+/go-eCharger/000001/rbt 9570054
+/go-eCharger/000001/rbt 9571055
+/go-eCharger/000001/rbt 9571731
+/go-eCharger/000001/rbt 9572730
+/go-eCharger/000001/rbt 9573731
+/go-eCharger/000001/rbt 9574732
+/go-eCharger/000001/rbt 9575730
+/go-eCharger/000001/rbt 9576730
+/go-eCharger/000001/rbt 9577731
+/go-eCharger/000001/rbt 9578733
+/go-eCharger/000001/rssi -42
+/go-eCharger/000001/rssi -44
+/go-eCharger/000001/rssi -45
+/go-eCharger/000001/rssi -46
+/go-eCharger/000001/spl3 4200
+/go-eCharger/000001/tma [24.125,28.125]
+/go-eCharger/000001/tma [24.125,28.25]
+/go-eCharger/000001/tma [24.25,28.25]
+/go-eCharger/000001/tpa 0
+/go-eCharger/000001/trx null
+/go-eCharger/000001/ust 0
+/go-eCharger/000001/utc "2022-02-16T19:27:34.042.171"
+/go-eCharger/000001/utc "2022-02-16T19:27:35.107.704"
+/go-eCharger/000001/utc "2022-02-16T19:27:36.038.333"
+/go-eCharger/000001/utc "2022-02-16T19:27:37.036.836"
+/go-eCharger/000001/utc "2022-02-16T19:27:38.038.339"
+/go-eCharger/000001/utc "2022-02-16T19:27:39.040.895"
+/go-eCharger/000001/utc "2022-02-16T19:27:40.360.553"
+/go-eCharger/000001/utc "2022-02-16T19:27:41.361.176"
+/go-eCharger/000001/utc "2022-02-16T19:27:42.038.297"
+/go-eCharger/000001/utc "2022-02-16T19:27:43.037.229"
+/go-eCharger/000001/utc "2022-02-16T19:27:44.037.704"
+/go-eCharger/000001/utc "2022-02-16T19:27:45.038.170"
+/go-eCharger/000001/utc "2022-02-16T19:27:46.036.941"
+/go-eCharger/000001/utc "2022-02-16T19:27:47.036.587"
+/go-eCharger/000001/utc "2022-02-16T19:27:48.037.860"
+/go-eCharger/000001/utc "2022-02-16T19:27:49.039.121"
+/go-eCharger/000001/var 11
+/go-eCharger/000001/wh 0
