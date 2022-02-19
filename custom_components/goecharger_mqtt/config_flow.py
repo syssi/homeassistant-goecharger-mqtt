@@ -84,22 +84,27 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         await self.async_set_unique_id(self._serial_number)
         self._abort_if_unique_id_configured()
 
-        return await self.async_step_mqtt_confirm()
+        return await self.async_step_discovery_confirm()
 
-    async def async_step_mqtt_confirm(
+    async def async_step_discovery_confirm(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Confirm the setup."""
-        data = {
-            CONF_SERIAL_NUMBER: self._serial_number,
-            CONF_TOPIC_PREFIX: DEFAULT_TOPIC_PREFIX,
-        }
-        title = f"{DEFAULT_NAME} {self._serial_number}"
-
+        device_name = f"{DEFAULT_NAME} {self._serial_number}"
         if user_input is not None:
-            return self.async_create_entry(title=title, data=data)
+            return self.async_create_entry(
+                title=device_name,
+                data={
+                    CONF_SERIAL_NUMBER: self._serial_number,
+                    CONF_TOPIC_PREFIX: DEFAULT_TOPIC_PREFIX,
+                },
+            )
 
-        return self.async_show_form(step_id="mqtt_confirm")
+        self._set_confirm_only()
+        return self.async_show_form(
+            step_id="discovery_confirm",
+            description_placeholders={"device_name": device_name},
+        )
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None

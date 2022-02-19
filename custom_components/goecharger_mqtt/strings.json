@@ -1,10 +1,11 @@
 {
   "config": {
     "step": {
-      "confirm": {
-        "description": "Do you want to set up this go-eCharger?"
+      "discovery_confirm": {
+        "description": "[%key:common::config_flow::description%]"
       },
       "user": {
+        "description": "[%key:common::config_flow::description%]",
         "data": {
           "serial_number": "[%key:common::config_flow::data::serial_number%]",
           "topic_prefix": "[%key:common::config_flow::data::topic_prefix%]"
