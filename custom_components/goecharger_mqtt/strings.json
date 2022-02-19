@@ -1,5 +1,6 @@
 {
   "config": {
+    "flow_title": "{name}",
     "step": {
       "discovery_confirm": {
         "description": "[%key:common::config_flow::description%]"

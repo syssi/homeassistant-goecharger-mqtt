@@ -90,10 +90,12 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Confirm the setup."""
-        device_name = f"{DEFAULT_NAME} {self._serial_number}"
+        name = f"{DEFAULT_NAME} {self._serial_number}"
+        self.context["title_placeholders"] = {"name": name}
+
         if user_input is not None:
             return self.async_create_entry(
-                title=device_name,
+                title=name,
                 data={
                     CONF_SERIAL_NUMBER: self._serial_number,
                     CONF_TOPIC_PREFIX: DEFAULT_TOPIC_PREFIX,
@@ -103,7 +105,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._set_confirm_only()
         return self.async_show_form(
             step_id="discovery_confirm",
-            description_placeholders={"device_name": device_name},
+            description_placeholders={"name": name},
         )
 
     async def async_step_user(
