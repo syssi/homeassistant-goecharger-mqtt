@@ -6,7 +6,6 @@ from homeassistant.components import mqtt
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import callback
-from homeassistant.util import slugify
 
 from .definitions import SENSORS, GoEChargerSensorEntityDescription
 from .entity import GoEChargerEntity
@@ -74,9 +73,6 @@ class GoEChargerSensor(GoEChargerEntity, SensorEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
-
-        slug = slugify(self._topic.replace("/", "_"))
-        self.entity_id = f"sensor.{slug}"
 
     @property
     def available(self):

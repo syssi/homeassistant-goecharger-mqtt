@@ -12,6 +12,7 @@ from homeassistant.components.sensor import (
     STATE_CLASS_TOTAL_INCREASING,
     SensorEntityDescription,
 )
+from homeassistant.components.switch import SwitchEntityDescription
 from homeassistant.const import (
     CURRENCY_CENT,
     DEVICE_CLASS_CURRENT,
@@ -116,6 +117,7 @@ class GoEChargerEntityDescription(EntityDescription):
 
     state: Callable | None = None
     attribute: str = "0"
+    domain: str = "generic"
     disabled: bool | None = None
     disabled_reason: str | None = None
 
@@ -126,12 +128,25 @@ class GoEChargerBinarySensorEntityDescription(
 ):
     """Binary sensor entity description for go-eCharger."""
 
+    domain: str = "binary_sensor"
+
 
 @dataclass
 class GoEChargerSensorEntityDescription(
     GoEChargerEntityDescription, SensorEntityDescription
 ):
     """Sensor entity description for go-eCharger."""
+
+    domain: str = "sensor"
+
+
+@dataclass
+class GoEChargerSwitchEntityDescription(
+    GoEChargerEntityDescription, SwitchEntityDescription
+):
+    """Switch entity description for go-eCharger."""
+
+    domain: str = "switch"
 
 
 def remap_configured_phases(value, unused) -> int | None:
@@ -217,14 +232,6 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         entity_registry_enabled_default=True,
         disabled=True,
         disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="bac",
-        name="Allow current change by button",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
     ),
     GoEChargerBinarySensorEntityDescription(
         key="cca",
@@ -2326,6 +2333,17 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         device_class=None,
         native_unit_of_measurement=None,
         state_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+)
+
+SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
+    GoEChargerSwitchEntityDescription(
+        key="bac",
+        name="Allow current change by button",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
         entity_registry_enabled_default=True,
         disabled=False,
     ),

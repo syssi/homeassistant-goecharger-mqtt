@@ -5,7 +5,6 @@ from homeassistant import config_entries, core
 from homeassistant.components import mqtt
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.core import callback
-from homeassistant.util import slugify
 
 from .definitions import BINARY_SENSORS, GoEChargerBinarySensorEntityDescription
 from .entity import GoEChargerEntity
@@ -68,9 +67,6 @@ class GoEChargerBinarySensor(GoEChargerEntity, BinarySensorEntity):
         self.entity_description = description
 
         super().__init__(config_entry, description)
-
-        slug = slugify(self._topic.replace("/", "_"))
-        self.entity_id = f"binary_sensor.{slug}"
 
     @property
     def available(self):

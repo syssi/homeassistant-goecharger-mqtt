@@ -1,6 +1,7 @@
 """MQTT component mixins and helpers."""
 from homeassistant import config_entries
 from homeassistant.helpers.entity import DeviceInfo, Entity
+from homeassistant.util import slugify
 
 from .const import (
     CONF_SERIAL_NUMBER,
@@ -25,8 +26,12 @@ class GoEChargerEntity(Entity):
         serial_number = config_entry.data[CONF_SERIAL_NUMBER]
 
         self._topic = f"{topic_prefix}/{serial_number}/{description.key}"
-        self._attr_unique_id = (
-            f"{serial_number}-{description.key}-{description.attribute}"
+
+        slug = slugify(self._topic.replace("/", "_"))
+        self.entity_id = f"{description.domain}.{slug}"
+
+        self._attr_unique_id = "-".join(
+            [serial_number, description.domain, description.key, description.attribute]
         )
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, serial_number)},
