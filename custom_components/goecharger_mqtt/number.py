@@ -39,11 +39,7 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
-
-    @property
-    def available(self):
-        """Return True if entity is available."""
-        return self._attr_value is not None
+        self._attr_available = False
 
     async def async_set_value(self, value: float) -> None:
         """Update the current value."""
@@ -55,6 +51,7 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
         @callback
         def message_received(message):
             """Handle new MQTT messages."""
+            self._attr_available = True
             if self.entity_description.state is not None:
                 self._attr_native_value = self.entity_description.state(
                     message.payload, self.entity_description.attribute
