@@ -12,6 +12,7 @@ from homeassistant.components.sensor import (
     STATE_CLASS_TOTAL_INCREASING,
     SensorEntityDescription,
 )
+from homeassistant.components.switch import SwitchEntityDescription
 from homeassistant.const import (
     CURRENCY_CENT,
     DEVICE_CLASS_CURRENT,
@@ -116,6 +117,7 @@ class GoEChargerEntityDescription(EntityDescription):
 
     state: Callable | None = None
     attribute: str = "0"
+    domain: str = "generic"
     disabled: bool | None = None
     disabled_reason: str | None = None
 
@@ -126,12 +128,27 @@ class GoEChargerBinarySensorEntityDescription(
 ):
     """Binary sensor entity description for go-eCharger."""
 
+    domain: str = "binary_sensor"
+
 
 @dataclass
 class GoEChargerSensorEntityDescription(
     GoEChargerEntityDescription, SensorEntityDescription
 ):
     """Sensor entity description for go-eCharger."""
+
+    domain: str = "sensor"
+
+
+@dataclass
+class GoEChargerSwitchEntityDescription(
+    GoEChargerEntityDescription, SwitchEntityDescription
+):
+    """Switch entity description for go-eCharger."""
+
+    domain: str = "switch"
+    payload_on: str = "true"
+    payload_off: str = "false"
 
 
 def remap_configured_phases(value, unused) -> int | None:
@@ -193,40 +210,6 @@ Known but undocumented keys/topics:
 
 BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
     GoEChargerBinarySensorEntityDescription(
-        key="acp",
-        name="Allow charge pause",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="ara",
-        name="Automatic stop mode",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="awe",
-        name="Awattar mode",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="bac",
-        name="Allow current change by button",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerBinarySensorEntityDescription(
         key="cca",
         name="Cloud websocket use client auth",
         entity_category=EntityCategory.CONFIG,
@@ -236,116 +219,8 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         disabled_reason="Not exposed via MQTT in firmware 053.1",
     ),
     GoEChargerBinarySensorEntityDescription(
-        key="cwe",
-        name="Cloud websocket enabled",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="esk",
-        name="Energy set",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="App only",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="hsa",
-        name="HTTP STA authentication",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="hws",
-        name="HTTP STA reachable",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="loe",
-        name="Load balancing enabled",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="lse",
-        name="Led save energy",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="nmo",
-        name="Norway mode",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
         key="ocuca",
         name="OTA cloud use client auth",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="sdp",
-        name="Button allow force change",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="su",
-        name="Simulate unplugging",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="tse",
-        name="Time server enabled",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="upo",
-        name="Unlock power outage",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="wen",
-        name="WiFi enabled",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         entity_registry_enabled_default=False,
@@ -364,14 +239,6 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
     GoEChargerBinarySensorEntityDescription(
         key="adi",
         name="Is the 16a adapter used",  # 0: NO_ADAPTER, 1: 16A_ADAPTER
-        entity_category=EntityCategory.DIAGNOSTIC,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerBinarySensorEntityDescription(
-        key="alw",
-        name="Car allowed to charge",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
         entity_registry_enabled_default=True,
@@ -420,6 +287,7 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         device_class=None,
         entity_registry_enabled_default=True,
         disabled=False,
+        disabled_reason="Is always false. Please use `psm` instead",
     ),
     GoEChargerBinarySensorEntityDescription(
         key="lwcf",
@@ -2326,6 +2194,161 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         device_class=None,
         native_unit_of_measurement=None,
         state_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+)
+
+SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
+    GoEChargerSwitchEntityDescription(
+        key="bac",
+        name="Allow current change by button",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="ara",
+        name="Automatic stop mode",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="wen",
+        name="WiFi enabled",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="tse",
+        name="Time server enabled",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="sdp",
+        name="Button allow force change",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="nmo",
+        name="Norway mode",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="lse",
+        name="LED off on standby",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="awe",
+        name="Awattar mode",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="acp",
+        name="Allow charge pause",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="esk",
+        name="Energy set",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="App only",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="su",
+        name="Simulate unplugging",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="hws",
+        name="HTTP STA reachable",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="hsa",
+        name="HTTP STA authentication",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="loe",
+        name="Load balancing enabled",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="upo",
+        name="Unlock power outage",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="cwe",
+        name="Cloud websocket enabled",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="psm",
+        name="Force single phase",
+        payload_on="1",
+        payload_off="2",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
         entity_registry_enabled_default=True,
         disabled=False,
     ),
