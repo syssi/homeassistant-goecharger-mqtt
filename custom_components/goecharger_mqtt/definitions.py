@@ -8,6 +8,7 @@ import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntityDescription
 from homeassistant.components.number import NumberEntityDescription
+from homeassistant.components.select import SelectEntityDescription
 from homeassistant.components.sensor import (
     STATE_CLASS_MEASUREMENT,
     STATE_CLASS_TOTAL_INCREASING,
@@ -133,6 +134,16 @@ class GoEChargerBinarySensorEntityDescription(
 
 
 @dataclass
+class GoEChargerSelectEntityDescription(
+    GoEChargerEntityDescription, SelectEntityDescription
+):
+    """Select entity description for go-eCharger."""
+
+    options: list[str] | None = None
+    domain: str = "select"
+
+
+@dataclass
 class GoEChargerSensorEntityDescription(
     GoEChargerEntityDescription, SensorEntityDescription
 ):
@@ -156,7 +167,7 @@ class GoEChargerSwitchEntityDescription(
 class GoEChargerNumberEntityDescription(
     GoEChargerEntityDescription, NumberEntityDescription
 ):
-    """Switch entity description for go-eCharger."""
+    """Number entity description for go-eCharger."""
 
     domain: str = "number"
 
@@ -535,16 +546,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         native_unit_of_measurement=None,
         state_class=None,
         entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSensorEntityDescription(
-        key="lmo",
-        name="Logic mode code",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        native_unit_of_measurement=None,
-        state_class=None,
-        entity_registry_enabled_default=False,
         disabled=False,
     ),
     GoEChargerSensorEntityDescription(
@@ -2365,5 +2366,17 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         max_value=32,
         min_value=6,
         step=1,
+    ),
+)
+
+SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
+    GoEChargerSelectEntityDescription(
+        key="lmo",
+        name="Logic mode",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        options=["3", "4", "5"],
     ),
 )
