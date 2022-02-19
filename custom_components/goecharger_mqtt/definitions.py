@@ -147,6 +147,8 @@ class GoEChargerSwitchEntityDescription(
     """Switch entity description for go-eCharger."""
 
     domain: str = "switch"
+    payload_on: str = "true"
+    payload_off: str = "false"
 
 
 def remap_configured_phases(value, unused) -> int | None:
@@ -277,6 +279,15 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         disabled=True,
         disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="fsp",
+        name="Force single phase",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        disabled_reason="Is always false. Please use `psm` instead",
     ),
     GoEChargerBinarySensorEntityDescription(
         key="lwcf",
@@ -2242,14 +2253,6 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         disabled_reason="Not exposed via MQTT in firmware 053.1",
     ),
     GoEChargerSwitchEntityDescription(
-        key="fsp",
-        name="Force single phase",
-        entity_category=EntityCategory.DIAGNOSTIC,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSwitchEntityDescription(
         key="lse",
         name="LED off on standby",
         entity_category=EntityCategory.CONFIG,
@@ -2338,5 +2341,15 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         disabled=True,
         disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="psm",
+        name="Force single phase",
+        payload_on="1",
+        payload_off="2",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
     ),
 )

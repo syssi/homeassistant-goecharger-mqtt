@@ -47,11 +47,15 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn the switch on."""
-        await mqtt.async_publish(self.hass, f"{self._topic}/set", "true")
+        await mqtt.async_publish(
+            self.hass, f"{self._topic}/set", self.entity_description.payload_on
+        )
 
     async def async_turn_off(self, **kwargs):
         """Turn the switch off."""
-        await mqtt.async_publish(self.hass, f"{self._topic}/set", "false")
+        await mqtt.async_publish(
+            self.hass, f"{self._topic}/set", self.entity_description.payload_off
+        )
 
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
@@ -64,9 +68,9 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
                     message.payload, self.entity_description.attribute
                 )
             else:
-                if message.payload == "true":
+                if message.payload == self.entity_description.payload_on:
                     self._attr_is_on = True
-                elif message.payload == "false":
+                elif message.payload == self.entity_description.payload_off:
                     self._attr_is_on = False
                 else:
                     self._attr_is_on = None
