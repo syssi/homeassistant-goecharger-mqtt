@@ -1,6 +1,9 @@
 {
   "config": {
     "step": {
+      "confirm": {
+        "description": "Do you want to set up this go-eCharger?"
+      },
       "user": {
         "data": {
           "serial_number": "[%key:common::config_flow::data::serial_number%]",
