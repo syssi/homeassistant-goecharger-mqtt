@@ -7,6 +7,7 @@ import json
 import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntityDescription
+from homeassistant.components.number import NumberEntityDescription
 from homeassistant.components.sensor import (
     STATE_CLASS_MEASUREMENT,
     STATE_CLASS_TOTAL_INCREASING,
@@ -149,6 +150,15 @@ class GoEChargerSwitchEntityDescription(
     domain: str = "switch"
     payload_on: str = "true"
     payload_off: str = "false"
+
+
+@dataclass
+class GoEChargerNumberEntityDescription(
+    GoEChargerEntityDescription, NumberEntityDescription
+):
+    """Switch entity description for go-eCharger."""
+
+    domain: str = "number"
 
 
 def remap_configured_phases(value, unused) -> int | None:
@@ -332,16 +342,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="ama",
         name="Maximum current limit",
-        entity_category=EntityCategory.CONFIG,
-        device_class=DEVICE_CLASS_CURRENT,
-        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
-        state_class=STATE_CLASS_MEASUREMENT,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSensorEntityDescription(
-        key="amp",
-        name="Requested current",
         entity_category=EntityCategory.CONFIG,
         device_class=DEVICE_CLASS_CURRENT,
         native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
@@ -2351,5 +2351,19 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         device_class=None,
         entity_registry_enabled_default=True,
         disabled=False,
+    ),
+)
+
+NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
+    GoEChargerNumberEntityDescription(
+        key="amp",
+        name="Requested current",
+        entity_category=EntityCategory.CONFIG,
+        device_class=DEVICE_CLASS_CURRENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        max_value=32,
+        min_value=6,
+        step=1,
     ),
 )
