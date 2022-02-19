@@ -1,0 +1,21 @@
+set_config_key:
+  name: Set config key
+  description: Sets a config key to a provided value.
+  target:
+    entity:
+      integration: goecharger_mqtt
+  fields:
+    key:
+      name: Config key
+      description: The key of the configuration parameter you want to change.
+      example: fna
+      required: true
+      selector:
+        text:
+    value:
+      name: Value
+      description: The new value to set for this configuration parameter.
+      example: "go-e"
+      required: true
+      selector:
+        text:
