@@ -181,7 +181,7 @@ def remap_configured_phases(value, unused) -> int | None:
     return None
 
 
-def extract_charging_duration(value, attribute) -> str | None:
+def extract_charging_duration(value, attribute) -> int | None:
     """Extract charging duration from object.
 
     Example value: {"type":1,"value":0}
@@ -191,6 +191,18 @@ def extract_charging_duration(value, attribute) -> str | None:
         return data["value"]
 
     return None
+
+
+def extract_energy_from_cards(value, key) -> int | None:
+    """Extract energy from selected card of the cards object.
+
+    Example value: [{"name":"User 1","energy":0,"cardId":true},{...}, ...]
+    """
+    try:
+        data = json.loads(value)[int(key)]
+        return data.get("energy")
+    except IndexError:
+        return None
 
 
 def remove_quotes(value, unused):
@@ -2300,6 +2312,126 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         native_unit_of_measurement=None,
         state_class=None,
         entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 1",
+        state=extract_energy_from_cards,
+        attribute="0",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 2",
+        state=extract_energy_from_cards,
+        attribute="1",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 3",
+        state=extract_energy_from_cards,
+        attribute="2",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 4",
+        state=extract_energy_from_cards,
+        attribute="3",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 5",
+        state=extract_energy_from_cards,
+        attribute="4",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 6",
+        state=extract_energy_from_cards,
+        attribute="5",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 7",
+        state=extract_energy_from_cards,
+        attribute="6",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 8",
+        state=extract_energy_from_cards,
+        attribute="7",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 9",
+        state=extract_energy_from_cards,
+        attribute="8",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cards",
+        name="Charged energy card 10",
+        state=extract_energy_from_cards,
+        attribute="9",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=DEVICE_CLASS_ENERGY,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=False,
         disabled=False,
     ),
 )
