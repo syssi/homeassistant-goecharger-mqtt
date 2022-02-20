@@ -181,6 +181,18 @@ def remap_configured_phases(value, unused) -> int | None:
     return None
 
 
+def extract_charging_duration(value, attribute) -> str | None:
+    """Extract charging duration from object.
+
+    Example value: {"type":1,"value":0}
+    """
+    data = json.loads(value)
+    if "type" in data and data["type"] == int(attribute):
+        return data["value"]
+
+    return None
+
+
 def remove_quotes(value, unused):
     """Remove quotes helper."""
     return value.replace('"', "")
@@ -1316,13 +1328,28 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="cdi",
-        name="Charging duration info",
+        name="Charging duration",
+        state=extract_charging_duration,
+        attribute="1",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        native_unit_of_measurement=TIME_MILLISECONDS,
+        state_class=STATE_CLASS_MEASUREMENT,
+        icon="mdi:timer-outline",
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="cdi",
+        name="Charging duration counter",
+        state=extract_charging_duration,
+        attribute="0",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
         native_unit_of_measurement=None,
         state_class=STATE_CLASS_MEASUREMENT,
-        icon="mdi:timer-outline",
-        entity_registry_enabled_default=True,
+        icon="mdi:counter",
+        entity_registry_enabled_default=False,
         disabled=False,
     ),
     GoEChargerSensorEntityDescription(
