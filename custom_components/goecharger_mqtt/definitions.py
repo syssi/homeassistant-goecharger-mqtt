@@ -1646,7 +1646,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="lmsc",
-        name="Last model status change",
+        name="Last mode change",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
         native_unit_of_measurement=TIME_MILLISECONDS,
