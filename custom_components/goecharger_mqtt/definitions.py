@@ -201,6 +201,11 @@ def extract_item_from_array_to_int(value, key) -> int:
     return int(json.loads(value)[int(key)])
 
 
+def extract_item_from_array_to_bool(value, key) -> bool:
+    """Extract item from array to int."""
+    return bool(json.loads(value)[int(key)])
+
+
 def transform_code(value, mapping_table) -> str:
     """Transform codes into a human readable string."""
     try:
@@ -230,6 +235,66 @@ Known but undocumented keys/topics:
 """
 
 BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
+    GoEChargerBinarySensorEntityDescription(
+        key="pha",
+        name="Phase L1 after contactor",
+        attribute="0",
+        state=extract_item_from_array_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="pha",
+        name="Phase L2 after contactor",
+        attribute="1",
+        state=extract_item_from_array_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="pha",
+        name="Phase L3 after contactor",
+        attribute="2",
+        state=extract_item_from_array_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="pha",
+        name="Phase L1 before contactor",
+        attribute="3",
+        state=extract_item_from_array_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="pha",
+        name="Phase L2 before contactor",
+        attribute="4",
+        state=extract_item_from_array_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="pha",
+        name="Phase L3 before contactor",
+        attribute="5",
+        state=extract_item_from_array_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
     GoEChargerBinarySensorEntityDescription(
         key="cca",
         name="Cloud websocket use client auth",
@@ -1935,16 +2000,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         disabled=True,
         disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerSensorEntityDescription(
-        key="pha",
-        name="Phases",
-        entity_category=EntityCategory.DIAGNOSTIC,
-        device_class=None,
-        native_unit_of_measurement=None,
-        state_class=STATE_CLASS_MEASUREMENT,
-        entity_registry_enabled_default=True,
-        disabled=False,
     ),
     GoEChargerSensorEntityDescription(
         key="pwm",
