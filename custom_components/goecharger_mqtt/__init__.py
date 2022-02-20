@@ -6,13 +6,29 @@ import logging
 from homeassistant.components import mqtt
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall, callback
+import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
+import voluptuous as vol
 
-from .const import DOMAIN
+from .const import (
+    ATTR_KEY,
+    ATTR_SERIAL_NUMBER,
+    ATTR_VALUE,
+    DEFAULT_TOPIC_PREFIX,
+    DOMAIN,
+)
 
 PLATFORMS: list[str] = ["binary_sensor", "number", "sensor", "select", "switch"]
 
 _LOGGER = logging.getLogger(__name__)
+
+SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
+    {
+        vol.Required(ATTR_SERIAL_NUMBER): cv.string,
+        vol.Required(ATTR_KEY): cv.string,
+        vol.Required(ATTR_VALUE): cv.string,
+    }
+)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -35,8 +51,27 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     @callback
     async def set_config_key_service(call: ServiceCall) -> None:
-        await mqtt.async_publish(hass, "test", call.data.get("value"))
+        serial_number = call.data.get("serial_number")
+        key = call.data.get("key")
+        # @FIXME: Retrieve the topic_prefix from config_entry
+        topic = f"{DEFAULT_TOPIC_PREFIX}/{serial_number}/{key}/set"
+        value = call.data.get("value")
 
-    hass.services.async_register(DOMAIN, "set_config_key", set_config_key_service)
+        if not value.isnumeric():
+            if value in ["true", "True"]:
+                value = "true"
+            elif value in ["false", "False"]:
+                value = "false"
+            else:
+                value = f'"{value}"'
+
+        await mqtt.async_publish(hass, topic, value)
+
+    hass.services.async_register(
+        DOMAIN,
+        "set_config_key",
+        set_config_key_service,
+        schema=SERVICE_SCHEMA_SET_CONFIG_KEY,
+    )
 
     return True

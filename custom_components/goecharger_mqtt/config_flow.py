@@ -12,12 +12,11 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 import voluptuous as vol
 
-from .const import CONF_SERIAL_NUMBER, CONF_TOPIC_PREFIX, DOMAIN
+from .const import CONF_SERIAL_NUMBER, CONF_TOPIC_PREFIX, DEFAULT_TOPIC_PREFIX, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "go-eCharger"
-DEFAULT_TOPIC_PREFIX = "/go-eCharger"
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
