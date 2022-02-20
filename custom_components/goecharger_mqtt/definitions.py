@@ -2180,6 +2180,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         device_class=None,
         native_unit_of_measurement=None,
         state_class=STATE_CLASS_MEASUREMENT,
+        icon="mdi:message-text-lock-outline",
         entity_registry_enabled_default=True,
         disabled=False,
     ),
