@@ -341,6 +341,16 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
 
 SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
+        key="+/result",
+        name="Last set config key result",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        native_unit_of_measurement=None,
+        state_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
         key="acs",
         name="Access control user setting",
         entity_category=EntityCategory.CONFIG,
