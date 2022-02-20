@@ -1,20 +1,86 @@
 set_config_key:
   name: Set config key
   description: Sets a config key to a provided value.
-  target:
-    entity:
-      integration: goecharger_mqtt
   fields:
-    key:
-      name: Config key
-      description: The key of the configuration parameter you want to change.
-      example: fna
+    serial_number:
+      name: Serial number
+      description: The serial number of the go-e device.
+      example: 012345
       required: true
       selector:
         text:
+    key:
+      name: Config key
+      description: The key of the config parameter you want to change.
+      example: fna
+      required: true
+      selector:
+        select:
+          options:
+            - acp
+            - acs
+            - ama
+            - amp
+            - ara
+            - ate
+            - att
+            - awc
+            - awe
+            - awp
+            - awpl
+            - bac
+            - cch
+            - cco
+            - cfi
+            - cid
+            - clp
+            - ct
+            - cwc
+            - cwe
+            - dwo
+            - esk
+            - fna
+            - frc
+            - hsa
+            - hws
+            - Key
+            - lmo
+            - loe
+            - lof
+            - log
+            - lop
+            - lot
+            - loty
+            - lse
+            - map
+            - mca
+            - mci
+            - mcpd
+            - mcpea
+            - mptwt
+            - mpwst
+            - nmo
+            - psmd
+            - sch_satur
+            - sch_sund
+            - sch_week
+            - sdp
+            - spl3
+            - su
+            - sumd
+            - tds
+            - tof
+            - tse
+            - upo
+            - ust
+            - utc
+            - wak
+            - wan
+            - wen
+            - wifis
     value:
       name: Value
-      description: The new value to set for this configuration parameter.
+      description: The new value to set for this config parameter.
       example: "go-e"
       required: true
       selector:
