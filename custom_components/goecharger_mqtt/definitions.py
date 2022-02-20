@@ -92,7 +92,7 @@ class GoEChargerStatusCodes:
     ust = {
         0: "Normal",
         1: "Auto Unlock",
-        2: "Always Lock",
+        2: "Always Locked",
     }
 
     frc = {
@@ -324,7 +324,7 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
     ),
     GoEChargerBinarySensorEntityDescription(
         key="adi",
-        name="Is the 16a adapter used",  # 0: NO_ADAPTER, 1: 16A_ADAPTER
+        name="16A adapter attached",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
         entity_registry_enabled_default=True,
@@ -627,10 +627,10 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="lof",
-        name="Load fallback",
+        name="Load balancing fallback current",
         entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        native_unit_of_measurement=None,
+        device_class=DEVICE_CLASS_CURRENT,
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
         state_class=STATE_CLASS_MEASUREMENT,
         entity_registry_enabled_default=False,
         disabled=True,
@@ -638,7 +638,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="log",
-        name="Load group id",
+        name="Load balancing group id",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         native_unit_of_measurement=None,
@@ -649,7 +649,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="lop",
-        name="Load priority",
+        name="Load balancing priority",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         native_unit_of_measurement=None,
@@ -895,7 +895,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="ust",
-        name="Unlock setting",
+        name="Cable unlock mode",
         state=transform_code,
         attribute="ust",
         entity_category=EntityCategory.CONFIG,
@@ -908,7 +908,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="ust",
-        name="Unlock setting code",
+        name="Cable unlock mode code",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         native_unit_of_measurement=None,
@@ -1284,7 +1284,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="cbl",
-        name="Cable maximum current limit",
+        name="Cable maximum current",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=DEVICE_CLASS_CURRENT,
         native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
@@ -1455,7 +1455,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         name="Total energy",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=DEVICE_CLASS_ENERGY,
-        native_unit_of_measurement=ENERGY_WATT_HOUR,
+        native_unit_of_measurement=ENERGY_WATT_HOUR,  # @FIXME: 120 means 12 kWh probably
         state_class=STATE_CLASS_MEASUREMENT,
         entity_registry_enabled_default=True,
         disabled=False,
@@ -1618,7 +1618,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="loa",
-        name="Load balancing ampere",
+        name="Load balancing available current",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=DEVICE_CLASS_CURRENT,
         native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
