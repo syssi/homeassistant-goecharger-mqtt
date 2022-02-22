@@ -1,0 +1,28 @@
+type: entities
+entities:
+  - switch.go_echarger_072246_bac
+  - switch.go_echarger_072246_ara
+  - number.go_echarger_072246_amp
+  - sensor.go_echarger_072246_ama
+  - sensor.go_echarger_072246_mca
+  - sensor.go_echarger_072246_psm
+  - sensor.go_echarger_072246_spl3
+  - sensor.go_echarger_072246_ate
+  - sensor.go_echarger_072246_att
+  - sensor.go_echarger_072246_dwo
+  - sensor.go_echarger_072246_awp
+  - sensor.go_echarger_072246_ust
+  - select.go_echarger_072246_ust
+  - sensor.go_echarger_072246_frc
+  - select.go_echarger_072246_frc
+  - sensor.go_echarger_072246_lmo
+  - select.go_echarger_072246_lmo
+  - sensor.go_echarger_072246_lbr
+  - sensor.go_echarger_072246_cch
+  - sensor.go_echarger_072246_cfi
+  - sensor.go_echarger_072246_cid
+  - sensor.go_echarger_072246_cwc
+  - sensor.go_echarger_072246_result
+title: Configuration
+show_header_toggle: false
+state_color: false

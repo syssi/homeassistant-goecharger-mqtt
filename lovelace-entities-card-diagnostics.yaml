@@ -1,0 +1,24 @@
+type: entities
+entities:
+  - entity: switch.go_echarger_072246_psm
+  - entity: sensor.go_echarger_072246_car
+  - entity: sensor.go_echarger_072246_modelstatus
+  - entity: sensor.go_echarger_072246_err
+  - entity: sensor.go_echarger_072246_cdi_2
+  - entity: sensor.go_echarger_072246_cbl
+  - entity: sensor.go_echarger_072246_tpa
+  - entity: sensor.go_echarger_072246_eto
+  - entity: sensor.go_echarger_072246_wh
+  - entity: sensor.go_echarger_072246_cards
+  - entity: sensor.go_echarger_072246_cards_2
+  - entity: sensor.go_echarger_072246_cards_3
+  - entity: sensor.go_echarger_072246_cards_4
+  - entity: sensor.go_echarger_072246_trx
+  - entity: sensor.go_echarger_072246_acu
+  - entity: binary_sensor.go_echarger_072246_adi
+  - entity: sensor.go_echarger_072246_tma_3
+  - entity: sensor.go_echarger_072246_tma_4
+  - entity: sensor.go_echarger_072246_amt
+  - entity: sensor.go_echarger_072246_rbc
+  - entity: sensor.go_echarger_072246_rssi
+title: Diagnostics

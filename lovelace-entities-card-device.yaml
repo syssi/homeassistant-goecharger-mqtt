@@ -1,0 +1,5 @@
+type: entities
+entities:
+  - sensor.go_echarger_072246_var
+  - sensor.go_echarger_072246_fwv
+title: Device
