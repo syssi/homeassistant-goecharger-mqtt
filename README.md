@@ -10,6 +10,8 @@
 
 This is a custom component for Home Assistant to integrate the go-eCharger HOME+ and HOMEfix using the MQTT API (v2).
 
+![Lovelace entities card](lovelace-entities-card.png "Lovelace entities card")
+
 ## Installation
 
 Use HACS to install this custom component.
