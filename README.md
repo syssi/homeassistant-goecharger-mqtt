@@ -44,6 +44,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `lwcf` | Last failed WiFi connect | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
+| `sua` | Simulate unplugging permanently | `config` | :white_large_square: | :white_large_square: | [^1] |
 
 ### Buttons
 

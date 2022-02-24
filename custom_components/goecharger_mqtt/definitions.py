@@ -269,6 +269,7 @@ Known but undocumented keys/topics:
 - pakku: null
 - pgrid: null
 - ppv: null
+- sua: /go-eCharger/072246/sua/set -m true, /go-eCharger/072246/sua/set -m false (simulate unplugging permanently)
 
 """
 
