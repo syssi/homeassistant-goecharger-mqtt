@@ -18,7 +18,14 @@ from .const import (
     DOMAIN,
 )
 
-PLATFORMS: list[str] = ["binary_sensor", "number", "sensor", "select", "switch"]
+PLATFORMS: list[str] = [
+    "binary_sensor",
+    "button",
+    "number",
+    "sensor",
+    "select",
+    "switch",
+]
 
 _LOGGER = logging.getLogger(__name__)
 

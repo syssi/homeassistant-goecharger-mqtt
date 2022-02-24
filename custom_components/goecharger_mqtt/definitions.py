@@ -7,6 +7,7 @@ import json
 import logging
 
 from homeassistant.components.binary_sensor import BinarySensorEntityDescription
+from homeassistant.components.button import ButtonEntityDescription
 from homeassistant.components.number import NumberEntityDescription
 from homeassistant.components.select import SelectEntityDescription
 from homeassistant.components.sensor import (
@@ -134,6 +135,16 @@ class GoEChargerBinarySensorEntityDescription(
 
 
 @dataclass
+class GoEChargerButtonEntityDescription(
+    GoEChargerEntityDescription, ButtonEntityDescription
+):
+    """Button entity description for go-eCharger."""
+
+    domain: str = "button"
+    payload_press: str = "true"
+
+
+@dataclass
 class GoEChargerSelectEntityDescription(
     GoEChargerEntityDescription, SelectEntityDescription
 ):
@@ -212,6 +223,9 @@ def remove_quotes(value, unused):
 
 def json_array_to_csv(value, unused) -> str:
     """Transform JSON array to CSV."""
+    if value == "null":
+        return ""
+
     return ", ".join(json.loads(value))
 
 
@@ -425,6 +439,19 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         disabled=True,
         disabled_reason="Not exposed via MQTT in firmware 053.1",
+    ),
+)
+
+BUTTONS: tuple[GoEChargerButtonEntityDescription, ...] = (
+    GoEChargerButtonEntityDescription(
+        key="rst",
+        name="Reboot device",
+        payload_press="true",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        icon="mdi:restart",
+        entity_registry_enabled_default=True,
+        disabled=False,
     ),
 )
 
