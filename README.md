@@ -20,7 +20,9 @@ Use HACS to install this custom component.
 
 Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to know the `serial number` (6 digits) of your device. Please don't forget to [enable the MQTT API (v2) via the go-e Charger app](https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md) first.
 
-## Binary sensors
+## Entities
+
+### Binary sensors
 
 | Topic | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | ----- | ------------- | -------- | ------------------- | --------- | ------------------ |
@@ -43,13 +45,13 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 
-## Buttons
+### Buttons
 
 | Topic | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | ----- | ------------- | -------- | ------------------- | --------- | ------------------ |
 | `rst` | Restart device | `config` | :heavy_check_mark:  | :heavy_check_mark: | |
 
-## Sensors
+### Sensors
 
 | Key | Friendly name | Category | Unit | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ---- | ------------------- | --------- | ------------------ |
@@ -232,7 +234,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `cards` | Charged energy card 9 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
 | `cards` | Charged energy card 10 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
 
-# Switch entities
+### Switch entities
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
@@ -254,13 +256,13 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `cwe` | Cloud websocket enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `psm` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | |
 
-# Number entities
+### Number entities
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
 | `amp` | Requested current | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 
-# Select entities
+### Select entities
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
@@ -268,11 +270,22 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `ust` | Cable unlock mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `frc` | Force state | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 
+## Platform services
 
-[^1]: Not exposed via MQTT in firmware 053.1
+### Service `goecharger_mqtt.set_config_key`
+
+Sets a config `key` to a `value`.
+
+| Service data attribute    | Optional | Description                                                          |
+|---------------------------|----------|----------------------------------------------------------------------|
+| `serial_number`           |       no | The serial number of the go-e device                                 |
+| `key`                     |       no | The key of the config parameter you want to change                   |
+| `value`                   |       no | The new value                                                        |
 
 ## References
 
 * https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md
 * https://github.com/goecharger/go-eCharger-API-v2/blob/main/apikeys-en.md
 * https://github.com/boralyl/github-custom-component-tutorial
+
+[^1]: Not exposed via MQTT in firmware 053.1
