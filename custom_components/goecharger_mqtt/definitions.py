@@ -172,6 +172,7 @@ class GoEChargerSwitchEntityDescription(
     domain: str = "switch"
     payload_on: str = "true"
     payload_off: str = "false"
+    optimistic: bool = False
 
 
 @dataclass
@@ -2614,6 +2615,15 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         payload_on="1",
         payload_off="2",
         entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSwitchEntityDescription(
+        key="sua",
+        name="Simulate unplugging permanently",
+        optimistic=True,
+        entity_category=EntityCategory.CONFIG,
         device_class=None,
         entity_registry_enabled_default=True,
         disabled=False,

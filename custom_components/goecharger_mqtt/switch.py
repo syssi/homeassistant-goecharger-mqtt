@@ -39,23 +39,40 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
+        self._optimistic = self.entity_description.optimistic
 
     @property
     def available(self):
         """Return True if entity is available."""
-        return self._attr_is_on is not None
+        if self._optimistic:
+            return self._topic is not None
+
+        return self._topic is not None
+
+    @property
+    def assumed_state(self):
+        """Return true if we do optimistic updates."""
+        return self._optimistic
 
     async def async_turn_on(self, **kwargs):
         """Turn the switch on."""
         await mqtt.async_publish(
             self.hass, f"{self._topic}/set", self.entity_description.payload_on
         )
+        if self._optimistic:
+            # Optimistically assume that switch has changed state.
+            self._attr_is_on = True
+            self.async_write_ha_state()
 
     async def async_turn_off(self, **kwargs):
         """Turn the switch off."""
         await mqtt.async_publish(
             self.hass, f"{self._topic}/set", self.entity_description.payload_off
         )
+        if self._optimistic:
+            # Optimistically assume that switch has changed state.
+            self._attr_is_on = False
+            self.async_write_ha_state()
 
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
