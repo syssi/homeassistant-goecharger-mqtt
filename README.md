@@ -43,6 +43,12 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 
+## Buttons
+
+| Topic | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
+| ----- | ------------- | -------- | ------------------- | --------- | ------------------ |
+| `rst` | Restart device | `config` | :heavy_check_mark:  | :heavy_check_mark: | |
+
 ## Sensors
 
 | Key | Friendly name | Category | Unit | Enabled per default | Supported | Unsupported reason |
