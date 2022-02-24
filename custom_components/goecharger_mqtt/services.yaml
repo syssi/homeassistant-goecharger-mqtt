@@ -67,6 +67,7 @@ set_config_key:
             - sdp
             - spl3
             - su
+            - sua
             - sumd
             - tds
             - tof
