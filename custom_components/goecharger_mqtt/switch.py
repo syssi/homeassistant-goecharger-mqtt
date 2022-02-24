@@ -44,6 +44,9 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
     @property
     def available(self):
         """Return True if entity is available."""
+        if self._optimistic:
+            return self._topic is not None
+
         return self._topic is not None
 
     @property
