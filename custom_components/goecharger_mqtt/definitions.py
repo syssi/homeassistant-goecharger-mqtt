@@ -445,7 +445,7 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
 BUTTONS: tuple[GoEChargerButtonEntityDescription, ...] = (
     GoEChargerButtonEntityDescription(
         key="rst",
-        name="Reboot device",
+        name="Restart device",
         payload_press="true",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
