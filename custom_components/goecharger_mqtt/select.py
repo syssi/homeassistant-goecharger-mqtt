@@ -39,7 +39,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
-        self._attr_options = description.options
+        self._attr_options = list(description.options.values())
         self._attr_current_option = None
 
     @property
@@ -47,9 +47,22 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         """Return True if entity is available."""
         return self._attr_current_option is not None
 
+    def key_from_option(self, option: str):
+        """Return the option a given payload is assigned to."""
+        try:
+            return next(
+                key
+                for key, value in self.entity_description.options.items()
+                if value == option
+            )
+        except StopIteration:
+            return None
+
     async def async_select_option(self, option: str) -> None:
         """Update the current value."""
-        await mqtt.async_publish(self.hass, f"{self._topic}/set", option)
+        await mqtt.async_publish(
+            self.hass, f"{self._topic}/set", self.key_from_option(option)
+        )
 
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
@@ -63,10 +76,10 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                 )
             else:
                 payload = message.payload
-                if payload in ["null", "none"]:
-                    payload = None
+                if payload is None or payload in ["null", "none"]:
+                    return
 
-                if payload is not None and payload not in self.options:
+                if payload not in self.entity_description.options.keys():
                     _LOGGER.error(
                         "Invalid option for %s: '%s' (valid options: %s)",
                         self.entity_id,
@@ -75,7 +88,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                     )
                     return
 
-                self._attr_current_option = payload
+                self._attr_current_option = self.entity_description.options[payload]
 
             self.async_write_ha_state()
 

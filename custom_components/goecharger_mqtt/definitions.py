@@ -98,8 +98,8 @@ class GoEChargerStatusCodes:
 
     frc = {
         0: "Neutral",
-        1: "Off",
-        2: "On",
+        1: "Don't charge",
+        2: "Charge",
     }
 
     lmo = {
@@ -150,7 +150,7 @@ class GoEChargerSelectEntityDescription(
 ):
     """Select entity description for go-eCharger."""
 
-    options: list[str] | None = None
+    options: dict[str, str] | None = None
     domain: str = "select"
 
 
@@ -453,6 +453,39 @@ BUTTONS: tuple[GoEChargerButtonEntityDescription, ...] = (
         device_class=None,
         icon="mdi:restart",
         entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerButtonEntityDescription(
+        key="frc",
+        name="Force state neutral",
+        attribute="0",
+        payload_press="0",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        icon="mdi:auto-fix",
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerButtonEntityDescription(
+        key="frc",
+        name="Force state dont charge",
+        attribute="1",
+        payload_press="1",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        icon="mdi:auto-fix",
+        entity_registry_enabled_default=False,
+        disabled=False,
+    ),
+    GoEChargerButtonEntityDescription(
+        key="frc",
+        name="Force state charge",
+        attribute="2",
+        payload_press="2",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        icon="mdi:auto-fix",
+        entity_registry_enabled_default=False,
         disabled=False,
     ),
 )
@@ -2648,7 +2681,11 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="lmo",
         name="Logic mode",
-        options=["3", "4", "5"],
+        options={
+            "3": "Default",
+            "4": "Awattar",
+            "5": "Automatic Stop",
+        },
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         entity_registry_enabled_default=True,
@@ -2657,7 +2694,11 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="ust",
         name="Cable unlock mode",
-        options=["0", "1", "2"],
+        options={
+            "0": "Normal",
+            "1": "Auto Unlock",
+            "2": "Always Locked",
+        },
         attribute="ust",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
@@ -2668,7 +2709,11 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="frc",
         name="Force state",
-        options=["0", "1", "2"],
+        options={
+            "0": "Neutral",
+            "1": "Don't charge",
+            "2": "Charge",
+        },
         attribute="frc",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
