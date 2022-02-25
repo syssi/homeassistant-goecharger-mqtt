@@ -51,9 +51,9 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | Topic | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | ----- | ------------- | -------- | ------------------- | --------- | ------------------ |
 | `rst` | Restart device | `config` | :heavy_check_mark:  | :heavy_check_mark: | |
-| `frc` | Force state neutral | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `frc` | Force state dont charge | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `frc` | Force state charge | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
+| `frc` | Force state neutral | `config` | :white_large_square: | :heavy_check_mark: | |
+| `frc` | Force state dont charge | `config` | :white_large_square: | :heavy_check_mark: | |
+| `frc` | Force state charge | `config` | :white_large_square: | :heavy_check_mark: | |
 
 ### Sensors
 
