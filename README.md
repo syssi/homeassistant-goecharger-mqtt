@@ -187,11 +187,11 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `nrg` | Current L1 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
 | `nrg` | Current L2 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
 | `nrg` | Current L3 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power L1 | `diagnostic` | kW | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power L2 | `diagnostic` | kW | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power L3 | `diagnostic` | kW | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power N | `diagnostic` | kW | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Current power | `diagnostic` | kW | :heavy_check_mark: | :heavy_check_mark: | |
+| `nrg` | Power L1 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
+| `nrg` | Power L2 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
+| `nrg` | Power L3 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
+| `nrg` | Power N | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
+| `nrg` | Current power | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
 | `nrg` | Power factor L1 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
 | `nrg` | Power factor L2 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
 | `nrg` | Power factor L3 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
