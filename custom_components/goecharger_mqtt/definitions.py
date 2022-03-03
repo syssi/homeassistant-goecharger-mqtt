@@ -502,16 +502,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         disabled=False,
     ),
     GoEChargerSensorEntityDescription(
-        key="acs",
-        name="Access control user setting",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        native_unit_of_measurement=None,
-        state_class=STATE_CLASS_MEASUREMENT,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSensorEntityDescription(
         key="ama",
         name="Maximum current limit",
         entity_category=EntityCategory.CONFIG,
