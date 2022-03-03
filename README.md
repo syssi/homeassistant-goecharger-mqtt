@@ -258,9 +258,9 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `upo` | Unlock power outage | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `cwe` | Cloud websocket enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `psm` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | |
-| `acs` | Card authorization required | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `ate` | Automatic stop energy | `config` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
-| `att` | Automatic stop time | `config` | s | :heavy_check_mark: | :heavy_check_mark: | |
+| `acs` | Card authorization required | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `ate` | Automatic stop energy | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `att` | Automatic stop time | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 
 ### Number entities
 
