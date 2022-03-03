@@ -2661,6 +2661,14 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         entity_registry_enabled_default=True,
         disabled=False,
     ),
+    GoEChargerSwitchEntityDescription(
+        key="acs",
+        name="Card authorization required",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
 )
 
 NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
