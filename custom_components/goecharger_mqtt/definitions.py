@@ -1547,7 +1547,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=DEVICE_CLASS_ENERGY,
         native_unit_of_measurement=ENERGY_WATT_HOUR,  # @FIXME: 120 means 12 kWh probably
-        state_class=STATE_CLASS_MEASUREMENT,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
         entity_registry_enabled_default=True,
         disabled=False,
     ),
@@ -1557,7 +1557,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=DEVICE_CLASS_ENERGY,
         native_unit_of_measurement=ENERGY_WATT_HOUR,
-        state_class=STATE_CLASS_MEASUREMENT,
+        state_class=STATE_CLASS_TOTAL_INCREASING,
         entity_registry_enabled_default=False,
         disabled=True,
         disabled_reason="Not exposed via MQTT in firmware 053.1",
