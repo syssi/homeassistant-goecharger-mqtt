@@ -6,7 +6,7 @@ from homeassistant.components import mqtt
 from homeassistant.components.select import SelectEntity
 from homeassistant.core import callback
 
-from .definitions import SELECTS, GoEChargerSelectEntityDescription
+from .definitions.select import SELECTS, GoEChargerSelectEntityDescription
 from .entity import GoEChargerEntity
 
 _LOGGER = logging.getLogger(__name__)

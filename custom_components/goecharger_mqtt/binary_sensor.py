@@ -6,7 +6,10 @@ from homeassistant.components import mqtt
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.core import callback
 
-from .definitions import BINARY_SENSORS, GoEChargerBinarySensorEntityDescription
+from .definitions.binary_sensor import (
+    BINARY_SENSORS,
+    GoEChargerBinarySensorEntityDescription,
+)
 from .entity import GoEChargerEntity
 
 _LOGGER = logging.getLogger(__name__)
