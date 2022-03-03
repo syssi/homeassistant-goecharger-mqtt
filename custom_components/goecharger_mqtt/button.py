@@ -5,7 +5,7 @@ from homeassistant import config_entries, core
 from homeassistant.components import mqtt
 from homeassistant.components.button import ButtonEntity
 
-from .definitions import BUTTONS, GoEChargerButtonEntityDescription
+from .definitions.button import BUTTONS, GoEChargerButtonEntityDescription
 from .entity import GoEChargerEntity
 
 _LOGGER = logging.getLogger(__name__)

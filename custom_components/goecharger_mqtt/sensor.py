@@ -7,7 +7,7 @@ from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import callback
 
-from .definitions import SENSORS, GoEChargerSensorEntityDescription
+from .definitions.sensor import SENSORS, GoEChargerSensorEntityDescription
 from .entity import GoEChargerEntity
 
 _LOGGER = logging.getLogger(__name__)
