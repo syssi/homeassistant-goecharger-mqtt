@@ -25,9 +25,26 @@ class GoEChargerStatusCodes:
     err = {
         0: "",
         1: "Residual current circuit breaker",
+        2: "FiDC",
         3: "Phase fault",
+        4: "Over voltage",
+        5: "Over current",
+        6: "Diode",
+        7: "Pp Invalid",
         8: "No ground",
-        10: "Internal error",
+        9: "Contactor Stuck",
+        10: "Contactor Missing",
+        11: "FiUnknown",
+        12: "Unknown",
+        13: "Over temperature",
+        14: "No Comm",
+        15: "Lock Stuck Open",
+        16: "Lock Stuck Locked",
+        17: "Reserved20",
+        18: "Reserved21",
+        19: "Reserved22",
+        20: "Reserved23",
+        21: "Reserved24",
     }
 
     modelStatus = {
@@ -62,6 +79,7 @@ class GoEChargerStatusCodes:
         0: "Normal",
         1: "Auto Unlock",
         2: "Always Locked",
+        3: "Force Unlock",
     }
 
     frc = {

@@ -117,7 +117,7 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
     ),
     GoEChargerBinarySensorEntityDescription(
         key="adi",
-        name="16A adapter attached",
+        name="16A adapter used",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
         entity_registry_enabled_default=True,
