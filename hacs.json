@@ -2,6 +2,5 @@
   "name": "go-eCharger integration for Home Assistant using the MQTT API",
   "content_in_root": false,
   "render_readme": true,
-  "iot_class": "local_push",
   "homeassistant": "2022.2.0"
 }
