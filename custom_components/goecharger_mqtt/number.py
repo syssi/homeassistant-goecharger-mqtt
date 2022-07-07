@@ -41,7 +41,7 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
         self.entity_description = description
         self._attr_available = False
 
-    async def async_set_value(self, value: float) -> None:
+    async def async_set_native_value(self, value: float) -> None:
         """Update the current value."""
         await mqtt.async_publish(self.hass, f"{self._topic}/set", int(value))
 
@@ -58,9 +58,9 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
                 )
             else:
                 if message.payload == "null":
-                    self._attr_value = None
+                    self._attr_native_value = None
                 else:
-                    self._attr_value = message.payload
+                    self._attr_native_value = message.payload
 
             self.async_write_ha_state()
 
