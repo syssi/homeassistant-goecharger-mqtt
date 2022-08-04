@@ -5,7 +5,7 @@ import logging
 from typing import Any
 
 from homeassistant import config_entries
-from homeassistant.components.mqtt import MqttServiceInfo
+from homeassistant.helpers.service_info.mqtt import MqttServiceInfo
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
