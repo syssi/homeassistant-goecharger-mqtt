@@ -288,6 +288,28 @@ Sets a config `key` to a `value`.
 | `key`                     |       no | The key of the config parameter you want to change                   |
 | `value`                   |       no | The new value                                                        |
 
+## Tips and tricks
+
+### How to suspend the access point of the go-e charger
+
+Per default the WiFi network of the charger is always active even if the device is connected as station to your 
+WiFi network. If `cloud access` is enabled the API key `wda` can be used to suspend the access point as soon 
+as the connection to the cloud is established:
+
+```
+# Suspend access point mode on cloud connection
+curl -s "http://192.168.xx.xx/api/set?wda=true"
+
+# Pretty print the full status
+curl -s "http://192.168.xx.xx/api/status" | json_pp
+
+# Check the value of the `wda` key
+curl -s "http://192.168.1.11/api/status" | jq '.wda'
+```
+
+The `wda` key can be changed via the HTTP-API v2 only. The device doesn't accept the setting via MQTT. For more
+details please see https://github.com/goecharger/go-eCharger-API-v2/issues/35.
+
 ## References
 
 * https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md
