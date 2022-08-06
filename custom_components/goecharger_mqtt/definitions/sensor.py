@@ -1954,7 +1954,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=DEVICE_CLASS_ENERGY,
         native_unit_of_measurement=ENERGY_WATT_HOUR,
-        state_class=STATE_CLASS_MEASUREMENT,  # It's not total_increasing because it resets once a day?
+        state_class=STATE_CLASS_TOTAL_INCREASING,
         entity_registry_enabled_default=True,
         disabled=False,
     ),
