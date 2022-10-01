@@ -9,7 +9,10 @@
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
-  "mqtt": ["/go-eCharger/+/var"],
+  "mqtt": [
+    "/go-eCharger/+/var",
+    "go-eCharger/+/var"
+  ],
   "dependencies": ["mqtt"],
   "codeowners": [
     "@syssi"
