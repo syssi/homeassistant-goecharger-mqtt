@@ -39,7 +39,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
-        self._attr_options = list(description.options.values())
+        self._attr_options = list(description.legacy_options.values())
         self._attr_current_option = None
 
     @property
@@ -52,7 +52,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         try:
             return next(
                 key
-                for key, value in self.entity_description.options.items()
+                for key, value in self.entity_description.legacy_options.items()
                 if value == option
             )
         except StopIteration:
@@ -79,7 +79,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                 if payload is None or payload in ["null", "none"]:
                     return
 
-                if payload not in self.entity_description.options.keys():
+                if payload not in self.entity_description.legacy_options.keys():
                     _LOGGER.error(
                         "Invalid option for %s: '%s' (valid options: %s)",
                         self.entity_id,
@@ -88,7 +88,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                     )
                     return
 
-                self._attr_current_option = self.entity_description.options[payload]
+                self._attr_current_option = self.entity_description.legacy_options[payload]
 
             self.async_write_ha_state()
 

@@ -18,7 +18,7 @@ class GoEChargerSelectEntityDescription(
 ):
     """Select entity description for go-eCharger."""
 
-    options: dict[str, str] | None = None
+    legacy_options: dict[str, str] | None = None
     domain: str = "select"
 
 
@@ -26,7 +26,7 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="lmo",
         name="Logic mode",
-        options={
+        legacy_options={
             "3": "Default",
             "4": "Awattar",
             "5": "Automatic Stop",
@@ -39,7 +39,7 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="ust",
         name="Cable unlock mode",
-        options={
+        legacy_options={
             "0": "Normal",
             "1": "Auto Unlock",
             "2": "Always Locked",
@@ -54,7 +54,7 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="frc",
         name="Force state",
-        options={
+        legacy_options={
             "0": "Neutral",
             "1": "Don't charge",
             "2": "Charge",
