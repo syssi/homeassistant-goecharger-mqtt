@@ -76,7 +76,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         subscribed_topic = discovery_info.subscribed_topic
 
         # Subscribed topic must be in sync with the manifest.json
-        assert subscribed_topic == "/go-eCharger/+/var"
+        assert subscribed_topic == ["/go-eCharger/+/var", "go-eCharger/+/var"]
 
         # Example topic: /go-eCharger/072246/var
         topic = discovery_info.topic
