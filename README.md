@@ -275,6 +275,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `lmo` | Logic mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `ust` | Cable unlock mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `frc` | Force state | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `trx` | Transaction | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 
 ## Platform services
 
