@@ -76,8 +76,8 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                 )
             else:
                 payload = message.payload
-                if payload is None or payload in ["null", "none"]:
-                    return
+                # if payload is None or payload in ["null", "none"]:
+                #     return
 
                 if payload not in self.entity_description.legacy_options.keys():
                     _LOGGER.error(
@@ -88,7 +88,9 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                     )
                     return
 
-                self._attr_current_option = self.entity_description.legacy_options[payload]
+                self._attr_current_option = self.entity_description.legacy_options[
+                    payload
+                ]
 
             self.async_write_ha_state()
 
