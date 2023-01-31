@@ -2,7 +2,7 @@
   "domain": "goecharger_mqtt",
   "name": "go-eCharger (MQTT)",
   "config_flow": true,
-  "version": "0.14.3",
+  "version": "0.15.0",
   "documentation": "https://github.com/syssi/homeassistant-goecharger-mqtt",
   "issue_tracker": "https://github.com/syssi/homeassistant-goecharger-mqtt/issues",
   "requirements": [],
