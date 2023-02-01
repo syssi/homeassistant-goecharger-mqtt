@@ -72,6 +72,7 @@ set_config_key:
             - tds
             - tof
             - tse
+            - trx
             - upo
             - ust
             - utc
