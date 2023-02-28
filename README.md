@@ -142,7 +142,8 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `ccw` | Connected WiFi | `diagnostic` |  | :white_large_square: | :white_large_square: | JSON decoding required. Values non-essential |
 | `cdi` | Charging duration | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | |
 | `cdi` | Charging duration counter | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `cus` | Cable unlock status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
+| `cus` | Cable unlock status code | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
+| `cus` | Cable unlock status | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `cwsca` | Cloud websocket connected | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] |
 | `efh` | ESP free heap | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
 | `efh32` | ESP free heap 32bit aligned | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |

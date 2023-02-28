@@ -22,6 +22,15 @@ class GoEChargerStatusCodes:
         5: "Error",
     }
 
+    cus = {
+        0: "Unknown",
+        1: "Unlocked",
+        2: "Unlock failed",
+        3: "Locked",
+        4: "Lock failed",
+        5: "Lock Unlock Powerout",
+    }
+
     err = {
         0: "",
         1: "Residual current circuit breaker",
