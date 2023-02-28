@@ -27,7 +27,7 @@ DEFAULT_NAME = "go-eCharger"
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_SERIAL_NUMBER): vol.All(cv.string, vol.Length(min=6, max=6)),
-        vol.Optional(CONF_TOPIC_PREFIX, default=DEFAULT_TOPIC_PREFIX): cv.string,
+        vol.Required(CONF_TOPIC_PREFIX, default=DEFAULT_TOPIC_PREFIX): cv.string,
     }
 )
 
@@ -70,6 +70,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize flow."""
         self._serial_number = None
+        self._topic_prefix = None
 
     async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> FlowResult:
         """Handle a flow initialized by MQTT discovery."""
@@ -82,6 +83,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         topic = discovery_info.topic
         (prefix, suffix) = subscribed_topic.split("+", 2)
         self._serial_number = topic.replace(prefix, "").replace(suffix, "")
+        self._topic_prefix = prefix[:-1]
 
         if not self._serial_number.isnumeric():
             return self.async_abort(reason="invalid_discovery_info")
@@ -103,7 +105,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 title=name,
                 data={
                     CONF_SERIAL_NUMBER: self._serial_number,
-                    CONF_TOPIC_PREFIX: DEFAULT_TOPIC_PREFIX,
+                    CONF_TOPIC_PREFIX: self._topic_prefix,
                 },
             )
 

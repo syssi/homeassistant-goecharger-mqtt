@@ -11,8 +11,8 @@
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/syssi/homeassistant-goecharger-mqtt/issues",
   "mqtt": [
-    "/go-eCharger/+/var",
-    "go-eCharger/+/var"
+    "go-eCharger/+/var",
+    "/go-eCharger/+/var"
   ],
   "requirements": [],
   "ssdp": [],
