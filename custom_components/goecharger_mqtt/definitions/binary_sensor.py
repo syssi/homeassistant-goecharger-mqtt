@@ -27,7 +27,23 @@ def extract_item_from_array_to_bool(value, key) -> bool:
     return bool(json.loads(value)[int(key)])
 
 
+def map_car_idle_to_bool(value, key) -> bool:
+    """Extract item from array to int."""
+    return int(value) > int(key)
+
+
 BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
+    GoEChargerBinarySensorEntityDescription(
+        key="car",
+        name="Car connected",
+        attribute="1",
+        state=map_car_idle_to_bool,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        icon="mdi:car",
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
     GoEChargerBinarySensorEntityDescription(
         key="pha",
         name="Phase L1 after contactor",

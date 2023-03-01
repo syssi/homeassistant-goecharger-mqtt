@@ -26,6 +26,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 
 | Topic | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | ----- | ------------- | -------- | ------------------- | --------- | ------------------ |
+| `car` | Car connected | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `pha` | Phase L1 after contactor | `diagnostic` | :white_large_square: | :heavy_check_mark: | |
 | `pha` | Phase L2 after contactor | `diagnostic` | :white_large_square: | :heavy_check_mark: | |
 | `pha` | Phase L3 after contactor | `diagnostic` | :white_large_square: | :heavy_check_mark: | |
