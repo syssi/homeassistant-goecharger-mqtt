@@ -2118,4 +2118,34 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         disabled=False,
     ),
+    GoEChargerSensorEntityDescription(
+        key="ppv",
+        name="Power from Solarpanels",
+        entity_category=EntityCategory.CONFIG,
+        device_class=SensorDeviceClass.POWER,
+        native_unit_of_measurement=POWER_WATT,  # 
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="pgrid",
+        name="Power from grid",
+        entity_category=EntityCategory.CONFIG,
+        device_class=SensorDeviceClass.POWER,
+        native_unit_of_measurement=POWER_WATT,  # 
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="pakku",
+        name="Power from battery",
+        entity_category=EntityCategory.CONFIG,
+        device_class=SensorDeviceClass.POWER,
+        native_unit_of_measurement=POWER_WATT,  # 
+        state_class=STATE_CLASS_MEASUREMENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),    
 )
