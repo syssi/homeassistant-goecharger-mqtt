@@ -41,6 +41,7 @@ set_config_key:
             - esk
             - fna
             - frc
+            - fup
             - hsa
             - hws
             - Key
@@ -60,6 +61,9 @@ set_config_key:
             - mptwt
             - mpwst
             - nmo
+            - pakku
+            - pgrid
+            - ppv
             - psmd
             - sch_satur
             - sch_sund
@@ -80,6 +84,7 @@ set_config_key:
             - wan
             - wen
             - wifis
+    
     value:
       name: Value
       description: The new value to set for this config parameter.
