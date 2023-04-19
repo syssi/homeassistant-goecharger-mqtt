@@ -44,6 +44,7 @@ set_config_key:
             - fup
             - hsa
             - hws
+            - ids
             - Key
             - lmo
             - loe
@@ -61,9 +62,6 @@ set_config_key:
             - mptwt
             - mpwst
             - nmo
-            - pakku
-            - pgrid
-            - ppv
             - psmd
             - sch_satur
             - sch_sund

@@ -2120,7 +2120,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="ppv",
-        name="Power from Solarpanels",
+        name="Power from Solar Panels (from ids)",
         entity_category=EntityCategory.CONFIG,
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=POWER_WATT,  # 
@@ -2130,7 +2130,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="pgrid",
-        name="Power from grid",
+        name="Power from grid (from ids)",
         entity_category=EntityCategory.CONFIG,
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=POWER_WATT,  # 
@@ -2140,7 +2140,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="pakku",
-        name="Power from battery",
+        name="Power from battery (from ids)",
         entity_category=EntityCategory.CONFIG,
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=POWER_WATT,  # 
