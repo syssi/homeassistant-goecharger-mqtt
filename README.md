@@ -295,9 +295,9 @@ This feature requires firmware 0.55 or newer.
 
 `ids` is used to input values to the ECO PV-surplus charging mode. (PV = Photo Voltaic aka Solar Panels)
 
-`ids` is set with a JSON list: `{"pGrid":0.0,"pAkku":0.0,"pPv":0.0}` - If values are accepted they can be read back tru the `pgrid`, `pakku` and `ppv` sensors. `pGrid` is required. The others are optional.
+`ids` is set with a JSON list: `{"pGrid":0.0,"pAkku":0.0,"pPv":0.0}` - If values are accepted they can be read back thru the `pgrid`, `pakku` and `ppv` sensors. `pGrid` is required. The others are optional.
 
-`ids` values decays, so must be updated every 10s or faster. No update for 10-15s means no PV-surplus available. `pgrid`/`pakku`/`ppv` will thus all become `unknown`.
+`ids` values decays, so must be updated every 10s or faster. No update for 10-15s means no PV-surplus is available. `pgrid`/`pakku`/`ppv` will thus all become `unknown`.
 
 Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, and thus available to the charger. Charger is then constantly calculating available power and adjusting charge power up and down multiple times per minute (on every update). 
 
@@ -305,6 +305,13 @@ It is much better to do dynamic charging power this way over `ama`, as `ama` wri
 
 For PV surplus charging to be enabled, `lmo` most be set to 4 (ECO mode), and `fup` must be set to true. (UsePhotovoltaic).
 
+See template example below for how to continously update `ids`
+
+#### Automation example
+```
+      payload: '{{''{"pGrid": ''}}{{states(''sensor.power_use'')}}{{'', "pPv": ''}}{{states(''sensor.solar_production'')}}{{'',
+        "pAkku":0}''}}'
+```
 
 ## Platform services
 
