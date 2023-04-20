@@ -287,7 +287,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 
 ### Setable only PV-surplus entities
 
-This featire requires firmware 0.55 or newer.
+This feature requires firmware 0.55 or newer.
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
