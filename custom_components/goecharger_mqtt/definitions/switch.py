@@ -118,7 +118,7 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         name="Use PV surplus",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
-        entity_registry_enabled_default=False,
+        entity_registry_enabled_default=True,
         icon="mdi:solar-power",
         disabled=False,
     ),
