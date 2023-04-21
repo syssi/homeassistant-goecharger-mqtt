@@ -89,4 +89,19 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
         entity_registry_enabled_default=True,
         disabled=False,
     ),
+    GoEChargerSelectEntityDescription(
+        key="psm",
+        name="Phase switch mode",
+        legacy_options={
+            "0": "Auto",
+            "1": "Force single phase",
+            "2": "Force three phases",
+        },
+        attribute="frc",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        icon="mdi:speedometer",
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
 )
