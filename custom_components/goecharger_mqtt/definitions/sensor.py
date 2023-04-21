@@ -2147,5 +2147,5 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         state_class=STATE_CLASS_MEASUREMENT,
         entity_registry_enabled_default=True,
         disabled=False,
-    ),    
+    ),
 )
