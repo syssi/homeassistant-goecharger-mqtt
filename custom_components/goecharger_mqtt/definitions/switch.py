@@ -114,6 +114,15 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         disabled_reason="App only",
     ),
     GoEChargerSwitchEntityDescription(
+        key="fup",
+        name="Use PV surplus",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        icon="mdi:solar-power",
+        disabled=False,
+    ),
+    GoEChargerSwitchEntityDescription(
         key="su",
         name="Simulate unplugging",
         entity_category=EntityCategory.CONFIG,

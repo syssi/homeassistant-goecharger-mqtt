@@ -42,7 +42,6 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `cws` | Cloud websocket started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `cwsc` | Cloud websocket connected | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `fsp` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | Is always false. Please use `psm` instead |
-| `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `lwcf` | Last failed WiFi connect | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
@@ -257,6 +256,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `awe` | Awattar mode | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
 | `acp` | Allow charge pause | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
 | `esk` | Energy set | `config` | :white_large_square: | :white_large_square: | App only |
+| `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `su` | Simulate unplugging | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `hws` | HTTP STA reachable | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `hsa` | HTTP STA authentication | `config` | :white_large_square: | :white_large_square: | [^1] |

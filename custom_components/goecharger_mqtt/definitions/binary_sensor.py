@@ -45,15 +45,6 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         disabled=False,
     ),
     GoEChargerBinarySensorEntityDescription(
-        key="fup",
-        name="Use PV Surplus",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        icon="mdi:solar-power",
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerBinarySensorEntityDescription(
         key="pha",
         name="Phase L1 after contactor",
         attribute="0",
