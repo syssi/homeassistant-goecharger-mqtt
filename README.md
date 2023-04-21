@@ -42,7 +42,6 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `cws` | Cloud websocket started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `cwsc` | Cloud websocket connected | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `fsp` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | Is always false. Please use `psm` instead |
-| `fup` | Charge with PV surplus | `config` | :white_large_square: | :heavy_check_mark: | |
 | `lwcf` | Last failed WiFi connect | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
 | `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
@@ -206,9 +205,9 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `ocu` | List of available firmware versions | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
 | `onv` | Newest OTA version | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
 | `pwm` | Phase wish mode for debugging | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `pgrid` | Power from Grid |  |  | :white_large_square: | :heavy_check_mark: | |
-| `pPv` | Power from Solar Panels |  |  | :white_large_square: | :heavy_check_mark: | |
-| `pAkku` | Power from External Battery |  |  | :white_large_square: | :heavy_check_mark: | |
+| `pgrid` | Power from Grid |  |  | :heavy_check_mark: | :heavy_check_mark: | |
+| `ppv` | Power from Solar Panels |  |  | :heavy_check_mark: | :heavy_check_mark: | |
+| `pakku` | Power from External Battery |  |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `qsc` | Queue size cloud | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
 | `qsw` | Queue size web | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
 | `rbc` | Reboot counter | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
@@ -257,6 +256,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `awe` | Awattar mode | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
 | `acp` | Allow charge pause | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
 | `esk` | Energy set | `config` | :white_large_square: | :white_large_square: | App only |
+| `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `su` | Simulate unplugging | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `hws` | HTTP STA reachable | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `hsa` | HTTP STA authentication | `config` | :white_large_square: | :white_large_square: | [^1] |
@@ -303,9 +303,9 @@ Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, 
 
 It is much better to do dynamic charging power this way over `ama`, as `ama` writes its value to flash, which can be worn out. And by feeding `ids` values, ECO charging can be controlled in the go-eCharger App. It is safe and expected to set this value often.
 
-For PV surplus charging to be enabled, `lmo` most be set to 4 (ECO mode), and `fup` must be set to true. (UsePhotovoltaic).
+For PV surplus charging to be enabled, `lmo` (Logic mode) most be set to 4 (Eco mode), and `fup` (Use PV surplus) must be set to true.
 
-See template example below for how to continously update `ids`
+See template example below for how to continuously update `ids`
 
 #### Automation example
 ```

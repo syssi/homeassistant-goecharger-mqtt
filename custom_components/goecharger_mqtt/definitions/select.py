@@ -28,7 +28,7 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
         name="Logic mode",
         legacy_options={
             "3": "Default",
-            "4": "Awattar",
+            "4": "Eco mode",
             "5": "Automatic Stop",
         },
         entity_category=EntityCategory.CONFIG,
