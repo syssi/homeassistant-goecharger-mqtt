@@ -178,16 +178,6 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         disabled_reason="Not exposed via MQTT in firmware 053.1",
     ),
     GoEChargerSwitchEntityDescription(
-        key="psm",
-        name="Force single phase",
-        payload_on="1",
-        payload_off="2",
-        entity_category=EntityCategory.DIAGNOSTIC,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSwitchEntityDescription(
         key="sua",
         name="Simulate unplugging permanently",
         optimistic=True,

@@ -41,15 +41,6 @@ class GoEChargerSensorEntityDescription(
     domain: str = "sensor"
 
 
-def remap_configured_phases(value, unused) -> int | None:
-    """Remap configured phases."""
-    if int(value) == 1:
-        return 1
-    if int(value) == 2:
-        return 3
-    return None
-
-
 def extract_charging_duration(value, attribute) -> int | None:
     """Extract charging duration from object.
 
@@ -1988,10 +1979,9 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="psm",
-        name="Configured phases",
-        state=remap_configured_phases,
+        name="Phase switch mode",
         entity_category=EntityCategory.CONFIG,
-        icon="mdi:current-ac",
+        icon="mdi:speedometer",
         device_class=None,
         native_unit_of_measurement=None,
         state_class=None,
