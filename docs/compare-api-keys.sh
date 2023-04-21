@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INPUT=mqtt-traffic-055.5.log
+INPUT=mqtt-traffic-055.6.log
 
 API_DESCRIPTIONS="https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-de.md https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-en.md"
 SKIP_KEYS="utc,rbt,loc,dns,ccw,dll"
