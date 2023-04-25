@@ -299,7 +299,7 @@ This feature requires firmware 0.55 or newer.
 
 `ids` values decays, so must be updated every 10s or faster. No update for 10-15s means no PV-surplus is available. `pgrid`/`pakku`/`ppv` will thus all become `unknown`.
 
-Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, and thus available to the charger. Charger is then constantly calculating available power and adjusting charge power up and down multiple times per minute (on every update). 
+Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, and thus available to the charger. Charger is then constantly calculating available power and adjusting charge power up and down multiple times per minute (on every update).
 
 It is much better to do dynamic charging power this way over `ama`, as `ama` writes its value to flash, which can be worn out. And by feeding `ids` values, ECO charging can be controlled in the go-eCharger App. It is safe and expected to set this value often.
 
@@ -309,19 +309,21 @@ See template example below for how to continuously update `ids`
 
 #### Automation example
 ```
-   alias: Go-E Überschussladen
-   description: ""
-   trigger:  
-      - platform: time_pattern    
-        seconds: /5
-   condition: []
-   action:  
-      - service: mqtt.publish    
-        data:      
-            qos: "0"      
-            topic: go-eCharger/999999/ids/set      
-            payload: {{'{"pGrid": '}}{{states('sensor.meter_active_power_raw')}}{{', "pPv":'}}{{states('sensor.total_dc_power')}}{{', "pAkku":0}'}}
-            retain: false
+alias: go-e Surplus Charging
+description: "Simple automation to update values needed for using solar surplus with go-e Chargers"
+trigger:
+  - platform: time_pattern
+    seconds: /5
+condition: []
+action:
+  - service: mqtt.publish
+    data:
+      qos: "0"
+      # Change to your charger ID here
+      topic: go-eCharger/999999/ids/set
+      # Please provide your own entities here, as described above
+      payload: {{'{"pGrid": '}}{{states('sensor.meter_active_power_raw')}}{{', "pPv":'}}{{states('sensor.total_dc_power')}}{{', "pAkku":0}'}}
+      retain: false
 ```
 
 ## Platform services
@@ -340,8 +342,8 @@ Sets a config `key` to a `value`.
 
 ### How to suspend the access point of the go-e charger
 
-Per default the WiFi network of the charger is always active even if the device is connected as station to your 
-WiFi network. If `cloud access` is enabled the API key `wda` can be used to suspend the access point as soon 
+Per default the WiFi network of the charger is always active even if the device is connected as station to your
+WiFi network. If `cloud access` is enabled the API key `wda` can be used to suspend the access point as soon
 as the connection to the cloud is established:
 
 ```
