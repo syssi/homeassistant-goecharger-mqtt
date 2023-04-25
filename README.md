@@ -309,8 +309,19 @@ See template example below for how to continuously update `ids`
 
 #### Automation example
 ```
-      payload: '{{''{"pGrid": ''}}{{states(''sensor.power_use'')}}{{'', "pPv": ''}}{{states(''sensor.solar_production'')}}{{'',
-        "pAkku":0}''}}'
+   alias: MQTT Go-E Strom%C3%BCberschuss
+   description: ""
+   trigger:  
+      - platform: time_pattern    
+        seconds: /5
+   condition: []
+   action:  
+      - service: mqtt.publish    
+        data:      
+            qos: "0"      
+            topic: go-eCharger/999999/ids/set      
+            payload: {{'{"pGrid": '}}{{states('sensor.meter_active_power_raw')}}{{', "pPv":'}}{{states('sensor.total_dc_power')}}{{', "pAkku":0}'}}
+            retain: false
 ```
 
 ## Platform services
