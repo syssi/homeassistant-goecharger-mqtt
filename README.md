@@ -309,7 +309,7 @@ See template example below for how to continuously update `ids`
 
 #### Automation example
 ```
-   alias: MQTT Go-E Strom%C3%BCberschuss
+   alias: Go-E Überschussladen
    description: ""
    trigger:  
       - platform: time_pattern    
