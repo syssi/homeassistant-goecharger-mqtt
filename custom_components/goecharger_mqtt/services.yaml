@@ -63,7 +63,6 @@ set_config_key:
             - mpwst
             - nmo
             - psmd
-            - puf
             - sch_satur
             - sch_sund
             - sch_week

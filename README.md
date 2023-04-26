@@ -300,9 +300,9 @@ This feature requires firmware 0.55 or newer.
 
 `ids` values decays, so must be updated every 10s or faster. No update for 10-15s means no PV-surplus is available. `pgrid`/`pakku`/`ppv` will thus all become `unknown`.
 
-Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, and thus available to the charger. Charger is then constantly calculating available power and adjusting charge power up and down multiple times per minute (on every update).
+Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, and thus available to the charger. Charger is then constantly calculating available power and adjusting charge power up and down multiple times per minute (on every update). If 1/3 phase is set to automatic, it will switch between 1 and 3 phases. The 1->3 phase switch level is set in `spl3`
 
-It is much better to do dynamic charging power this way over `ama`, as `ama` writes its value to flash, which can be worn out. And by feeding `ids` values, ECO charging can be controlled in the go-eCharger App. It is safe and expected to set this value often.
+By feeding `ids` values, ECO charging can be controlled (on/off) in the go-eCharger App. It is safe and expected to set this value often.
 
 For PV surplus charging to be enabled, `lmo` (Logic mode) most be set to 4 (Eco mode), and `fup` (Use PV surplus) must be set to true.
 
