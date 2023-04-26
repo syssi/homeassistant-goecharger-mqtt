@@ -97,7 +97,7 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
             "1": "Force single phase",
             "2": "Force three phases",
         },
-        attribute="frc",
+        attribute="psm",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         icon="mdi:speedometer",
