@@ -301,7 +301,8 @@ This feature requires firmware 0.55 or newer.
 
 Only `pGrid` is used in calculations. Negative `pGrid` means power is exported, and thus available to the charger. Charger is then constantly calculating available power and adjusting charge power up and down multiple times per minute (on every update).
 
-It is much better to do dynamic charging power this way over `ama`, as `ama` writes its value to flash, which can be worn out. And by feeding `ids` values, ECO charging can be controlled in the go-eCharger App. It is safe and expected to set this value often.
+It is better to do dynamic charging power this way over `ama`, as `ama` writes new permanent values to the charge limit. `ids` is dynamic values that does not influence the Amp settings for manual charging.
+And by feeding `ids` values, ECO charging can be controlled (on/off) in the go-eCharger App. It is safe and expected to set this value often.
 
 For PV surplus charging to be enabled, `lmo` (Logic mode) most be set to 4 (Eco mode), and `fup` (Use PV surplus) must be set to true.
 
