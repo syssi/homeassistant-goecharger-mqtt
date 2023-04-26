@@ -24,6 +24,18 @@ class GoEChargerNumberEntityDescription(
 
 NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
     GoEChargerNumberEntityDescription(
+        key="ama",
+        name="Maximum current limit",
+        entity_category=EntityCategory.CONFIG,
+        device_class=NumberDeviceClass.CURRENT,
+        native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        native_max_value=32,
+        native_min_value=6,
+        native_step=1,
+    ),
+    GoEChargerNumberEntityDescription(
         key="amp",
         name="Requested current",
         entity_category=EntityCategory.CONFIG,
