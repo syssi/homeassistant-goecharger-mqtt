@@ -82,7 +82,6 @@ set_config_key:
             - wan
             - wen
             - wifis
-    
     value:
       name: Value
       description: The new value to set for this config parameter.
