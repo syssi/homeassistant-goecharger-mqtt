@@ -4,7 +4,6 @@ import logging
 from homeassistant import config_entries, core
 from homeassistant.components import mqtt
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.const import STATE_UNKNOWN
 from homeassistant.core import callback
 
 from .definitions.sensor import SENSORS, GoEChargerSensorEntityDescription
@@ -91,7 +90,7 @@ class GoEChargerSensor(GoEChargerEntity, SensorEntity):
                 )
             else:
                 if message.payload == "null":
-                    self._attr_native_value = STATE_UNKNOWN
+                    self._attr_native_value = None
                 else:
                     self._attr_native_value = message.payload
 
