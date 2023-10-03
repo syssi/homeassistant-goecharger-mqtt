@@ -92,8 +92,7 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         entity_registry_enabled_default=True,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
+        disabled=False,
     ),
     GoEChargerSwitchEntityDescription(
         key="acp",

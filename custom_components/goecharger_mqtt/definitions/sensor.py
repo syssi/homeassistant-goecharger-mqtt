@@ -93,6 +93,11 @@ def extract_item_from_array_to_bool(value, key) -> bool:
     return bool(json.loads(value)[int(key)])
 
 
+def extract_item_from_json_to_float(value, key) -> float:
+    """Extract item from json to float."""
+    return float(json.loads(value)[str(key)])
+
+
 def transform_code(value, mapping_table) -> str:
     """Transform codes into a human readable string."""
     try:
@@ -938,9 +943,11 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="awcp",
         name="Awattar current price",
+        state=extract_item_from_json_to_float,
+        attribute="marketprice",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
-        native_unit_of_measurement=None,
+        native_unit_of_measurement=CURRENCY_CENT,
         state_class=STATE_CLASS_MEASUREMENT,
         entity_registry_enabled_default=False,
         disabled=False,

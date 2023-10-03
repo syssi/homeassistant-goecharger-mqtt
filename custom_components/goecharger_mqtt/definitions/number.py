@@ -5,7 +5,12 @@ from dataclasses import dataclass
 import logging
 
 from homeassistant.components.number import NumberDeviceClass, NumberEntityDescription
-from homeassistant.const import ELECTRIC_CURRENT_AMPERE, ENERGY_WATT_HOUR, TIME_SECONDS
+from homeassistant.const import (
+    ELECTRIC_CURRENT_AMPERE,
+    ENERGY_WATT_HOUR,
+    TIME_SECONDS,
+    CURRENCY_CENT,
+)
 from homeassistant.helpers.entity import EntityCategory
 
 from . import GoEChargerEntityDescription
@@ -70,5 +75,17 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_max_value=86400,
         native_min_value=60,
         native_step=1,
+    ),
+    GoEChargerNumberEntityDescription(
+        key="awp",
+        name="Awattar maximum price threshold",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        native_unit_of_measurement=CURRENCY_CENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        native_max_value=100,
+        native_min_value=-100,
+        native_step=0.1,
     ),
 )
