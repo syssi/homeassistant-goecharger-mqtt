@@ -135,7 +135,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `acu` | Maximum allowed current | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
 | `amt` | Current temperature limit | `diagnostic` | °C | :heavy_check_mark: | :heavy_check_mark: | |
 | `atp` | Next trip plan data | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `awcp` | Awattar current price | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
+| `awcp` | Awattar current price | `diagnostic` | ¢ | :white_large_square: | :heavy_check_mark: | |
 | `awpl` | Awattar price list | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
 | `car` | Car state | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `cbl` | Cable maximum current | `diagnostic` | A | :white_large_square: | :heavy_check_mark: | |
@@ -253,7 +253,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `sdp` | Button allow force change | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `nmo` | Norway mode | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `lse` | LED off on standby | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `awe` | Awattar mode | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
+| `awe` | Awattar mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `acp` | Allow charge pause | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
 | `esk` | Energy set | `config` | :white_large_square: | :white_large_square: | App only |
 | `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | |
@@ -274,6 +274,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `amp` | Requested current | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `ate` | Automatic stop energy | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `att` | Automatic stop time | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `awp` | Awattar maximum price threshold | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 
 ### Select entities
 
