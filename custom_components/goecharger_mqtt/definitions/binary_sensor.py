@@ -107,7 +107,7 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
     GoEChargerBinarySensorEntityDescription(
         key="cca",
         name="Cloud websocket use client auth",
-        entity_category=EntityCategory.CONFIG,
+        entity_category=None,
         device_class=None,
         entity_registry_enabled_default=False,
         disabled=True,
@@ -116,7 +116,7 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
     GoEChargerBinarySensorEntityDescription(
         key="ocuca",
         name="OTA cloud use client auth",
-        entity_category=EntityCategory.CONFIG,
+        entity_category=None,
         device_class=None,
         entity_registry_enabled_default=False,
         disabled=True,
