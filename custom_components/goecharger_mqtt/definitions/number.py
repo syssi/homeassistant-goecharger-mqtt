@@ -88,4 +88,16 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_min_value=-100,
         native_step=0.1,
     ),
+    GoEChargerNumberEntityDescription(
+        key="lop",
+        name="Load balancing priority",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        native_unit_of_measurement=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        native_max_value=99,
+        native_min_value=1,
+        native_step=1,
+    ),
 )
