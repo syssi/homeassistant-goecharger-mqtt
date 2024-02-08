@@ -8,7 +8,7 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/syssi/homeassistant-goecharger-mqtt)
 [!["Buy Me A Coffee"](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/syssi)
 
-This is a custom component for Home Assistant to integrate the go-eCharger HOME+ and HOMEfix using the MQTT API (v2).
+This is a custom component for Home Assistant to integrate the go-eCharger HOME+ and HOMEfix using the MQTT API (v2). If you are using the go-eController there's [another project](https://github.com/karloskar/homeassistant-goecontroller-mqtt) covering that.
 
 ![Lovelace entities card](assets/lovelace-entities-card.png "Lovelace entities card")
 
