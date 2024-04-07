@@ -89,6 +89,18 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_step=0.1,
     ),
     GoEChargerNumberEntityDescription(
+        key="dwo",
+        name="Charging energy limit",
+        entity_category=EntityCategory.CONFIG,
+        device_class=NumberDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        native_max_value=100000,
+        native_min_value=0,
+        native_step=1,
+    ),
+    GoEChargerNumberEntityDescription(
         key="lop",
         name="Load balancing priority",
         entity_category=EntityCategory.CONFIG,
