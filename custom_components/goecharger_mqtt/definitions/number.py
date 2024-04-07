@@ -96,7 +96,7 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
         entity_registry_enabled_default=True,
         disabled=False,
-        native_max_value=100000,
+        native_max_value=1000000,
         native_min_value=0,
         native_step=1,
     ),
