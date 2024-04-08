@@ -25,6 +25,7 @@ class GoEChargerNumberEntityDescription(
     """Number entity description for go-eCharger."""
 
     domain: str = "number"
+    treat_zero_as_null: bool = False
 
 
 NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
@@ -87,6 +88,19 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_max_value=100,
         native_min_value=-100,
         native_step=0.1,
+    ),
+    GoEChargerNumberEntityDescription(
+        key="dwo",
+        name="Charging energy limit",
+        entity_category=EntityCategory.CONFIG,
+        device_class=NumberDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        native_max_value=1000000,
+        native_min_value=0,
+        native_step=1,
+        treat_zero_as_null=True,
     ),
     GoEChargerNumberEntityDescription(
         key="lop",

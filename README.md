@@ -73,7 +73,6 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `clp` | Current limit presets | `config` | A | :white_large_square: | :heavy_check_mark: | |
 | `ct` | Car type | `config` |  | :white_large_square: | :white_large_square: | App only |
 | `cwc` | Color wait for car | `config` |  | :white_large_square: | :heavy_check_mark: | |
-| `dwo` | Charging energy limit | `config` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
 | `fna` | Friendly name | `config` |  | :white_large_square: | :white_large_square: | [^1] |
 | `frc` | Force state | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `frc` | Force state code | `config` |  | :white_large_square: | :heavy_check_mark: | |
@@ -275,6 +274,7 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `ate` | Automatic stop energy | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `att` | Automatic stop time | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `awp` | Awattar maximum price threshold | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `dwo` | Charging energy limit | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `lop` | Load balancing priority | `config` | :white_large_square: | :white_large_square: | [^1] |
 
 ### Select entities

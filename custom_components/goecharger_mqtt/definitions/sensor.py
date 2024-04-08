@@ -247,16 +247,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         disabled=False,
     ),
     GoEChargerSensorEntityDescription(
-        key="dwo",
-        name="Charging energy limit",
-        entity_category=None,
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
-        state_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSensorEntityDescription(
         key="fna",
         name="Friendly name",
         entity_category=None,
