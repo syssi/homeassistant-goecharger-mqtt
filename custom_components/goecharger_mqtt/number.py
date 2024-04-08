@@ -43,13 +43,12 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         """Update the current value."""
-        if self._topic.endswith("/dwo") and value == 0:
+        if self.entity_description.treat_zero_as_null and value == 0:
             await mqtt.async_publish(self.hass, f"{self._topic}/set", "null")
+        elif self.native_step == 1:
+            await mqtt.async_publish(self.hass, f"{self._topic}/set", int(value))
         else:
-            if self.native_step == 1:
-                await mqtt.async_publish(self.hass, f"{self._topic}/set", int(value))
-            else:
-                await mqtt.async_publish(self.hass, f"{self._topic}/set", value)
+            await mqtt.async_publish(self.hass, f"{self._topic}/set", value)
 
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
