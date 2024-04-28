@@ -14,10 +14,9 @@
                 "description": "Do you want to setup {name}?"
             },
             "user": {
-                "description": "Please provide the serial number of your device",
+                "description": "Please provide the MQTT topic of your device",
                 "data": {
-                    "serial_number": "Serial number",
-                    "topic_prefix": "Base topic"
+                    "topic": "MQTT topic"
                 }
             }
         }

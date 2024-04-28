@@ -25,15 +25,13 @@ async def test_form(hass: HomeAssistant) -> None:
     ) as mock_setup_entry:
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"serial_number": "012345", "topic_prefix": "/go-eCharger"},
+            {"topic": "/go-eCharger/012345"},
         )
         await hass.async_block_till_done()
 
     assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
     assert result2["title"] == "go-eCharger 012345"
-    assert result2["data"] == {
-        "serial_number": "012345",
-        "topic_prefix": "/go-eCharger",
+    assert result2["data"] == {"topic": "/go-eCharger/012345"
     }
     assert len(mock_setup_entry.mock_calls) == 1
 
@@ -50,7 +48,7 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"serial_number": "012345", "topic_prefix": "/go-eCharger"},
+            {"topic": "/go-eCharger/012345"},
         )
 
     assert result2["type"] == RESULT_TYPE_FORM

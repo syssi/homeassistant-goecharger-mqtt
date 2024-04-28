@@ -12,7 +12,7 @@ import voluptuous as vol
 
 from .const import (
     ATTR_KEY,
-    ATTR_SERIAL_NUMBER,
+    ATTR_TOPIC,
     ATTR_VALUE,
     DEFAULT_TOPIC_PREFIX,
     DOMAIN,
@@ -31,7 +31,7 @@ _LOGGER = logging.getLogger(__name__)
 
 SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
     {
-        vol.Required(ATTR_SERIAL_NUMBER): cv.string,
+        vol.Required(ATTR_TOPIC): cv.string,
         vol.Required(ATTR_KEY): cv.string,
         vol.Required(ATTR_VALUE): cv.string,
     }
@@ -58,10 +58,9 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     @callback
     async def set_config_key_service(call: ServiceCall) -> None:
-        serial_number = call.data.get("serial_number")
+        topic = call.data.get(ATTR_TOPIC)
         key = call.data.get("key")
-        # @FIXME: Retrieve the topic_prefix from config_entry
-        topic = f"{DEFAULT_TOPIC_PREFIX}/{serial_number}/{key}/set"
+        topic = f"{topic}/{key}/set"
         value = call.data.get("value")
 
         if not value.isnumeric():
