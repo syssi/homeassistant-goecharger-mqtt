@@ -20,7 +20,7 @@ This is a custom component for Home Assistant to integrate the go-eCharger HOME+
 1. (Recommended) Access to messages on MQTT Broker via client such as [MQTT Explorer](https://mqtt-explorer.com/)  
 1. Enable the MQTT API of your charger at the [go-eCharger App](https://play.google.com/store/apps/details?id=co.goe.app&hl=de)
     - `Internet` -> `Advanced settings` -> scroll to bottom -> `Enable MQTT API` ([See also here](https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md))
-    - in the field `URL` enter your MQTT broker URL, e.g. mqtt://192.168.178.3:1883 for a broker running on a server with IP 192.168.178.3 on default port 1883
+    - at the field `URL` enter your MQTT broker URL, e.g. mqtt://192.168.178.3:1883 for a broker running on a server with IP 192.168.178.3 on default port 1883
     ![alt text](assets/goe_app_settings.jpg)
     - (optional) Add MQTT keys and certificates as needed
     - Press the `SAVE` symbol in the top right to apply the settings
