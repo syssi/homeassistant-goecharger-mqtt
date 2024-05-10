@@ -16,7 +16,7 @@ This is a custom component for Home Assistant to integrate the go-eCharger HOME+
 
 1. Use HACS to install this custom component
 1. Restart HA
-1. Make sure you have an MQTT Broker ([e.g. Mosquitto broker](https://github.com/eclipse/mosquitto)) and a working [MQTT integration](https://www.home-assistant.io/integrations/mqtt/) in HA.
+1. Make sure you have an MQTT Broker ([e.g. Mosquitto broker](https://github.com/eclipse/mosquitto)) and a working [MQTT integration](https://www.home-assistant.io/integrations/mqtt/) in HA
 1. (Recommended) Access to messages on MQTT Broker via client such as [MQTT Explorer](https://mqtt-explorer.com/)  
 1. Enable the MQTT API of your charger at the [go-eCharger App](https://play.google.com/store/apps/details?id=co.goe.app&hl=de)
     - `Internet` -> `Advanced settings` -> scroll to bottom -> `Enable MQTT API` ([See also here](https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md))
