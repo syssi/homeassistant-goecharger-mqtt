@@ -24,7 +24,7 @@ This is a custom component for Home Assistant to integrate the go-eCharger HOME+
     ![alt text](assets/goe_app_settings.jpg)
     - (optional) Add MQTT keys and certificates as needed
     - Press the `SAVE` symbol in the top right to apply the settings
-1. (Optional) Make sure you see a new topic on the MQTT broker using your MQTT client.
+1. (Optional) Make sure you see a new topic on the MQTT broker using your MQTT client
     - New messages appear under `go-eCharger/[your serial number]/`
 1. In HA, add new integration 
     - `Settings` -> `Devices & services` -> `ADD INTEGRATION` -> `go-eCharger (MQTT)`
