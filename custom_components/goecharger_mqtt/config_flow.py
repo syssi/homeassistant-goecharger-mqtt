@@ -5,13 +5,14 @@ import logging
 from typing import Any
 
 from homeassistant import config_entries
+from homeassistant.components import mqtt
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 import voluptuous as vol
 
-from .const import CONF_SERIAL_NUMBER, CONF_TOPIC_PREFIX, DEFAULT_TOPIC_PREFIX, DOMAIN
+from .const import CONF_TOPIC, DEFAULT_TOPIC_PREFIX, DOMAIN
 
 try:
     # < HA 2022.8.0
@@ -26,8 +27,7 @@ DEFAULT_NAME = "go-eCharger"
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_SERIAL_NUMBER): vol.All(cv.string, vol.Length(min=6, max=6)),
-        vol.Required(CONF_TOPIC_PREFIX, default=DEFAULT_TOPIC_PREFIX): cv.string,
+        vol.Required(CONF_TOPIC, default=DEFAULT_TOPIC_PREFIX): cv.string,
     }
 )
 
@@ -38,10 +38,9 @@ class PlaceholderHub:
     TODO Remove this placeholder class and replace with things from your PyPI package.
     """
 
-    def __init__(self, topic_prefix: str, serial_number: str) -> None:
+    def __init__(self, topic: str) -> None:
         """Initialize."""
-        self.topic_prefix = topic_prefix
-        self.serial_number = serial_number
+        self.topic = topic
 
     async def validate_device_topic(self) -> bool:
         """Test if we can authenticate with the host."""
@@ -53,13 +52,15 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
     """
-    serial_number = data[CONF_SERIAL_NUMBER]
-    hub = PlaceholderHub(data[CONF_TOPIC_PREFIX], serial_number)
+    topic = data[CONF_TOPIC]
+    hub = PlaceholderHub(topic)
 
     if not await hub.validate_device_topic():
         raise CannotConnect
 
-    return {"title": f"{DEFAULT_NAME} {serial_number}"}
+    device_name = topic.split("/")[-1]
+
+    return {"title": f"{DEFAULT_NAME} {device_name}"}
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -69,8 +70,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         """Initialize flow."""
-        self._serial_number = None
-        self._topic_prefix = None
+        self._topic = None
 
     async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> FlowResult:
         """Handle a flow initialized by MQTT discovery."""
@@ -80,15 +80,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         assert subscribed_topic in ["/go-eCharger/+/var", "go-eCharger/+/var"]
 
         # Example topic: /go-eCharger/072246/var
-        topic = discovery_info.topic
-        (prefix, suffix) = subscribed_topic.split("+", 2)
-        self._serial_number = topic.replace(prefix, "").replace(suffix, "")
-        self._topic_prefix = prefix[:-1]
+        self._topic = discovery_info.topic.replace("/var", "")
 
-        if not self._serial_number.isnumeric():
-            return self.async_abort(reason="invalid_discovery_info")
-
-        await self.async_set_unique_id(self._serial_number)
+        await self.async_set_unique_id(self._topic)
         self._abort_if_unique_id_configured()
 
         return await self.async_step_discovery_confirm()
@@ -104,8 +98,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(
                 title=name,
                 data={
-                    CONF_SERIAL_NUMBER: self._serial_number,
-                    CONF_TOPIC_PREFIX: self._topic_prefix,
+                    CONF_TOPIC: self._topic,
                 },
             )
 
@@ -136,7 +129,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             _LOGGER.exception("Unexpected exception")
             errors["base"] = "unknown"
         else:
-            await self.async_set_unique_id(user_input[CONF_SERIAL_NUMBER])
+            await self.async_set_unique_id(user_input[CONF_TOPIC])
             self._abort_if_unique_id_configured()
 
             return self.async_create_entry(title=info["title"], data=user_input)
