@@ -10,15 +10,27 @@
 
 This is a custom component for Home Assistant to integrate the go-eCharger HOME+ and HOMEfix using the MQTT API (v2).
 
-![Lovelace entities card](lovelace-entities-card.png "Lovelace entities card")
+![Lovelace entities card](assets/lovelace-entities-card.png "Lovelace entities card")
 
-## Installation
+## Setup and Configuration
 
-Use HACS to install this custom component.
-
-## Configuration
-
-Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to know the `serial number` (6 digits) of your device. Please don't forget to [enable the MQTT API (v2) via the go-e Charger app](https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md) first.
+1. Use HACS to install this custom component
+1. Restart HA
+1. Make sure you have an MQTT Broker ([e.g. Mosquitto broker](https://github.com/eclipse/mosquitto)) and a working [MQTT integration](https://www.home-assistant.io/integrations/mqtt/) in HA
+1. (Recommended) Access to messages on MQTT Broker via client such as [MQTT Explorer](https://mqtt-explorer.com/)  
+1. Enable the MQTT API of your charger at the [go-eCharger App](https://play.google.com/store/apps/details?id=co.goe.app&hl=de)
+    - `Internet` -> `Advanced settings` -> scroll to bottom -> `Enable MQTT API` ([See also here](https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md))
+    - at the field `URL` enter your MQTT broker URL, e.g. mqtt://192.168.178.3:1883 for a broker running on a server with IP 192.168.178.3 on default port 1883
+    ![alt text](assets/goe_app_settings.jpg)
+    - (optional) Add MQTT keys and certificates as needed
+    - Press the `SAVE` symbol in the top right to apply the settings
+1. (Optional) Make sure you see a new topic on the MQTT broker using your MQTT client
+    - New messages appear under `go-eCharger/[your serial number]/`
+1. In HA, add new integration 
+    - `Settings` -> `Devices & services` -> `ADD INTEGRATION` -> `go-eCharger (MQTT)`
+    - enter serial number (6 digits) of your device (find via App or MQTT client)
+    - make sure base topic matches what you see in the MQTT broker, in some cases the default `/go-eCharger` has to be changed to `go-eCharger`
+1. See your go-e data pour into HA
 
 ## Entities
 
@@ -73,7 +85,6 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `clp` | Current limit presets | `config` | A | :white_large_square: | :heavy_check_mark: | |
 | `ct` | Car type | `config` |  | :white_large_square: | :white_large_square: | App only |
 | `cwc` | Color wait for car | `config` |  | :white_large_square: | :heavy_check_mark: | |
-| `dwo` | Charging energy limit | `config` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
 | `fna` | Friendly name | `config` |  | :white_large_square: | :white_large_square: | [^1] |
 | `frc` | Force state | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `frc` | Force state code | `config` |  | :white_large_square: | :heavy_check_mark: | |
@@ -275,6 +286,8 @@ Use the Web UI (Config flow) to add the "go-eCharger" integration. You have to k
 | `ate` | Automatic stop energy | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `att` | Automatic stop time | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `awp` | Awattar maximum price threshold | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `dwo` | Charging energy limit | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `lop` | Load balancing priority | `config` | :white_large_square: | :white_large_square: | [^1] |
 
 ### Select entities
 
