@@ -66,6 +66,18 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_step=1,
     ),
     GoEChargerNumberEntityDescription(
+        key="pgt",
+        name="Grid Target",
+        entity_category=EntityCategory.CONFIG,
+        device_class=NumberDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        native_max_value=10000,
+        native_min_value=-10000,
+        native_step=1,
+    ),
+    GoEChargerNumberEntityDescription(
         key="att",
         name="Automatic stop time",
         entity_category=EntityCategory.CONFIG,
