@@ -9,6 +9,7 @@ from homeassistant.const import (
     CURRENCY_CENT,
     UnitOfElectricCurrent,
     UnitOfEnergy,
+    UnitOfPower,
     UnitOfTime,
 )
 from homeassistant.helpers.entity import EntityCategory
