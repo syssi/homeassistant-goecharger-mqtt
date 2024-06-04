@@ -69,10 +69,9 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
     GoEChargerNumberEntityDescription(
         key="pgt",
         name="Grid Target",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
         entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        native_unit_of_measurement=UnitOfPower.WATT,
         entity_registry_enabled_default=True,
         disabled=False,
         native_max_value=10000,
