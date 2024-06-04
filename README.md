@@ -288,6 +288,7 @@ This is a custom component for Home Assistant to integrate the go-eCharger HOME+
 | `awp` | Awattar maximum price threshold | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `dwo` | Charging energy limit | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `lop` | Load balancing priority | `config` | :white_large_square: | :white_large_square: | [^1] |
+| `pgt` | Grid target | `config` | :heavy_check_mark: | :heavy_check_mark: | [^2] |
 
 ### Select entities
 
@@ -382,3 +383,4 @@ details please see https://github.com/goecharger/go-eCharger-API-v2/issues/35.
 * https://github.com/boralyl/github-custom-component-tutorial
 
 [^1]: Not exposed via MQTT in firmware 053.1
+[^2]: Exposed via MQTT in firmware 056.2
