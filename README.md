@@ -383,4 +383,4 @@ details please see https://github.com/goecharger/go-eCharger-API-v2/issues/35.
 * https://github.com/boralyl/github-custom-component-tutorial
 
 [^1]: Not exposed via MQTT in firmware 053.1
-[^2]: Exposed via MQTT in firmware 056.2
+[^2]: Exposed via MQTT since firmware 056.2
