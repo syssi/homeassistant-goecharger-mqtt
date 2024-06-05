@@ -9,6 +9,7 @@ from homeassistant.const import (
     CURRENCY_CENT,
     UnitOfElectricCurrent,
     UnitOfEnergy,
+    UnitOfPower,
     UnitOfTime,
 )
 from homeassistant.helpers.entity import EntityCategory
@@ -63,6 +64,18 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         disabled=False,
         native_max_value=100000,
         native_min_value=1,
+        native_step=1,
+    ),
+    GoEChargerNumberEntityDescription(
+        key="pgt",
+        name="Grid Target",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        native_unit_of_measurement=UnitOfPower.WATT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        native_max_value=10000,
+        native_min_value=-10000,
         native_step=1,
     ),
     GoEChargerNumberEntityDescription(

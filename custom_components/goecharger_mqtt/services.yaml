@@ -62,6 +62,7 @@ set_config_key:
             - mptwt
             - mpwst
             - nmo
+            - pgt
             - psmd
             - sch_satur
             - sch_sund
