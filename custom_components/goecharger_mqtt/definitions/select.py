@@ -81,6 +81,7 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
             "7": "Card 6",
             "8": "Card 7",
             "9": "Card 8",
+            "10": "Card 9",
         },
         attribute="trx",
         entity_category=EntityCategory.CONFIG,
