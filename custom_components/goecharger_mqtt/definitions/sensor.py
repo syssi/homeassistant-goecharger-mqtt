@@ -1945,7 +1945,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=SensorDeviceClass.ENERGY,
         native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
-        state_class=SensorStateClass.TOTAL,
+        state_class=SensorStateClass.TOTAL_INCREASING,
         entity_registry_enabled_default=True,
         disabled=False,
     ),
