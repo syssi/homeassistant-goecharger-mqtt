@@ -32,14 +32,23 @@ This is a custom component for Home Assistant to integrate the go-eCharger HOME+
     - make sure base topic matches what you see in the MQTT broker, in some cases the default `/go-eCharger` has to be changed to `go-eCharger`
 1. See your go-e data pour into HA
 
-Manual Installation: copy directory /custom_components/goecharger_mqtt of this repo to /custom_components of your homeassist configuration:
-```
-in your your HA config directory:
-custom_components
-├── goecharger_mqtt
-│   ├── __init__.py
-...
-```
+### Alternative Installation Method (without HACS)
+
+If you don't want to or cannot use HACS, you can install the integration manually:
+
+1. Download the latest release from the [releases page](https://github.com/syssi/homeassistant-goecharger-mqtt/releases) or clone the repository
+2. Copy the directory `/custom_components/goecharger_mqtt` from the repository to the `/custom_components` directory in your Home Assistant configuration folder:
+   ```
+   In your HA config directory:
+   custom_components
+   ├── goecharger_mqtt
+   │   ├── __init__.py
+   ...
+   ```
+3. Continue with step 2 "Restart HA" from the main instructions above
+
+This manual method achieves the same result as the HACS installation but requires more manual effort and doesn't provide automatic updates like HACS does.
+
 ## Entities
 
 ### Binary sensors
