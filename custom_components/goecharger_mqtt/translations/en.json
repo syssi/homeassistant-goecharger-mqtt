@@ -21,5 +21,37 @@
                 }
             }
         }
-    }
+    },
+    "entity": {
+        "binary_sensor": {
+        },
+        "button": {
+        },
+        "number": {
+        },
+        "select": {
+        },
+        "sensor": {
+            "nrg":   {"name": "Voltage L1"},
+            "nrg_1": {"name": "Voltage L2"},
+            "nrg_2": {"name": "Voltage L3"},
+            "nrg_3": {"name": "Voltage N"},
+            "nrg_4": {"name": "Current L1"},
+            "nrg_5": {"name": "Current L2"},
+            "nrg_6": {"name": "Current L3"},
+            "nrg_7": {"name": "Power L1"},
+            "nrg_8": {"name": "Power L2"},
+            "nrg_9": {"name": "Power L3"},
+            "nrg_10": {"name": "Power N"},
+            "nrg_11": {"name": "Power total"},
+            "nrg_12": {"name": "Power Factor L1"},
+            "nrg_13": {"name": "Power Factor L2"},
+            "nrg_14": {"name": "Power Factor L3"},
+            "nrg_15": {"name": "Power Factor N"}
+
+
+        },
+        "switch": {
+        }
+    }    
 }
