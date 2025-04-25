@@ -47,7 +47,18 @@
             "nrg_12": {"name": "Leistungsfaktor L1"},
             "nrg_13": {"name": "Leistungsfaktor L2"},
             "nrg_14": {"name": "Leistungsfaktor L3"},
-            "nrg_15": {"name": "Leistungsfaktor N"}
+            "nrg_15": {"name": "Leistungsfaktor N"},
+            "car": {
+                "name": "Fahrzeug Status",
+                "state": {
+                    "0": "Unbekannt/Fehler",
+                    "1": "Inaktiv/Frei",
+                    "2": "Laden",
+                    "3": "Warte auf Fahrzeug",
+                    "4": "Abgeschlossen",
+                    "5": "Fehler"
+                }
+            }
 
 
         },

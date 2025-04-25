@@ -47,8 +47,18 @@
             "nrg_12": {"name": "Power Factor L1"},
             "nrg_13": {"name": "Power Factor L2"},
             "nrg_14": {"name": "Power Factor L3"},
-            "nrg_15": {"name": "Power Factor N"}
-
+            "nrg_15": {"name": "Power Factor N"},
+            "car": {
+                "name": "Car state",
+                "state": {
+                    "0": "Unknown/Error",
+                    "1": "Idle",
+                    "2": "Charging",
+                    "3": "Wait for car",
+                    "4": "Complete",
+                    "5": "Error"
+                }
+            }
 
         },
         "switch": {
