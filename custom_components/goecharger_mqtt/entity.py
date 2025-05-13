@@ -44,7 +44,7 @@ class GoEChargerEntity(Entity):
         if description.translation_key is not None:
             self._attr_translation_key = description.translation_key.lower()
         else:
-            if description.attribute == "0":  # default value ignore it
+            if description.attribute == "":  # default value ignore it
                 self._attr_translation_key = description.key.lower()
             else:                             # append attribute to key
                 self._attr_translation_key = description.key.lower() + "_" + description.attribute
