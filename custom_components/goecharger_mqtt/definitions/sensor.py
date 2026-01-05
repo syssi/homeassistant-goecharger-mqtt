@@ -961,7 +961,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="car",
         name="Car state",
-        state=transform_code,
+        # state=transform_code,
         attribute="car",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
