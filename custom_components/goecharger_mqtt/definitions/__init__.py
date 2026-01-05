@@ -118,4 +118,3 @@ class GoEChargerEntityDescription(EntityDescription):
     domain: str = "generic"
     disabled: bool | None = None
     disabled_reason: str | None = None
-    translation_key: str | None = None
