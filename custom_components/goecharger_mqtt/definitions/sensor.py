@@ -75,9 +75,17 @@ def json_array_to_csv(value, unused) -> str:
     return ", ".join(json.loads(value))
 
 
-def extract_item_from_array_to_float(value, key) -> float:
+def extract_item_from_array_to_float(value, key) -> float | None:
     """Extract item from array to float."""
-    return float(json.loads(value)[int(key)])
+    try:
+        data = json.loads(value)[int(key)]
+        if isinstance(data, str):
+            _LOGGER.warning("Device error in array at index %s: %s", key, data)
+            return None
+        return float(data)
+    except (ValueError, TypeError, IndexError) as e:
+        _LOGGER.error("Failed to extract float from array at index %s: %s", key, e)
+        return None
 
 
 def extract_item_from_array_to_int(value, key) -> int:
