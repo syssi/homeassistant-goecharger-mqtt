@@ -114,7 +114,7 @@ class GoEChargerEntityDescription(EntityDescription):
     """Generic entity description for go-eCharger."""
 
     state: Callable | None = None
-    attribute: str = "0"
+    attribute: str = ""
     domain: str = "generic"
     disabled: bool | None = None
     disabled_reason: str | None = None
