@@ -15,8 +15,8 @@ from .definitions import GoEChargerEntityDescription
 
 class GoEChargerEntity(Entity):
     """Common go-eCharger entity."""
-    
-    _attr_has_entity_name = True  # for translations
+
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -41,10 +41,10 @@ class GoEChargerEntity(Entity):
             manufacturer=DEVICE_INFO_MANUFACTURER,
             model=DEVICE_INFO_MODEL,
         )
+
         if description.translation_key is not None:
             self._attr_translation_key = description.translation_key.lower()
+        elif description.attribute == "" or description.attribute == description.key:
+            self._attr_translation_key = description.key.lower()
         else:
-            if description.attribute == "":  # default value ignore it
-                self._attr_translation_key = description.key.lower()
-            else:                             # append attribute to key
-                self._attr_translation_key = description.key.lower() + "_" + description.attribute
+            self._attr_translation_key = description.key.lower() + "_" + description.attribute
