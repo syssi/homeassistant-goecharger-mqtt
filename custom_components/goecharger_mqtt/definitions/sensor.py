@@ -24,7 +24,7 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.entity import EntityCategory
 
-from . import GoEChargerEntityDescription, GoEChargerStatusCodes
+from . import GoEChargerEntityDescription
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -101,14 +101,6 @@ def extract_item_from_array_to_bool(value, key) -> bool:
 def extract_item_from_json_to_float(value, key) -> float:
     """Extract item from json to float."""
     return float(json.loads(value)[str(key)])
-
-
-def transform_code(value, mapping_table) -> str:
-    """Transform codes into a human readable string."""
-    try:
-        return getattr(GoEChargerStatusCodes, mapping_table)[int(value)]
-    except KeyError:
-        return "Definition missing for code %s" % value
 
 
 SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
@@ -268,7 +260,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="frc",
         name="Force state",
-        state=transform_code,
         attribute="frc",
         entity_category=None,
         device_class=None,
@@ -303,7 +294,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="lmo",
         name="Logic mode",
-        state=transform_code,
         attribute="lmo",
         entity_category=None,
         device_class=None,
@@ -583,7 +573,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="ust",
         name="Cable unlock mode",
-        state=transform_code,
         attribute="ust",
         entity_category=None,
         device_class=None,
@@ -961,7 +950,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="car",
         name="Car state",
-        state=transform_code,
         attribute="car",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1043,7 +1031,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="cus",
         name="Cable unlock status",
-        state=transform_code,
         attribute="cus",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1134,7 +1121,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="err",
         name="Error",
-        state=transform_code,
         attribute="err",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1424,7 +1410,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="modelStatus",
         name="Status",
-        state=transform_code,
         attribute="modelStatus",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1982,6 +1967,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="psm",
         name="Phase switch mode",
+        attribute="psm",
         entity_category=None,
         icon="mdi:speedometer",
         device_class=None,

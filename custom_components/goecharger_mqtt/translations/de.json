@@ -1,0 +1,157 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Gerät ist bereits konfiguriert"
+        },
+        "flow_title": "{name}",
+        "error": {
+            "cannot_connect": "Verbindung fehlgeschlagen",
+            "invalid_auth": "Ungültige Authentifizierung",
+            "unknown": "Unerwarteter Fehler"
+        },
+        "step": {
+            "discovery_confirm": {
+                "description": "Möchten Sie {name} einrichten?"
+            },
+            "user": {
+                "description": "Bitte geben Sie die Seriennummer Ihres Geräts an",
+                "data": {
+                    "serial_number": "Seriennummer",
+                    "topic_prefix": "Basis-Topic"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "nrg_0": {"name": "Spannung L1"},
+            "nrg_1": {"name": "Spannung L2"},
+            "nrg_2": {"name": "Spannung L3"},
+            "nrg_3": {"name": "Spannung N"},
+            "nrg_4": {"name": "Strom L1"},
+            "nrg_5": {"name": "Strom L2"},
+            "nrg_6": {"name": "Strom L3"},
+            "nrg_7": {"name": "Leistung L1"},
+            "nrg_8": {"name": "Leistung L2"},
+            "nrg_9": {"name": "Leistung L3"},
+            "nrg_10": {"name": "Leistung N"},
+            "nrg_11": {"name": "Totale Leistung"},
+            "nrg_12": {"name": "Leistungsfaktor L1"},
+            "nrg_13": {"name": "Leistungsfaktor L2"},
+            "nrg_14": {"name": "Leistungsfaktor L3"},
+            "nrg_15": {"name": "Leistungsfaktor N"},
+            "car": {
+                "name": "Fahrzeug Status",
+                "state": {
+                    "0": "Unbekannt/Fehler",
+                    "1": "Inaktiv/Frei",
+                    "2": "Laden",
+                    "3": "Warte auf Fahrzeug",
+                    "4": "Abgeschlossen",
+                    "5": "Fehler"
+                }
+            },
+            "cus": {
+                "name": "Kabelentriegelungsstatus",
+                "state": {
+                    "0": "Unbekannt",
+                    "1": "Entriegelt",
+                    "2": "Entriegelung fehlgeschlagen",
+                    "3": "Verriegelt",
+                    "4": "Verriegelung fehlgeschlagen",
+                    "5": "Verriegelung Entriegelung Stromausfall"
+                }
+            },
+            "err": {
+                "name": "Fehler",
+                "state": {
+                    "0": "Kein Fehler",
+                    "1": "FI-Schutzschalter",
+                    "2": "FiDC",
+                    "3": "Phasenfehler",
+                    "4": "Überspannung",
+                    "5": "Überstrom",
+                    "6": "Diode",
+                    "7": "Pp ungültig",
+                    "8": "Keine Erdung",
+                    "9": "Schütz festgeklebt",
+                    "10": "Schütz fehlt",
+                    "11": "FiUnbekannt",
+                    "12": "Unbekannt",
+                    "13": "Übertemperatur",
+                    "14": "Keine Kommunikation",
+                    "15": "Verriegelung klemmt offen",
+                    "16": "Verriegelung klemmt verriegelt",
+                    "17": "Reserviert20",
+                    "18": "Reserviert21",
+                    "19": "Reserviert22",
+                    "20": "Reserviert23",
+                    "21": "Reserviert24"
+                }
+            },
+            "modelstatus": {
+                "name": "Status",
+                "state": {
+                    "0": "Lädt nicht, da keine Laderegelung",
+                    "1": "Lädt nicht wegen Übertemperatur",
+                    "2": "Lädt nicht wegen Zugriffskontrolle",
+                    "3": "Lädt wegen erzwungenem EIN",
+                    "4": "Lädt nicht wegen erzwungenem AUS",
+                    "5": "Lädt nicht wegen Zeitplan",
+                    "6": "Lädt nicht wegen Energielimit",
+                    "7": "Lädt weil Awattar-Preis unter Schwelle",
+                    "8": "Lädt wegen automatischem Stopp Testladen",
+                    "9": "Lädt wegen automatischem Stopp nicht genug Zeit",
+                    "10": "Lädt wegen automatischem Stopp",
+                    "11": "Lädt wegen automatischem Stopp keine Uhr",
+                    "12": "Lädt wegen PV-Überschuss",
+                    "13": "Lädt wegen Fallback (GoE Standard)",
+                    "14": "Lädt wegen Fallback (GoE Zeitplan)",
+                    "15": "Lädt wegen Fallback (Standard)",
+                    "16": "Lädt nicht wegen Fallback (GoE Awattar)",
+                    "17": "Lädt nicht wegen Fallback (Awattar)",
+                    "18": "Lädt nicht wegen Fallback (Automatischer Stopp)",
+                    "19": "Lädt wegen Fahrzeugkompatibilität (Keep Alive)",
+                    "20": "Lädt weil Ladepause nicht erlaubt",
+                    "21": "Unbekannt",
+                    "22": "Lädt nicht wegen simuliertem Abstecken",
+                    "23": "Lädt nicht wegen Phasenumschaltung",
+                    "24": "Lädt nicht wegen Mindestpausendauer"
+                }
+            },
+            "ust": {
+                "name": "Kabelentriegelungsmodus",
+                "state": {
+                    "0": "Normal",
+                    "1": "Automatische Entriegelung",
+                    "2": "Immer verriegelt",
+                    "3": "Entriegelung erzwingen"
+                }
+            },
+            "frc": {
+                "name": "Zwangszustand",
+                "state": {
+                    "0": "Neutral",
+                    "1": "Nicht laden",
+                    "2": "Laden"
+                }
+            },
+            "lmo": {
+                "name": "Logikmodus",
+                "state": {
+                    "3": "Standard",
+                    "4": "Awattar",
+                    "5": "Automatischer Stopp"
+                }
+            },
+            "psm": {
+                "name": "Phasenumschaltmodus",
+                "state": {
+                    "0": "Automatisch",
+                    "1": "1 Phase",
+                    "2": "3 Phasen"
+                }
+            }
+        }
+    }
+}
