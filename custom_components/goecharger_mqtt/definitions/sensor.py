@@ -268,7 +268,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="frc",
         name="Force state",
-        state=transform_code,
         attribute="frc",
         entity_category=None,
         device_class=None,
@@ -303,7 +302,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="lmo",
         name="Logic mode",
-        state=transform_code,
         attribute="lmo",
         entity_category=None,
         device_class=None,
@@ -583,7 +581,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="ust",
         name="Cable unlock mode",
-        state=transform_code,
         attribute="ust",
         entity_category=None,
         device_class=None,
@@ -961,7 +958,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="car",
         name="Car state",
-        # state=transform_code,
         attribute="car",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1043,7 +1039,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="cus",
         name="Cable unlock status",
-        state=transform_code,
         attribute="cus",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1134,7 +1129,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="err",
         name="Error",
-        state=transform_code,
         attribute="err",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
@@ -1424,7 +1418,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="modelStatus",
         name="Status",
-        state=transform_code,
         attribute="modelStatus",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=None,
