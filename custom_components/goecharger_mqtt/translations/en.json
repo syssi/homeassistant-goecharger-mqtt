@@ -143,6 +143,14 @@
                     "4": "Awattar",
                     "5": "Automatic Stop"
                 }
+            },
+            "psm": {
+                "name": "Phase switch mode",
+                "state": {
+                    "0": "Auto",
+                    "1": "1 Phase",
+                    "2": "3 Phases"
+                }
             }
         }
     }

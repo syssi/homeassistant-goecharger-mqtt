@@ -24,7 +24,7 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.entity import EntityCategory
 
-from . import GoEChargerEntityDescription, GoEChargerStatusCodes
+from . import GoEChargerEntityDescription
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -101,14 +101,6 @@ def extract_item_from_array_to_bool(value, key) -> bool:
 def extract_item_from_json_to_float(value, key) -> float:
     """Extract item from json to float."""
     return float(json.loads(value)[str(key)])
-
-
-def transform_code(value, mapping_table) -> str:
-    """Transform codes into a human readable string."""
-    try:
-        return getattr(GoEChargerStatusCodes, mapping_table)[int(value)]
-    except KeyError:
-        return "Definition missing for code %s" % value
 
 
 SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
@@ -1975,6 +1967,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="psm",
         name="Phase switch mode",
+        attribute="psm",
         entity_category=None,
         icon="mdi:speedometer",
         device_class=None,
