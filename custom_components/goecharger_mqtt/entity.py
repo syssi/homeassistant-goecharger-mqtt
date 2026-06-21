@@ -5,8 +5,7 @@ from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.util import slugify
 
 from .const import (
-    CONF_SERIAL_NUMBER,
-    CONF_TOPIC_PREFIX,
+    CONF_TOPIC,
     DEVICE_INFO_MANUFACTURER,
     DEVICE_INFO_MODEL,
     DOMAIN,
@@ -25,10 +24,10 @@ class GoEChargerEntity(Entity):
         description: GoEChargerEntityDescription,
     ) -> None:
         """Initialize the sensor."""
-        topic_prefix = config_entry.data[CONF_TOPIC_PREFIX]
-        serial_number = config_entry.data[CONF_SERIAL_NUMBER]
+        topic = config_entry.data[CONF_TOPIC]
+        serial_number = topic.rstrip("/").split("/")[-1]
 
-        self._topic = f"{topic_prefix}/{serial_number}/{description.key}"
+        self._topic = f"{topic}/{description.key}"
 
         slug = slugify(self._topic.replace("/", "_"))
         self.entity_id = f"{description.domain}.{slug}"

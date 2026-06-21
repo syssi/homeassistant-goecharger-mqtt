@@ -2,10 +2,12 @@
 
 DOMAIN = "goecharger_mqtt"
 
-ATTR_SERIAL_NUMBER = "serial_number"
+ATTR_TOPIC = "topic"
 ATTR_KEY = "key"
 ATTR_VALUE = "value"
 
+CONF_TOPIC = "topic"
+# Kept for migration from config entry version 1
 CONF_SERIAL_NUMBER = "serial_number"
 CONF_TOPIC_PREFIX = "topic_prefix"
 

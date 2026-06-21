@@ -5,7 +5,7 @@ from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import RESULT_TYPE_CREATE_ENTRY, RESULT_TYPE_FORM
 
-from custom_components.goecharger_mqtt.config_flow import CannotConnect
+from custom_components.goecharger_mqtt.config_flow import CannotConnectError
 from custom_components.goecharger_mqtt.const import DOMAIN
 
 
@@ -25,16 +25,13 @@ async def test_form(hass: HomeAssistant) -> None:
     ) as mock_setup_entry:
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"serial_number": "012345", "topic_prefix": "/go-eCharger"},
+            {"topic": "/go-eCharger/012345"},
         )
         await hass.async_block_till_done()
 
     assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
     assert result2["title"] == "go-eCharger 012345"
-    assert result2["data"] == {
-        "serial_number": "012345",
-        "topic_prefix": "/go-eCharger",
-    }
+    assert result2["data"] == {"topic": "/go-eCharger/012345"}
     assert len(mock_setup_entry.mock_calls) == 1
 
 
@@ -46,11 +43,11 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
 
     with patch(
         "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
-        side_effect=CannotConnect,
+        side_effect=CannotConnectError,
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"serial_number": "012345", "topic_prefix": "/go-eCharger"},
+            {"topic": "/go-eCharger/012345"},
         )
 
     assert result2["type"] == RESULT_TYPE_FORM

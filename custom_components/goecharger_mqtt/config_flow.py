@@ -12,7 +12,7 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 import voluptuous as vol
 
-from .const import CONF_SERIAL_NUMBER, CONF_TOPIC_PREFIX, DEFAULT_TOPIC_PREFIX, DOMAIN
+from .const import CONF_TOPIC, DEFAULT_TOPIC_PREFIX, DOMAIN
 
 try:
     # < HA 2022.8.0
@@ -27,8 +27,7 @@ DEFAULT_NAME = "go-eCharger"
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_SERIAL_NUMBER): vol.All(cv.string, vol.Length(min=6, max=6)),
-        vol.Required(CONF_TOPIC_PREFIX, default=DEFAULT_TOPIC_PREFIX): cv.string,
+        vol.Required(CONF_TOPIC, default=DEFAULT_TOPIC_PREFIX): cv.string,
     }
 )
 
@@ -39,10 +38,9 @@ class PlaceholderHub:
     TODO Remove this placeholder class and replace with things from your PyPI package.
     """
 
-    def __init__(self, topic_prefix: str, serial_number: str) -> None:
+    def __init__(self, topic: str) -> None:
         """Initialize."""
-        self.topic_prefix = topic_prefix
-        self.serial_number = serial_number
+        self.topic = topic
 
     async def validate_device_topic(self) -> bool:
         """Test if we can authenticate with the host."""
@@ -54,24 +52,23 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
     """
-    serial_number = data[CONF_SERIAL_NUMBER]
-    hub = PlaceholderHub(data[CONF_TOPIC_PREFIX], serial_number)
+    hub = PlaceholderHub(data[CONF_TOPIC])
 
     if not await hub.validate_device_topic():
         raise CannotConnectError
 
+    serial_number = data[CONF_TOPIC].rstrip("/").split("/")[-1]
     return {"title": f"{DEFAULT_NAME} {serial_number}"}
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for go-eCharger (MQTT)."""
 
-    VERSION = 1
+    VERSION = 2
 
     def __init__(self) -> None:
         """Initialize flow."""
-        self._serial_number = None
-        self._topic_prefix = None
+        self._topic = None
 
     async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> FlowResult:
         """Handle a flow initialized by MQTT discovery."""
@@ -80,16 +77,14 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Subscribed topic must be in sync with the manifest.json
         assert subscribed_topic in ["/go-eCharger/+/var", "go-eCharger/+/var"]
 
-        # Example topic: /go-eCharger/072246/var
-        topic = discovery_info.topic
-        (prefix, suffix) = subscribed_topic.split("+", 2)
-        self._serial_number = topic.replace(prefix, "").replace(suffix, "")
-        self._topic_prefix = prefix[:-1]
+        # Example topic: /go-eCharger/072246/var → store as /go-eCharger/072246
+        self._topic = discovery_info.topic.replace("/var", "")
+        serial_number = self._topic.rstrip("/").split("/")[-1]
 
-        if not self._serial_number.isnumeric():
+        if not serial_number.isnumeric():
             return self.async_abort(reason="invalid_discovery_info")
 
-        await self.async_set_unique_id(self._serial_number)
+        await self.async_set_unique_id(serial_number)
         self._abort_if_unique_id_configured()
 
         return await self.async_step_discovery_confirm()
@@ -98,16 +93,14 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Confirm the setup."""
-        name = f"{DEFAULT_NAME} {self._serial_number}"
+        serial_number = self._topic.rstrip("/").split("/")[-1]
+        name = f"{DEFAULT_NAME} {serial_number}"
         self.context["title_placeholders"] = {"name": name}
 
         if user_input is not None:
             return self.async_create_entry(
                 title=name,
-                data={
-                    CONF_SERIAL_NUMBER: self._serial_number,
-                    CONF_TOPIC_PREFIX: self._topic_prefix,
-                },
+                data={CONF_TOPIC: self._topic},
             )
 
         self._set_confirm_only()
@@ -137,7 +130,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             _LOGGER.exception("Unexpected exception")
             errors["base"] = "unknown"
         else:
-            await self.async_set_unique_id(user_input[CONF_SERIAL_NUMBER])
+            serial_number = user_input[CONF_TOPIC].rstrip("/").split("/")[-1]
+            await self.async_set_unique_id(serial_number)
             self._abort_if_unique_id_configured()
 
             return self.async_create_entry(title=info["title"], data=user_input)
