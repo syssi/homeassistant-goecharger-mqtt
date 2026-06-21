@@ -3,14 +3,23 @@ from unittest.mock import patch
 
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import RESULT_TYPE_CREATE_ENTRY, RESULT_TYPE_FORM
+from homeassistant.data_entry_flow import RESULT_TYPE_ABORT, RESULT_TYPE_CREATE_ENTRY, RESULT_TYPE_FORM
 
 from custom_components.goecharger_mqtt.config_flow import CannotConnectError
 from custom_components.goecharger_mqtt.const import DOMAIN
 
+try:
+    from homeassistant.components.mqtt import MqttServiceInfo
+except ImportError:
+    from homeassistant.helpers.service_info.mqtt import MqttServiceInfo
+
+
+# ---------------------------------------------------------------------------
+# Manual user setup
+# ---------------------------------------------------------------------------
 
 async def test_form(hass: HomeAssistant) -> None:
-    """Test we get the form."""
+    """Test manual setup with a leading-slash topic."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
@@ -35,6 +44,27 @@ async def test_form(hass: HomeAssistant) -> None:
     assert len(mock_setup_entry.mock_calls) == 1
 
 
+async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
+    """Test manual setup with a topic that has no leading slash."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with patch(
+        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+        return_value=True,
+    ), patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"topic": "go-eCharger/012345"},
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["title"] == "go-eCharger 012345"
+    assert result2["data"] == {"topic": "go-eCharger/012345"}
+
+
 async def test_form_cannot_connect(hass: HomeAssistant) -> None:
     """Test we handle cannot connect error."""
     result = await hass.config_entries.flow.async_init(
@@ -52,3 +82,111 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
 
     assert result2["type"] == RESULT_TYPE_FORM
     assert result2["errors"] == {"base": "cannot_connect"}
+
+
+async def test_form_unknown_error(hass: HomeAssistant) -> None:
+    """Test we handle unexpected errors."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with patch(
+        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+        side_effect=Exception("boom"),
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"topic": "/go-eCharger/012345"},
+        )
+
+    assert result2["type"] == RESULT_TYPE_FORM
+    assert result2["errors"] == {"base": "unknown"}
+
+
+# ---------------------------------------------------------------------------
+# MQTT discovery
+# ---------------------------------------------------------------------------
+
+async def test_mqtt_discovery_with_leading_slash(hass: HomeAssistant) -> None:
+    """Test MQTT auto-discovery for firmware that sends /go-eCharger/... topics."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="/go-eCharger/072246/var",
+            payload="",
+            qos=0,
+            retain=False,
+            subscribed_topic="/go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    assert result["type"] == RESULT_TYPE_FORM
+    assert result["step_id"] == "discovery_confirm"
+
+    with patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
+        result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+        await hass.async_block_till_done()
+
+    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["title"] == "go-eCharger 072246"
+    assert result2["data"] == {"topic": "/go-eCharger/072246"}
+
+
+async def test_mqtt_discovery_without_leading_slash(hass: HomeAssistant) -> None:
+    """Test MQTT auto-discovery for firmware that sends go-eCharger/... topics."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="go-eCharger/072246/var",
+            payload="",
+            qos=0,
+            retain=False,
+            subscribed_topic="go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    assert result["type"] == RESULT_TYPE_FORM
+    assert result["step_id"] == "discovery_confirm"
+
+    with patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
+        result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+        await hass.async_block_till_done()
+
+    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["data"] == {"topic": "go-eCharger/072246"}
+
+
+async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
+    """A second discovery for the same serial number is aborted."""
+    with patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": "mqtt"},
+            data=MqttServiceInfo(
+                topic="/go-eCharger/072246/var",
+                payload="",
+                qos=0,
+                retain=False,
+                subscribed_topic="/go-eCharger/+/var",
+                timestamp=None,
+            ),
+        )
+        await hass.config_entries.flow.async_configure(result["flow_id"], {})
+        await hass.async_block_till_done()
+
+    result2 = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="/go-eCharger/072246/var",
+            payload="",
+            qos=0,
+            retain=False,
+            subscribed_topic="/go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    assert result2["type"] == RESULT_TYPE_ABORT
+    assert result2["reason"] == "already_configured"
