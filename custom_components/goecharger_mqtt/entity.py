@@ -33,7 +33,7 @@ class GoEChargerEntity(Entity):
         self.entity_id = f"{description.domain}.{slug}"
 
         self._attr_unique_id = "-".join(
-            [serial_number, description.domain, description.key, description.attribute]
+            [serial_number, description.domain, description.key, description.attribute or "0"]
         )
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, serial_number)},
