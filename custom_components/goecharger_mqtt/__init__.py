@@ -44,12 +44,12 @@ SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up go-eCharger (MQTT) from a config entry."""
     hass.data.setdefault(DOMAIN, {})
-    
+
     # Store config entries for service access
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {}
     hass.data[DOMAIN][entry.data[CONF_SERIAL_NUMBER]] = entry
-    
+
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
 
@@ -57,11 +57,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    
+
     # Remove config entry from storage
     if unload_ok:
         hass.data[DOMAIN].pop(entry.data[CONF_SERIAL_NUMBER], None)
-    
+
     return unload_ok
 
 
@@ -73,7 +73,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         serial_number = call.data.get(ATTR_SERIAL_NUMBER)
         key = call.data.get(ATTR_KEY)
         value = call.data.get(ATTR_VALUE)
-        
+
         # Retrieve the topic_prefix from config_entry
         topic_prefix = DEFAULT_TOPIC_PREFIX
         if DOMAIN in hass.data and serial_number in hass.data[DOMAIN]:
@@ -85,9 +85,9 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
                 serial_number,
                 DEFAULT_TOPIC_PREFIX,
             )
-        
+
         topic = f"{topic_prefix}/{serial_number}/{key}/set"
-        
+
         # Handle value formatting
         if not value.isnumeric():
             if value in ["true", "True"]:
@@ -96,7 +96,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
                 value = "false"
             else:
                 value = f'"{value}"'
-        
+
         _LOGGER.debug(
             "Publishing to topic %s with value %s (serial: %s, key: %s)",
             topic,
@@ -104,7 +104,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             serial_number,
             key,
         )
-        
+
         await mqtt.async_publish(hass, topic, value)
 
     hass.services.async_register(
