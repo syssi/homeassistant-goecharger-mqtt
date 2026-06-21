@@ -2,7 +2,7 @@ name: HACS
 on:  # yamllint disable-line rule:truthy
   push:
     branches:
-      - master
+      - main
   pull_request:
   schedule:
     - cron: '0 0 * * *'
