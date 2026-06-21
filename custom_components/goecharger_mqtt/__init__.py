@@ -43,12 +43,7 @@ SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up go-eCharger (MQTT) from a config entry."""
-    hass.data.setdefault(DOMAIN, {})
-
-    # Store config entries for service access
-    if DOMAIN not in hass.data:
-        hass.data[DOMAIN] = {}
-    hass.data[DOMAIN][entry.data[CONF_SERIAL_NUMBER]] = entry
+    hass.data.setdefault(DOMAIN, {})[entry.data[CONF_SERIAL_NUMBER]] = entry
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
