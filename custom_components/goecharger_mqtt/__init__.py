@@ -8,12 +8,12 @@ from homeassistant.components import mqtt
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall, callback
 import homeassistant.helpers.config_validation as cv
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.typing import ConfigType
 import voluptuous as vol
 
 from .const import (
     ATTR_KEY,
-    ATTR_TOPIC,
     ATTR_VALUE,
     CONF_SERIAL_NUMBER,
     CONF_TOPIC,
@@ -35,7 +35,7 @@ _LOGGER = logging.getLogger(__name__)
 
 SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
     {
-        vol.Required(ATTR_TOPIC): cv.string,
+        vol.Required("device_id"): cv.string,
         vol.Required(ATTR_KEY): cv.string,
         vol.Required(ATTR_VALUE): cv.string,
     }
@@ -73,9 +73,27 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     @callback
     async def set_config_key_service(call: ServiceCall) -> None:
-        topic = call.data.get(ATTR_TOPIC)
-        key = call.data.get(ATTR_KEY)
-        value = call.data.get(ATTR_VALUE)
+        device_id = call.data["device_id"]
+        key = call.data[ATTR_KEY]
+        value = call.data[ATTR_VALUE]
+
+        device = dr.async_get(hass).async_get(device_id)
+        if device is None:
+            _LOGGER.error("Device %s not found", device_id)
+            return
+
+        entry = next(
+            (
+                e
+                for eid in device.config_entries
+                if (e := hass.config_entries.async_get_entry(eid))
+                and e.domain == DOMAIN
+            ),
+            None,
+        )
+        if entry is None:
+            _LOGGER.error("No %s config entry found for device %s", DOMAIN, device_id)
+            return
 
         if not value.isnumeric():
             if value in ["true", "True"]:
@@ -85,7 +103,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             else:
                 value = f'"{value}"'
 
-        await mqtt.async_publish(hass, f"{topic}/{key}/set", value)
+        await mqtt.async_publish(hass, f"{entry.data[CONF_TOPIC]}/{key}/set", value)
 
     hass.services.async_register(
         DOMAIN,

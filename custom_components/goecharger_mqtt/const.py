@@ -2,7 +2,6 @@
 
 DOMAIN = "goecharger_mqtt"
 
-ATTR_TOPIC = "topic"
 ATTR_KEY = "key"
 ATTR_VALUE = "value"
 

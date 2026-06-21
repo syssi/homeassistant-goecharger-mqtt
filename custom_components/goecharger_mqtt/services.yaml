@@ -2,13 +2,13 @@ set_config_key:
   name: Set config key
   description: Sets a config key to a provided value.
   fields:
-    serial_number:
-      name: Serial number
-      description: The serial number of the go-e device.
-      example: 012345
+    device_id:
+      name: Device
+      description: The go-eCharger device to configure.
       required: true
       selector:
-        text:
+        device:
+          integration: goecharger_mqtt
     key:
       name: Config key
       description: The key of the config parameter you want to change.
