@@ -1,4 +1,5 @@
 """Config flow for go-eCharger (MQTT) integration."""
+
 from __future__ import annotations
 
 import logging
@@ -57,7 +58,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     hub = PlaceholderHub(data[CONF_TOPIC_PREFIX], serial_number)
 
     if not await hub.validate_device_topic():
-        raise CannotConnect
+        raise CannotConnectError
 
     return {"title": f"{DEFAULT_NAME} {serial_number}"}
 
@@ -128,9 +129,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         try:
             info = await validate_input(self.hass, user_input)
-        except CannotConnect:
+        except CannotConnectError:
             errors["base"] = "cannot_connect"
-        except InvalidAuth:
+        except InvalidAuthError:
             errors["base"] = "invalid_auth"
         except Exception:  # pylint: disable=broad-except
             _LOGGER.exception("Unexpected exception")
@@ -146,9 +147,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
 
-class CannotConnect(HomeAssistantError):
+class CannotConnectError(HomeAssistantError):
     """Error to indicate we cannot connect."""
 
 
-class InvalidAuth(HomeAssistantError):
+class InvalidAuthError(HomeAssistantError):
     """Error to indicate there is invalid auth."""

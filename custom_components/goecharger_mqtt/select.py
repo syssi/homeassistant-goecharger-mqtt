@@ -1,4 +1,5 @@
 """The go-eCharger (MQTT) switch."""
+
 import logging
 
 from homeassistant import config_entries, core
@@ -79,7 +80,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
                 # if payload is None or payload in ["null", "none"]:
                 #     return
 
-                if payload not in self.entity_description.legacy_options.keys():
+                if payload not in self.entity_description.legacy_options:
                     _LOGGER.error(
                         "Invalid option for %s: '%s' (valid options: %s)",
                         self.entity_id,

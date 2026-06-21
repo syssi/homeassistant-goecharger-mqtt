@@ -1,4 +1,5 @@
 """The go-eCharger (MQTT) binary sensor."""
+
 import logging
 
 from homeassistant import config_entries, core
@@ -86,13 +87,12 @@ class GoEChargerBinarySensor(GoEChargerEntity, BinarySensorEntity):
                 self._attr_is_on = self.entity_description.state(
                     message.payload, self.entity_description.attribute
                 )
+            elif message.payload == "true":
+                self._attr_is_on = True
+            elif message.payload == "false":
+                self._attr_is_on = False
             else:
-                if message.payload == "true":
-                    self._attr_is_on = True
-                elif message.payload == "false":
-                    self._attr_is_on = False
-                else:
-                    self._attr_is_on = None
+                self._attr_is_on = None
 
             self.async_write_ha_state()
 

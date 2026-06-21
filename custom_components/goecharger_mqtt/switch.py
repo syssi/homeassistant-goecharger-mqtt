@@ -1,4 +1,5 @@
 """The go-eCharger (MQTT) switch."""
+
 import logging
 
 from homeassistant import config_entries, core
@@ -84,13 +85,12 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
                 self._attr_is_on = self.entity_description.state(
                     message.payload, self.entity_description.attribute
                 )
+            elif message.payload == self.entity_description.payload_on:
+                self._attr_is_on = True
+            elif message.payload == self.entity_description.payload_off:
+                self._attr_is_on = False
             else:
-                if message.payload == self.entity_description.payload_on:
-                    self._attr_is_on = True
-                elif message.payload == self.entity_description.payload_off:
-                    self._attr_is_on = False
-                else:
-                    self._attr_is_on = None
+                self._attr_is_on = None
 
             self.async_write_ha_state()
 

@@ -1,4 +1,5 @@
 """The go-eCharger (MQTT) button."""
+
 import logging
 
 from homeassistant import config_entries, core

@@ -1,4 +1,5 @@
 """Definitions for go-eCharger binary sensors exposed via MQTT."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

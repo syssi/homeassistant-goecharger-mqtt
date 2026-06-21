@@ -1,4 +1,5 @@
 """The go-eCharger (MQTT) switch."""
+
 import logging
 
 from homeassistant import config_entries, core
@@ -61,11 +62,10 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
                 self._attr_native_value = self.entity_description.state(
                     message.payload, self.entity_description.attribute
                 )
+            elif message.payload == "null":
+                self._attr_native_value = None
             else:
-                if message.payload == "null":
-                    self._attr_native_value = None
-                else:
-                    self._attr_native_value = message.payload
+                self._attr_native_value = message.payload
 
             self.async_write_ha_state()
 

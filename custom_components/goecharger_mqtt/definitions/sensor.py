@@ -108,7 +108,7 @@ def transform_code(value, mapping_table) -> str:
     try:
         return getattr(GoEChargerStatusCodes, mapping_table)[int(value)]
     except KeyError:
-        return "Definition missing for code %s" % value
+        return f"Definition missing for code {value}"
 
 
 SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
