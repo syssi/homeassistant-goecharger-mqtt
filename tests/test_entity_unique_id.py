@@ -24,11 +24,6 @@ from custom_components.goecharger_mqtt.definitions.switch import SWITCHES
 from custom_components.goecharger_mqtt.entity import GoEChargerEntity
 
 _TOPIC = "go-eCharger/072246"
-_SERIAL = "072246"
-
-
-def _uid(domain, key, attribute):
-    return f"{_SERIAL}-{domain}-{key}-{attribute or '0'}"
 
 
 # ---------------------------------------------------------------------------
@@ -38,35 +33,35 @@ def _uid(domain, key, attribute):
 @pytest.mark.parametrize(
     "topic,key,domain,attribute,expected_uid",
     [
-        # attribute="" (default) — must fall back to "0" to keep pre-#200 format
-        (_TOPIC, "ate",  "sensor",        "", _uid("sensor",        "ate",  "")),
-        (_TOPIC, "bac",  "switch",        "", _uid("switch",        "bac",  "")),
-        (_TOPIC, "amp",  "number",        "", _uid("number",        "amp",  "")),
-        (_TOPIC, "lmo",  "select",        "", _uid("select",        "lmo",  "")),
-        (_TOPIC, "adi",  "binary_sensor", "", _uid("binary_sensor", "adi",  "")),
-        (_TOPIC, "rst",  "button",        "", _uid("button",        "rst",  "")),
-        # attribute="0" (explicit) — first element of multi-instance entities
-        (_TOPIC, "nrg",  "sensor",        "0",  _uid("sensor",        "nrg",  "0")),
-        (_TOPIC, "pha",  "binary_sensor", "0",  _uid("binary_sensor", "pha",  "0")),
-        (_TOPIC, "frc",  "button",        "0",  _uid("button",        "frc",  "0")),
-        # attribute="N" (N>0) — subsequent elements
-        (_TOPIC, "nrg",  "sensor",        "15", _uid("sensor",        "nrg",  "15")),
-        (_TOPIC, "pha",  "binary_sensor", "5",  _uid("binary_sensor", "pha",  "5")),
-        (_TOPIC, "car",  "binary_sensor", "1",  _uid("binary_sensor", "car",  "1")),
-        (_TOPIC, "frc",  "button",        "2",  _uid("button",        "frc",  "2")),
+        # attribute="" (default) — must fall back to "0" to keep pre-#200 unique_id format
+        ("go-eCharger/072246", "ate",  "sensor",        "", "072246-sensor-ate-0"),
+        ("go-eCharger/072246", "bac",  "switch",        "", "072246-switch-bac-0"),
+        ("go-eCharger/072246", "amp",  "number",        "", "072246-number-amp-0"),
+        ("go-eCharger/072246", "lmo",  "select",        "", "072246-select-lmo-0"),
+        ("go-eCharger/072246", "adi",  "binary_sensor", "", "072246-binary_sensor-adi-0"),
+        ("go-eCharger/072246", "rst",  "button",        "", "072246-button-rst-0"),
+        # attribute="0" (explicit) — first element of multi-instance entities (nrg, pha, frc buttons)
+        ("go-eCharger/072246", "nrg",  "sensor",        "0",  "072246-sensor-nrg-0"),
+        ("go-eCharger/072246", "pha",  "binary_sensor", "0",  "072246-binary_sensor-pha-0"),
+        ("go-eCharger/072246", "frc",  "button",        "0",  "072246-button-frc-0"),
+        # attribute="N" (N>0) — subsequent elements of multi-instance entities
+        ("go-eCharger/072246", "nrg",  "sensor",        "15", "072246-sensor-nrg-15"),
+        ("go-eCharger/072246", "pha",  "binary_sensor", "5",  "072246-binary_sensor-pha-5"),
+        ("go-eCharger/072246", "car",  "binary_sensor", "1",  "072246-binary_sensor-car-1"),
+        ("go-eCharger/072246", "frc",  "button",        "2",  "072246-button-frc-2"),
         # attribute=key — select entities and named sensor variants
-        (_TOPIC, "frc",  "select",        "frc",  _uid("select",  "frc",  "frc")),
-        (_TOPIC, "ust",  "select",        "ust",  _uid("select",  "ust",  "ust")),
-        (_TOPIC, "trx",  "select",        "trx",  _uid("select",  "trx",  "trx")),
-        (_TOPIC, "frc",  "sensor",        "frc",  _uid("sensor",  "frc",  "frc")),
-        (_TOPIC, "car",  "sensor",        "car",  _uid("sensor",  "car",  "car")),
-        # attribute≠key — sensor.awcp uses "marketprice"
-        (_TOPIC, "awcp", "sensor",        "marketprice", _uid("sensor", "awcp", "marketprice")),
-        # psm sensor: #200 incorrectly added attribute="psm"; reverted to default
-        (_TOPIC, "psm",  "sensor",        "",  _uid("sensor",  "psm",  "")),
-        # leading-slash topic — serial extraction unaffected
-        ("/go-eCharger/072246", "ate", "sensor", "", _uid("sensor", "ate", "")),
-        ("/go-eCharger/072246", "nrg", "sensor", "0", _uid("sensor", "nrg", "0")),
+        ("go-eCharger/072246", "frc",  "select",        "frc",         "072246-select-frc-frc"),
+        ("go-eCharger/072246", "ust",  "select",        "ust",         "072246-select-ust-ust"),
+        ("go-eCharger/072246", "trx",  "select",        "trx",         "072246-select-trx-trx"),
+        ("go-eCharger/072246", "frc",  "sensor",        "frc",         "072246-sensor-frc-frc"),
+        ("go-eCharger/072246", "car",  "sensor",        "car",         "072246-sensor-car-car"),
+        # attribute≠key — sensor.awcp exposes the "marketprice" sub-field
+        ("go-eCharger/072246", "awcp", "sensor",        "marketprice", "072246-sensor-awcp-marketprice"),
+        # psm sensor: #200 incorrectly added attribute="psm", changing uid from psm-0 to psm-psm; reverted
+        ("go-eCharger/072246", "psm",  "sensor",        "",            "072246-sensor-psm-0"),
+        # leading-slash topic — serial is always the last path segment
+        ("/go-eCharger/072246", "ate", "sensor",        "",            "072246-sensor-ate-0"),
+        ("/go-eCharger/072246", "nrg", "sensor",        "0",           "072246-sensor-nrg-0"),
     ],
 )
 async def test_entity_unique_id_stable(
