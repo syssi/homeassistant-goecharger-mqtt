@@ -42,6 +42,20 @@ async def test_migration_v1_without_leading_slash(hass: HomeAssistant) -> None:
     assert entry.data == {CONF_TOPIC: "go-eCharger/072246"}
 
 
+async def test_migration_v1_missing_topic_prefix_uses_default(hass: HomeAssistant) -> None:
+    """Missing topic_prefix in v1 falls back to DEFAULT_TOPIC_PREFIX."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={"serial_number": "072246"},
+        version=1,
+    )
+    entry.add_to_hass(hass)
+
+    await async_migrate_entry(hass, entry)
+
+    assert entry.data == {CONF_TOPIC: "go-eCharger/072246"}
+
+
 async def test_migration_v1_strips_trailing_slash_from_prefix(hass: HomeAssistant) -> None:
     """A trailing slash in the old topic_prefix must not produce a double slash."""
     entry = MockConfigEntry(

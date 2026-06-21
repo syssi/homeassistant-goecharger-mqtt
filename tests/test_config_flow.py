@@ -190,6 +190,53 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
     assert entry.data == {CONF_TOPIC: "/go-eCharger/072246"}
 
 
+async def test_mqtt_discovery_invalid_serial_aborts(hass: HomeAssistant) -> None:
+    """Discovery of a topic whose last segment is not numeric is aborted."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="/go-eCharger/not-a-serial/var",
+            payload="",
+            qos=0,
+            retain=False,
+            subscribed_topic="/go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    assert result["type"] == RESULT_TYPE_ABORT
+    assert result["reason"] == "invalid_discovery_info"
+
+
+async def test_form_duplicate_aborts(hass: HomeAssistant) -> None:
+    """Manual setup with an already-configured serial number is aborted."""
+    with patch(
+        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+        return_value=True,
+    ), patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+        await hass.config_entries.flow.async_configure(
+            result["flow_id"], {"topic": "go-eCharger/012345"}
+        )
+        await hass.async_block_till_done()
+
+    with patch(
+        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+        return_value=True,
+    ):
+        result2 = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+        result2 = await hass.config_entries.flow.async_configure(
+            result2["flow_id"], {"topic": "/go-eCharger/012345"}
+        )
+
+    assert result2["type"] == RESULT_TYPE_ABORT
+    assert result2["reason"] == "already_configured"
+
+
 async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
     """A second discovery for the same serial number is aborted."""
     with patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
