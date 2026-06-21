@@ -18,6 +18,12 @@
                 "data": {
                     "topic": "MQTT topic"
                 }
+            },
+            "reconfigure": {
+                "description": "Update the MQTT base topic for this device (e.g. after a firmware update changed the topic prefix). Current value: {current_topic}",
+                "data": {
+                    "topic": "MQTT topic"
+                }
             }
         }
     },

@@ -140,6 +140,33 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
         )
 
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Allow correcting the MQTT topic after initial setup (e.g. after a firmware update)."""
+        reconfigure_entry = self._get_reconfigure_entry()
+
+        if user_input is None:
+            return self.async_show_form(
+                step_id="reconfigure",
+                data_schema=vol.Schema(
+                    {
+                        vol.Required(
+                            CONF_TOPIC,
+                            default=reconfigure_entry.data.get(CONF_TOPIC, DEFAULT_TOPIC_PREFIX),
+                        ): cv.string,
+                    }
+                ),
+                description_placeholders={"current_topic": reconfigure_entry.data.get(CONF_TOPIC, "")},
+            )
+
+        self.hass.config_entries.async_update_entry(
+            reconfigure_entry,
+            data={CONF_TOPIC: user_input[CONF_TOPIC]},
+        )
+        await self.hass.config_entries.async_reload(reconfigure_entry.entry_id)
+        return self.async_abort(reason="reconfigure_successful")
+
 
 class CannotConnectError(HomeAssistantError):
     """Error to indicate we cannot connect."""

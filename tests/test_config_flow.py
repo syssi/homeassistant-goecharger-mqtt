@@ -158,6 +158,38 @@ async def test_mqtt_discovery_without_leading_slash(hass: HomeAssistant) -> None
     assert result2["data"] == {"topic": "go-eCharger/072246"}
 
 
+async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
+    """Reconfigure flow lets the user correct the topic (e.g. after a firmware update)."""
+    from pytest_homeassistant_custom_component.common import MockConfigEntry
+    from custom_components.goecharger_mqtt.const import CONF_TOPIC
+
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_TOPIC: "go-eCharger/072246"},
+        version=2,
+        unique_id="072246",
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": config_entries.SOURCE_RECONFIGURE, "entry_id": entry.entry_id},
+    )
+    assert result["type"] == RESULT_TYPE_FORM
+    assert result["step_id"] == "reconfigure"
+
+    with patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"topic": "/go-eCharger/072246"},
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] == RESULT_TYPE_ABORT
+    assert result2["reason"] == "reconfigure_successful"
+    assert entry.data == {CONF_TOPIC: "/go-eCharger/072246"}
+
+
 async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
     """A second discovery for the same serial number is aborted."""
     with patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True):
