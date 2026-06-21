@@ -11,6 +11,6 @@
   "mqtt": ["go-eCharger/+/var", "/go-eCharger/+/var"],
   "requirements": [],
   "ssdp": [],
-  "version": "0.26.0",
+  "version": "1.0.0",
   "zeroconf": []
 }
