@@ -35,7 +35,7 @@
             "nrg_8": {"name": "Leistung L2"},
             "nrg_9": {"name": "Leistung L3"},
             "nrg_10": {"name": "Leistung N"},
-            "nrg_11": {"name": "Totale Leistung"},
+            "nrg_11": {"name": "Gesamtleistung"},
             "nrg_12": {"name": "Leistungsfaktor L1"},
             "nrg_13": {"name": "Leistungsfaktor L2"},
             "nrg_14": {"name": "Leistungsfaktor L3"},
