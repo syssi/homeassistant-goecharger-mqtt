@@ -4,8 +4,10 @@ Any change to GoEChargerEntityDescription.attribute or the unique_id
 construction in GoEChargerEntity will cause these tests to fail, giving
 an early signal before users end up with duplicate entities in HA.
 
-test_entity_unique_id_stable — covers one case per logic variant
-test_all_entity_unique_ids   — locks down every entity definition (235 entries)
+test_entity_unique_id_stable      — covers one case per logic variant
+test_all_entity_unique_ids        — locks down every entity definition (235 entries)
+test_entity_snapshot_is_complete  — fails when a new entity is added without
+                                    a corresponding entry in _ALL_ENTITIES below
 """
 
 import pytest
@@ -13,6 +15,12 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt.const import CONF_TOPIC, DOMAIN
 from custom_components.goecharger_mqtt.definitions import GoEChargerEntityDescription
+from custom_components.goecharger_mqtt.definitions.binary_sensor import BINARY_SENSORS
+from custom_components.goecharger_mqtt.definitions.button import BUTTONS
+from custom_components.goecharger_mqtt.definitions.number import NUMBERS
+from custom_components.goecharger_mqtt.definitions.select import SELECTS
+from custom_components.goecharger_mqtt.definitions.sensor import SENSORS
+from custom_components.goecharger_mqtt.definitions.switch import SWITCHES
 from custom_components.goecharger_mqtt.entity import GoEChargerEntity
 
 _TOPIC = "go-eCharger/072246"
@@ -74,9 +82,7 @@ async def test_entity_unique_id_stable(
 # Full-coverage snapshot — every entity definition, every platform
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize(
-    "key,domain,attribute,expected_uid",
-    [
+_ALL_ENTITIES = [
         # --- sensor (195 entries) ---
         ("+/result",    "sensor", "",            "072246-sensor-+/result-0"),
         ("ama",         "sensor", "",            "072246-sensor-ama-0"),
@@ -318,7 +324,12 @@ async def test_entity_unique_id_stable(
         ("cwe", "switch", "", "072246-switch-cwe-0"),
         ("sua", "switch", "", "072246-switch-sua-0"),
         ("acs", "switch", "", "072246-switch-acs-0"),
-    ],
+]
+
+
+@pytest.mark.parametrize(
+    "key,domain,attribute,expected_uid",
+    _ALL_ENTITIES,
     ids=lambda v: v if isinstance(v, str) else "",
 )
 async def test_all_entity_unique_ids(hass, key, domain, attribute, expected_uid) -> None:
@@ -326,3 +337,18 @@ async def test_all_entity_unique_ids(hass, key, domain, attribute, expected_uid)
     entry.add_to_hass(hass)
     entity = GoEChargerEntity(entry, GoEChargerEntityDescription(key=key, domain=domain, attribute=attribute))
     assert entity._attr_unique_id == expected_uid
+
+
+def test_entity_snapshot_is_complete() -> None:
+    """Fail when a new entity definition is added without updating _ALL_ENTITIES."""
+    all_defs = [
+        *SENSORS, *BINARY_SENSORS, *BUTTONS, *NUMBERS, *SELECTS, *SWITCHES,
+    ]
+    defined = {(d.key, d.domain, d.attribute) for d in all_defs}
+    snapshot = {(key, domain, attribute) for key, domain, attribute, _ in _ALL_ENTITIES}
+    missing = defined - snapshot
+    assert not missing, (
+        f"New entity definitions not covered in _ALL_ENTITIES snapshot:\n"
+        + "\n".join(f"  key={k!r} domain={d!r} attribute={a!r}" for k, d, a in sorted(missing))
+        + "\nAdd them to _ALL_ENTITIES in tests/test_entity_unique_id.py."
+    )
