@@ -43,113 +43,113 @@
             "car": {
                 "name": "Fahrzeug Status",
                 "state": {
-                    "0": "Unbekannt/Fehler",
-                    "1": "Inaktiv/Frei",
-                    "2": "Laden",
-                    "3": "Warte auf Fahrzeug",
-                    "4": "Abgeschlossen",
-                    "5": "Fehler"
+                    "unknown_error": "Unbekannt/Fehler",
+                    "idle": "Inaktiv/Frei",
+                    "charging": "Laden",
+                    "wait_for_car": "Warte auf Fahrzeug",
+                    "complete": "Abgeschlossen",
+                    "error": "Fehler"
                 }
             },
             "cus": {
                 "name": "Kabelentriegelungsstatus",
                 "state": {
-                    "0": "Unbekannt",
-                    "1": "Entriegelt",
-                    "2": "Entriegelung fehlgeschlagen",
-                    "3": "Verriegelt",
-                    "4": "Verriegelung fehlgeschlagen",
-                    "5": "Verriegelung Entriegelung Stromausfall"
+                    "unknown": "Unbekannt",
+                    "unlocked": "Entriegelt",
+                    "unlock_failed": "Entriegelung fehlgeschlagen",
+                    "locked": "Verriegelt",
+                    "lock_failed": "Verriegelung fehlgeschlagen",
+                    "lock_unlock_powerout": "Verriegelung Entriegelung Stromausfall"
                 }
             },
             "err": {
                 "name": "Fehler",
                 "state": {
-                    "0": "Kein Fehler",
-                    "1": "FI-Schutzschalter",
-                    "2": "FiDC",
-                    "3": "Phasenfehler",
-                    "4": "Überspannung",
-                    "5": "Überstrom",
-                    "6": "Diode",
-                    "7": "Pp ungültig",
-                    "8": "Keine Erdung",
-                    "9": "Schütz festgeklebt",
-                    "10": "Schütz fehlt",
-                    "11": "FiUnbekannt",
-                    "12": "Unbekannt",
-                    "13": "Übertemperatur",
-                    "14": "Keine Kommunikation",
-                    "15": "Verriegelung klemmt offen",
-                    "16": "Verriegelung klemmt verriegelt",
-                    "17": "Reserviert20",
-                    "18": "Reserviert21",
-                    "19": "Reserviert22",
-                    "20": "Reserviert23",
-                    "21": "Reserviert24"
+                    "no_error": "Kein Fehler",
+                    "residual_current_circuit_breaker": "FI-Schutzschalter",
+                    "fi_dc": "FiDC",
+                    "phase_fault": "Phasenfehler",
+                    "over_voltage": "Überspannung",
+                    "over_current": "Überstrom",
+                    "diode": "Diode",
+                    "pp_invalid": "Pp ungültig",
+                    "no_ground": "Keine Erdung",
+                    "contactor_stuck": "Schütz festgeklebt",
+                    "contactor_missing": "Schütz fehlt",
+                    "fi_unknown": "FiUnbekannt",
+                    "unknown": "Unbekannt",
+                    "over_temperature": "Übertemperatur",
+                    "no_comm": "Keine Kommunikation",
+                    "lock_stuck_open": "Verriegelung klemmt offen",
+                    "lock_stuck_locked": "Verriegelung klemmt verriegelt",
+                    "reserved20": "Reserviert20",
+                    "reserved21": "Reserviert21",
+                    "reserved22": "Reserviert22",
+                    "reserved23": "Reserviert23",
+                    "reserved24": "Reserviert24"
                 }
             },
             "modelstatus": {
                 "name": "Status",
                 "state": {
-                    "0": "Lädt nicht, da keine Laderegelung",
-                    "1": "Lädt nicht wegen Übertemperatur",
-                    "2": "Lädt nicht wegen Zugriffskontrolle",
-                    "3": "Lädt wegen erzwungenem EIN",
-                    "4": "Lädt nicht wegen erzwungenem AUS",
-                    "5": "Lädt nicht wegen Zeitplan",
-                    "6": "Lädt nicht wegen Energielimit",
-                    "7": "Lädt weil Awattar-Preis unter Schwelle",
-                    "8": "Lädt wegen automatischem Stopp Testladen",
-                    "9": "Lädt wegen automatischem Stopp nicht genug Zeit",
-                    "10": "Lädt wegen automatischem Stopp",
-                    "11": "Lädt wegen automatischem Stopp keine Uhr",
-                    "12": "Lädt wegen PV-Überschuss",
-                    "13": "Lädt wegen Fallback (GoE Standard)",
-                    "14": "Lädt wegen Fallback (GoE Zeitplan)",
-                    "15": "Lädt wegen Fallback (Standard)",
-                    "16": "Lädt nicht wegen Fallback (GoE Awattar)",
-                    "17": "Lädt nicht wegen Fallback (Awattar)",
-                    "18": "Lädt nicht wegen Fallback (Automatischer Stopp)",
-                    "19": "Lädt wegen Fahrzeugkompatibilität (Keep Alive)",
-                    "20": "Lädt weil Ladepause nicht erlaubt",
-                    "21": "Unbekannt",
-                    "22": "Lädt nicht wegen simuliertem Abstecken",
-                    "23": "Lädt nicht wegen Phasenumschaltung",
-                    "24": "Lädt nicht wegen Mindestpausendauer"
+                    "no_charge_control_data": "Lädt nicht, da keine Laderegelung",
+                    "over_temperature": "Lädt nicht wegen Übertemperatur",
+                    "access_control_wait": "Lädt nicht wegen Zugriffskontrolle",
+                    "forced_on": "Lädt wegen erzwungenem EIN",
+                    "forced_off": "Lädt nicht wegen erzwungenem AUS",
+                    "scheduler": "Lädt nicht wegen Zeitplan",
+                    "energy_limit": "Lädt nicht wegen Energielimit",
+                    "awattar_price": "Lädt weil Awattar-Preis unter Schwelle",
+                    "auto_stop_test": "Lädt wegen automatischem Stopp Testladen",
+                    "auto_stop_not_enough_time": "Lädt wegen automatischem Stopp nicht genug Zeit",
+                    "auto_stop": "Lädt wegen automatischem Stopp",
+                    "auto_stop_no_clock": "Lädt wegen automatischem Stopp keine Uhr",
+                    "pv_surplus": "Lädt wegen PV-Überschuss",
+                    "fallback_goe_default": "Lädt wegen Fallback (GoE Standard)",
+                    "fallback_goe_scheduler": "Lädt wegen Fallback (GoE Zeitplan)",
+                    "fallback_default": "Lädt wegen Fallback (Standard)",
+                    "fallback_goe_awattar": "Lädt nicht wegen Fallback (GoE Awattar)",
+                    "fallback_awattar": "Lädt nicht wegen Fallback (Awattar)",
+                    "fallback_auto_stop": "Lädt nicht wegen Fallback (Automatischer Stopp)",
+                    "car_compatibility_keep_alive": "Lädt wegen Fahrzeugkompatibilität (Keep Alive)",
+                    "charge_pause_not_allowed": "Lädt weil Ladepause nicht erlaubt",
+                    "unknown": "Unbekannt",
+                    "simulate_unplugging": "Lädt nicht wegen simuliertem Abstecken",
+                    "phase_switch": "Lädt nicht wegen Phasenumschaltung",
+                    "minimum_pause_duration": "Lädt nicht wegen Mindestpausendauer"
                 }
             },
             "ust": {
                 "name": "Kabelentriegelungsmodus",
                 "state": {
-                    "0": "Normal",
-                    "1": "Automatische Entriegelung",
-                    "2": "Immer verriegelt",
-                    "3": "Entriegelung erzwingen"
+                    "normal": "Normal",
+                    "auto_unlock": "Automatische Entriegelung",
+                    "always_locked": "Immer verriegelt",
+                    "force_unlock": "Entriegelung erzwingen"
                 }
             },
             "frc": {
                 "name": "Zwangszustand",
                 "state": {
-                    "0": "Neutral",
-                    "1": "Nicht laden",
-                    "2": "Laden"
+                    "neutral": "Neutral",
+                    "dont_charge": "Nicht laden",
+                    "charge": "Laden"
                 }
             },
             "lmo": {
                 "name": "Logikmodus",
                 "state": {
-                    "3": "Standard",
-                    "4": "Awattar",
-                    "5": "Automatischer Stopp"
+                    "default": "Standard",
+                    "awattar": "Awattar",
+                    "auto_stop": "Automatischer Stopp"
                 }
             },
             "psm": {
                 "name": "Phasenumschaltmodus",
                 "state": {
-                    "0": "Automatisch",
-                    "1": "1 Phase",
-                    "2": "3 Phasen"
+                    "auto": "Automatisch",
+                    "one_phase": "1 Phase",
+                    "three_phases": "3 Phasen"
                 }
             }
         }

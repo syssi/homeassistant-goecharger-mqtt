@@ -43,113 +43,113 @@
             "car": {
                 "name": "Car state",
                 "state": {
-                    "0": "Unknown/Error",
-                    "1": "Idle",
-                    "2": "Charging",
-                    "3": "Wait for car",
-                    "4": "Complete",
-                    "5": "Error"
+                    "unknown_error": "Unknown/Error",
+                    "idle": "Idle",
+                    "charging": "Charging",
+                    "wait_for_car": "Wait for car",
+                    "complete": "Complete",
+                    "error": "Error"
                 }
             },
             "cus": {
                 "name": "Cable unlock status",
                 "state": {
-                    "0": "Unknown",
-                    "1": "Unlocked",
-                    "2": "Unlock failed",
-                    "3": "Locked",
-                    "4": "Lock failed",
-                    "5": "Lock Unlock Powerout"
+                    "unknown": "Unknown",
+                    "unlocked": "Unlocked",
+                    "unlock_failed": "Unlock failed",
+                    "locked": "Locked",
+                    "lock_failed": "Lock failed",
+                    "lock_unlock_powerout": "Lock Unlock Powerout"
                 }
             },
             "err": {
                 "name": "Error",
                 "state": {
-                    "0": "No error",
-                    "1": "Residual current circuit breaker",
-                    "2": "FiDC",
-                    "3": "Phase fault",
-                    "4": "Over voltage",
-                    "5": "Over current",
-                    "6": "Diode",
-                    "7": "Pp Invalid",
-                    "8": "No ground",
-                    "9": "Contactor Stuck",
-                    "10": "Contactor Missing",
-                    "11": "FiUnknown",
-                    "12": "Unknown",
-                    "13": "Over temperature",
-                    "14": "No Comm",
-                    "15": "Lock Stuck Open",
-                    "16": "Lock Stuck Locked",
-                    "17": "Reserved20",
-                    "18": "Reserved21",
-                    "19": "Reserved22",
-                    "20": "Reserved23",
-                    "21": "Reserved24"
+                    "no_error": "No error",
+                    "residual_current_circuit_breaker": "Residual current circuit breaker",
+                    "fi_dc": "FiDC",
+                    "phase_fault": "Phase fault",
+                    "over_voltage": "Over voltage",
+                    "over_current": "Over current",
+                    "diode": "Diode",
+                    "pp_invalid": "Pp Invalid",
+                    "no_ground": "No ground",
+                    "contactor_stuck": "Contactor Stuck",
+                    "contactor_missing": "Contactor Missing",
+                    "fi_unknown": "FiUnknown",
+                    "unknown": "Unknown",
+                    "over_temperature": "Over temperature",
+                    "no_comm": "No Comm",
+                    "lock_stuck_open": "Lock Stuck Open",
+                    "lock_stuck_locked": "Lock Stuck Locked",
+                    "reserved20": "Reserved20",
+                    "reserved21": "Reserved21",
+                    "reserved22": "Reserved22",
+                    "reserved23": "Reserved23",
+                    "reserved24": "Reserved24"
                 }
             },
             "modelstatus": {
                 "name": "Status",
                 "state": {
-                    "0": "Not charging because no charge control data",
-                    "1": "Not charging because of over temperature",
-                    "2": "Not charging because access control wait",
-                    "3": "Charging because of forced ON",
-                    "4": "Not charging because of forced OFF",
-                    "5": "Not charging because of scheduler",
-                    "6": "Not charging because of energy limit",
-                    "7": "Charging because Awattar price under threshold",
-                    "8": "Charging because of automatic stop test charging",
-                    "9": "Charging because of automatic stop not enough time",
-                    "10": "Charging because of automatic stop",
-                    "11": "Charging because of automatic stop no clock",
-                    "12": "Charging because of PV surplus",
-                    "13": "Charging because of fallback (GoE Default)",
-                    "14": "Charging because of fallback (GoE Scheduler)",
-                    "15": "Charging because of fallback (Default)",
-                    "16": "Not charging because of fallback (GoE Awattar)",
-                    "17": "Not charging because of fallback (Awattar)",
-                    "18": "Not charging because of fallback (Automatic Stop)",
-                    "19": "Charging because of car compatibility (Keep Alive)",
-                    "20": "Charging because charge pause not allowed",
-                    "21": "Unknown",
-                    "22": "Not charging because simulate unplugging",
-                    "23": "Not charging because of phase switch",
-                    "24": "Not charging because of minimum pause duration"
+                    "no_charge_control_data": "Not charging because no charge control data",
+                    "over_temperature": "Not charging because of over temperature",
+                    "access_control_wait": "Not charging because access control wait",
+                    "forced_on": "Charging because of forced ON",
+                    "forced_off": "Not charging because of forced OFF",
+                    "scheduler": "Not charging because of scheduler",
+                    "energy_limit": "Not charging because of energy limit",
+                    "awattar_price": "Charging because Awattar price under threshold",
+                    "auto_stop_test": "Charging because of automatic stop test charging",
+                    "auto_stop_not_enough_time": "Charging because of automatic stop not enough time",
+                    "auto_stop": "Charging because of automatic stop",
+                    "auto_stop_no_clock": "Charging because of automatic stop no clock",
+                    "pv_surplus": "Charging because of PV surplus",
+                    "fallback_goe_default": "Charging because of fallback (GoE Default)",
+                    "fallback_goe_scheduler": "Charging because of fallback (GoE Scheduler)",
+                    "fallback_default": "Charging because of fallback (Default)",
+                    "fallback_goe_awattar": "Not charging because of fallback (GoE Awattar)",
+                    "fallback_awattar": "Not charging because of fallback (Awattar)",
+                    "fallback_auto_stop": "Not charging because of fallback (Automatic Stop)",
+                    "car_compatibility_keep_alive": "Charging because of car compatibility (Keep Alive)",
+                    "charge_pause_not_allowed": "Charging because charge pause not allowed",
+                    "unknown": "Unknown",
+                    "simulate_unplugging": "Not charging because simulate unplugging",
+                    "phase_switch": "Not charging because of phase switch",
+                    "minimum_pause_duration": "Not charging because of minimum pause duration"
                 }
             },
             "ust": {
                 "name": "Cable unlock mode",
                 "state": {
-                    "0": "Normal",
-                    "1": "Auto Unlock",
-                    "2": "Always Locked",
-                    "3": "Force Unlock"
+                    "normal": "Normal",
+                    "auto_unlock": "Auto Unlock",
+                    "always_locked": "Always Locked",
+                    "force_unlock": "Force Unlock"
                 }
             },
             "frc": {
                 "name": "Force state",
                 "state": {
-                    "0": "Neutral",
-                    "1": "Don't charge",
-                    "2": "Charge"
+                    "neutral": "Neutral",
+                    "dont_charge": "Don't charge",
+                    "charge": "Charge"
                 }
             },
             "lmo": {
                 "name": "Logic mode",
                 "state": {
-                    "3": "Default",
-                    "4": "Awattar",
-                    "5": "Automatic Stop"
+                    "default": "Default",
+                    "awattar": "Awattar",
+                    "auto_stop": "Automatic Stop"
                 }
             },
             "psm": {
                 "name": "Phase switch mode",
                 "state": {
-                    "0": "Auto",
-                    "1": "1 Phase",
-                    "2": "3 Phases"
+                    "auto": "Auto",
+                    "one_phase": "1 Phase",
+                    "three_phases": "3 Phases"
                 }
             }
         }
