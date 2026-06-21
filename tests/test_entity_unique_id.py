@@ -46,13 +46,18 @@ from custom_components.goecharger_mqtt.entity import GoEChargerEntity
         ("go-eCharger/072246", "frc",  "button",        "2",  "072246-button-frc-2"),
 
         # --- attribute=key (string equals key) — select & named sensor variants ---
+        # selects: had explicit attribute=key BEFORE #200, uids were always key-key format
         ("go-eCharger/072246", "frc",  "select",        "frc",         "072246-select-frc-frc"),
         ("go-eCharger/072246", "ust",  "select",        "ust",         "072246-select-ust-ust"),
         ("go-eCharger/072246", "trx",  "select",        "trx",         "072246-select-trx-trx"),
         ("go-eCharger/072246", "psm",  "select",        "psm",         "072246-select-psm-psm"),
+        # sensors: explicit attribute=key predates #200 → uid was always key-key
         ("go-eCharger/072246", "frc",  "sensor",        "frc",         "072246-sensor-frc-frc"),
         ("go-eCharger/072246", "lmo",  "sensor",        "lmo",         "072246-sensor-lmo-lmo"),
         ("go-eCharger/072246", "car",  "sensor",        "car",         "072246-sensor-car-car"),
+        # psm sensor: #200 added attribute="psm", changing uid from psm-0 to psm-psm.
+        # Reverted: no explicit attribute → fallback "0" restores psm-0.
+        ("go-eCharger/072246", "psm",  "sensor",        "",            "072246-sensor-psm-0"),
 
         # --- attribute≠key (distinct string) — sensor.awcp uses "marketprice" ---
         ("go-eCharger/072246", "awcp", "sensor",        "marketprice", "072246-sensor-awcp-marketprice"),

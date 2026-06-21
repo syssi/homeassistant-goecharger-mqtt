@@ -2076,7 +2076,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="psm",
         name="Phase switch mode",
-        attribute="psm",
         state=to_code_slug,
         entity_category=None,
         icon="mdi:speedometer",
