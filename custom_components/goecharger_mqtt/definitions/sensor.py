@@ -1,4 +1,5 @@
 """Definitions for go-eCharger sensors exposed via MQTT."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -197,6 +198,7 @@ _CODE_STATES: dict[str, dict[int, str]] = {
 
 
 def to_code_slug(value, attribute) -> str:
+    """Map a raw MQTT status code to a slug using the attribute name as lookup key."""
     try:
         return _CODE_STATES[attribute].get(int(value), str(value))
     except (ValueError, KeyError):

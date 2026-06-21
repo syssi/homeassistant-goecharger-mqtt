@@ -1,4 +1,5 @@
 """Definitions for go-eCharger sensors exposed via MQTT."""
+
 from __future__ import annotations
 
 from collections.abc import Callable
