@@ -51,8 +51,9 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
         attribute="sdp",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 060.5",
     ),
     GoEChargerSelectEntityDescription(
         key="lmo",
