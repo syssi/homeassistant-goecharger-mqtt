@@ -31,6 +31,26 @@
     }
   },
   "entity": {
+    "select": {
+      "bac": {
+        "name": "Button allow current change",
+        "state": {
+          "always_lock": "Always lock",
+          "lock_when_car_connected": "Lock when car connected",
+          "lock_when_charging": "Lock when charging",
+          "never_lock": "Never lock"
+        }
+      },
+      "sdp": {
+        "name": "Button allow force change",
+        "state": {
+          "always_lock": "Always lock",
+          "lock_when_car_connected": "Lock when car connected",
+          "lock_when_charging": "Lock when charging",
+          "never_lock": "Never lock"
+        }
+      }
+    },
     "sensor": {
       "nrg_0": { "name": "Voltage L1" },
       "nrg_1": { "name": "Voltage L2" },

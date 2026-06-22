@@ -274,11 +274,9 @@ This manual method achieves the same result as the HACS installation but require
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
-| `bac` | Allow current change by button | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `ara` | Automatic stop mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `wen` | WiFi enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `tse` | Time server enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `sdp` | Button allow force change | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `nmo` | Norway mode | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `lse` | LED off on standby | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `awe` | Awattar mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
@@ -317,6 +315,8 @@ This manual method achieves the same result as the HACS installation but require
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
+| `bac` | Button allow current change | `config` | :heavy_check_mark: | :heavy_check_mark: | Values: `always_lock` / `lock_when_car_connected` / `lock_when_charging` / `never_lock` |
+| `sdp` | Button allow force change | `config` | :heavy_check_mark: | :heavy_check_mark: | Values: `always_lock` / `lock_when_car_connected` / `lock_when_charging` / `never_lock` |
 | `lmo` | Logic mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `psm` | Phase switch mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `ust` | Cable unlock mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |

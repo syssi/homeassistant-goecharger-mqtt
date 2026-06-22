@@ -38,7 +38,7 @@ _TOPIC = "go-eCharger/072246"
     [
         # attribute="" (default) — must fall back to "0" to keep pre-#200 unique_id format
         ("go-eCharger/072246", "ate", "sensor", "", "072246-sensor-ate-0"),
-        ("go-eCharger/072246", "bac", "switch", "", "072246-switch-bac-0"),
+        ("go-eCharger/072246", "bac", "select", "bac", "072246-select-bac-bac"),
         ("go-eCharger/072246", "amp", "number", "", "072246-number-amp-0"),
         ("go-eCharger/072246", "lmo", "select", "", "072246-select-lmo-0"),
         (
@@ -335,18 +335,18 @@ _ALL_ENTITIES = [
     ("psh", "number", "", "072246-number-psh-0"),
     ("po", "number", "", "072246-number-po-0"),
     ("zfo", "number", "", "072246-number-zfo-0"),
-    # --- select (5 entries) ---
+    # --- select (7 entries) ---
+    ("bac", "select", "bac", "072246-select-bac-bac"),
+    ("sdp", "select", "sdp", "072246-select-sdp-sdp"),
     ("lmo", "select", "", "072246-select-lmo-0"),
     ("ust", "select", "ust", "072246-select-ust-ust"),
     ("frc", "select", "frc", "072246-select-frc-frc"),
     ("trx", "select", "trx", "072246-select-trx-trx"),
     ("psm", "select", "psm", "072246-select-psm-psm"),
-    # --- switch (19 entries) ---
-    ("bac", "switch", "", "072246-switch-bac-0"),
+    # --- switch (17 entries) ---
     ("ara", "switch", "", "072246-switch-ara-0"),
     ("wen", "switch", "", "072246-switch-wen-0"),
     ("tse", "switch", "", "072246-switch-tse-0"),
-    ("sdp", "switch", "", "072246-switch-sdp-0"),
     ("nmo", "switch", "", "072246-switch-nmo-0"),
     ("lse", "switch", "", "072246-switch-lse-0"),
     ("awe", "switch", "", "072246-switch-awe-0"),

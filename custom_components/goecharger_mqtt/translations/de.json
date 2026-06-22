@@ -31,6 +31,26 @@
     }
   },
   "entity": {
+    "select": {
+      "bac": {
+        "name": "Tasten-Stromänderungssperre",
+        "state": {
+          "always_lock": "Immer gesperrt",
+          "lock_when_car_connected": "Gesperrt wenn Fahrzeug verbunden",
+          "lock_when_charging": "Gesperrt beim Laden",
+          "never_lock": "Nie gesperrt"
+        }
+      },
+      "sdp": {
+        "name": "Tasten-Zwangszustandssperre",
+        "state": {
+          "always_lock": "Immer gesperrt",
+          "lock_when_car_connected": "Gesperrt wenn Fahrzeug verbunden",
+          "lock_when_charging": "Gesperrt beim Laden",
+          "never_lock": "Nie gesperrt"
+        }
+      }
+    },
     "sensor": {
       "nrg_0": { "name": "Spannung L1" },
       "nrg_1": { "name": "Spannung L2" },

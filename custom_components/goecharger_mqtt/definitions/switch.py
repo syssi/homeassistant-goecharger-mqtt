@@ -27,14 +27,6 @@ class GoEChargerSwitchEntityDescription(
 
 SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
     GoEChargerSwitchEntityDescription(
-        key="bac",
-        name="Allow current change by button",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
-    GoEChargerSwitchEntityDescription(
         key="ara",
         name="Automatic stop mode",
         entity_category=EntityCategory.CONFIG,
@@ -54,15 +46,6 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
     GoEChargerSwitchEntityDescription(
         key="tse",
         name="Time server enabled",
-        entity_category=EntityCategory.CONFIG,
-        device_class=None,
-        entity_registry_enabled_default=False,
-        disabled=True,
-        disabled_reason="Not exposed via MQTT in firmware 053.1",
-    ),
-    GoEChargerSwitchEntityDescription(
-        key="sdp",
-        name="Button allow force change",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         entity_registry_enabled_default=False,
