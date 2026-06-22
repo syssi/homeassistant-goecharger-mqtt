@@ -88,6 +88,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize flow."""
         self._topic = None
+        self._charging_power = CHARGING_POWER_22KW
 
     async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> FlowResult:
         """Handle a flow initialized by MQTT discovery."""
@@ -102,6 +103,12 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if not serial_number.isnumeric():
             return self.async_abort(reason="invalid_discovery_info")
+
+        self._charging_power = (
+            CHARGING_POWER_11KW
+            if str(discovery_info.payload).strip() == "11"
+            else CHARGING_POWER_22KW
+        )
 
         await self.async_set_unique_id(serial_number)
         self._abort_if_unique_id_configured()
@@ -119,7 +126,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             return self.async_create_entry(
                 title=name,
-                data={CONF_TOPIC: self._topic},
+                data={
+                    CONF_TOPIC: self._topic,
+                    CONF_CHARGING_POWER: self._charging_power,
+                },
             )
 
         self._set_confirm_only()

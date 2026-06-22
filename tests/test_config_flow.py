@@ -187,7 +187,10 @@ async def test_mqtt_discovery_with_leading_slash(hass: HomeAssistant) -> None:
 
     assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["title"] == "go-eCharger 072246"
-    assert result2["data"] == {"topic": "/go-eCharger/072246"}
+    assert result2["data"] == {
+        "topic": "/go-eCharger/072246",
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
+    }
 
 
 async def test_mqtt_discovery_without_leading_slash(hass: HomeAssistant) -> None:
@@ -214,7 +217,82 @@ async def test_mqtt_discovery_without_leading_slash(hass: HomeAssistant) -> None
         await hass.async_block_till_done()
 
     assert result2["type"] == FlowResultType.CREATE_ENTRY
-    assert result2["data"] == {"topic": "go-eCharger/072246"}
+    assert result2["data"] == {
+        "topic": "go-eCharger/072246",
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
+    }
+
+
+async def test_mqtt_discovery_payload_11_sets_11kw(hass: HomeAssistant) -> None:
+    """Discovery with payload '11' stores 11 kW charging power."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="go-eCharger/072246/var",
+            payload="11",
+            qos=0,
+            retain=False,
+            subscribed_topic="go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    with patch(
+        "custom_components.goecharger_mqtt.async_setup_entry", return_value=True
+    ):
+        result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+        await hass.async_block_till_done()
+
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
+    assert result2["data"][CONF_CHARGING_POWER] == CHARGING_POWER_11KW
+
+
+async def test_mqtt_discovery_payload_22_sets_22kw(hass: HomeAssistant) -> None:
+    """Discovery with payload '22' stores 22 kW charging power."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="go-eCharger/072246/var",
+            payload="22",
+            qos=0,
+            retain=False,
+            subscribed_topic="go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    with patch(
+        "custom_components.goecharger_mqtt.async_setup_entry", return_value=True
+    ):
+        result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+        await hass.async_block_till_done()
+
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
+    assert result2["data"][CONF_CHARGING_POWER] == CHARGING_POWER_22KW
+
+
+async def test_mqtt_discovery_unknown_payload_falls_back_to_22kw(hass: HomeAssistant) -> None:
+    """Discovery with an unexpected payload falls back to 22 kW."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": "mqtt"},
+        data=MqttServiceInfo(
+            topic="go-eCharger/072246/var",
+            payload="99",
+            qos=0,
+            retain=False,
+            subscribed_topic="go-eCharger/+/var",
+            timestamp=None,
+        ),
+    )
+    with patch(
+        "custom_components.goecharger_mqtt.async_setup_entry", return_value=True
+    ):
+        result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+        await hass.async_block_till_done()
+
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
+    assert result2["data"][CONF_CHARGING_POWER] == CHARGING_POWER_22KW
 
 
 async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
