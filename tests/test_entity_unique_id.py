@@ -117,7 +117,7 @@ async def test_entity_unique_id_stable(
 _ALL_ENTITIES = [
     # --- sensor (195 entries) ---
     ("+/result", "sensor", "", "072246-sensor-+/result-0"),
-    ("ama", "sensor", "", "072246-sensor-ama-0"),
+
     ("ate", "sensor", "", "072246-sensor-ate-0"),
     ("att", "sensor", "", "072246-sensor-att-0"),
     ("awc", "sensor", "", "072246-sensor-awc-0"),

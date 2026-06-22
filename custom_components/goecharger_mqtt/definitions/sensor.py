@@ -216,16 +216,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_registry_enabled_default=True,
         disabled=False,
     ),
-    GoEChargerSensorEntityDescription(
-        key="ama",
-        name="Maximum current limit",
-        entity_category=None,
-        device_class=SensorDeviceClass.CURRENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
-        state_class=SensorStateClass.MEASUREMENT,
-        entity_registry_enabled_default=True,
-        disabled=False,
-    ),
+
     GoEChargerSensorEntityDescription(
         key="ate",
         name="Automatic stop energy",
