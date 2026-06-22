@@ -318,6 +318,7 @@ This manual method achieves the same result as the HACS installation but require
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
 | `lmo` | Logic mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `psm` | Phase switch mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `ust` | Cable unlock mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `frc` | Force state | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `trx` | Transaction | `config` | :heavy_check_mark: | :heavy_check_mark: | |
