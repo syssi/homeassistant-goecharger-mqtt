@@ -53,7 +53,7 @@ SERVICE_SCHEMA_UPDATE_GRID_POWER = vol.Schema(
         vol.Required("device_id"): cv.string,
         vol.Required("power_grid"): vol.Coerce(float),
         vol.Optional("power_pv"): vol.Coerce(float),
-        vol.Optional("power_akku"): vol.Coerce(float),
+        vol.Optional("power_battery"): vol.Coerce(float),
     }
 )
 
@@ -175,8 +175,8 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         payload: dict[str, float] = {"pGrid": call.data["power_grid"]}
         if "power_pv" in call.data:
             payload["pPv"] = call.data["power_pv"]
-        if "power_akku" in call.data:
-            payload["pAkku"] = call.data["power_akku"]
+        if "power_battery" in call.data:
+            payload["pAkku"] = call.data["power_battery"]
 
         await mqtt.async_publish(
             hass,

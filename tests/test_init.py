@@ -332,7 +332,7 @@ async def test_update_grid_power_all_fields(hass: HomeAssistant) -> None:
         await hass.services.async_call(
             DOMAIN,
             "update_grid_power",
-            {"device_id": device.id, "power_grid": -200.0, "power_pv": 1400.0, "power_akku": 0.0},
+            {"device_id": device.id, "power_grid": -200.0, "power_pv": 1400.0, "power_battery": 0.0},
             blocking=True,
         )
 
