@@ -172,11 +172,11 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         if entry is None:
             return
 
-        payload: dict[str, float] = {"pGrid": call.data["power_grid"]}
+        payload: dict[str, float] = {"pGrid": round(call.data["power_grid"], 1)}
         if "power_pv" in call.data:
-            payload["pPv"] = call.data["power_pv"]
+            payload["pPv"] = round(call.data["power_pv"], 1)
         if "power_battery" in call.data:
-            payload["pAkku"] = call.data["power_battery"]
+            payload["pAkku"] = round(call.data["power_battery"], 1)
 
         await mqtt.async_publish(
             hass,
