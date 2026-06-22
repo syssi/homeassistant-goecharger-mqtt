@@ -23,7 +23,7 @@ _EXPECTED_V3_DATA = {CONF_TOPIC: "/go-eCharger/072246", CONF_CHARGING_POWER: CHA
 
 
 async def test_migration_v1_with_leading_slash(hass: HomeAssistant) -> None:
-    """/go-eCharger + 072246 migrates all the way to v3 with charger_model."""
+    """/go-eCharger + 072246 migrates all the way to v3 with charging_power."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={"serial_number": "072246", "topic_prefix": "/go-eCharger"},
@@ -37,7 +37,7 @@ async def test_migration_v1_with_leading_slash(hass: HomeAssistant) -> None:
 
 
 async def test_migration_v1_without_leading_slash(hass: HomeAssistant) -> None:
-    """go-eCharger + 072246 migrates to go-eCharger/072246 with charger_model."""
+    """go-eCharger + 072246 migrates to go-eCharger/072246 with charging_power."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={"serial_number": "072246", "topic_prefix": "go-eCharger"},
@@ -91,8 +91,8 @@ async def test_migration_v1_strips_trailing_slash_from_prefix(
     }
 
 
-async def test_migration_v2_adds_charger_model(hass: HomeAssistant) -> None:
-    """v2 entries get charger_model=22kw added and are bumped to v3."""
+async def test_migration_v2_adds_charging_power(hass: HomeAssistant) -> None:
+    """v2 entries get charging_power=22kw added and are bumped to v3."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_TOPIC: "go-eCharger/072246"},
@@ -108,8 +108,8 @@ async def test_migration_v2_adds_charger_model(hass: HomeAssistant) -> None:
     }
 
 
-async def test_migration_v1_also_adds_charger_model(hass: HomeAssistant) -> None:
-    """v1 entries pass through both migrations and end up at v3 with charger_model."""
+async def test_migration_v1_also_adds_charging_power(hass: HomeAssistant) -> None:
+    """v1 entries pass through both migrations and end up at v3 with charging_power."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={"serial_number": "072246", "topic_prefix": "go-eCharger"},

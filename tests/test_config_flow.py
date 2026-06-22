@@ -309,12 +309,12 @@ async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Charger model selection
+# Charging power selection
 # ---------------------------------------------------------------------------
 
 
-async def test_form_11kw_model_stored(hass: HomeAssistant) -> None:
-    """Selecting 11 kW stores the correct model key in config entry data."""
+async def test_form_11kw_charging_power_stored(hass: HomeAssistant) -> None:
+    """Selecting 11 kW stores the correct charging_power in config entry data."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
@@ -367,7 +367,7 @@ async def test_reconfigure_can_change_model(hass: HomeAssistant) -> None:
 
 
 async def test_reconfigure_prefills_existing_model(hass: HomeAssistant) -> None:
-    """Reconfigure form shows the currently configured model as default."""
+    """Reconfigure form shows the currently configured charging power as default."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_11KW},
