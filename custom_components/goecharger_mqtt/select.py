@@ -43,11 +43,6 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         self._attr_options = list(description.legacy_options.values())
         self._attr_current_option = None
 
-    @property
-    def available(self):
-        """Return True if entity is available."""
-        return self._attr_current_option is not None
-
     def key_from_option(self, option: str):
         """Return the option a given payload is assigned to."""
         try:
@@ -67,6 +62,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
 
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
+        await super().async_added_to_hass()
 
         @callback
         def message_received(message):

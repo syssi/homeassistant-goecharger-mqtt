@@ -10,6 +10,8 @@ test_entity_snapshot_is_complete  — fails when a new entity is added without
                                     a corresponding entry in _ALL_ENTITIES below
 """
 
+from unittest.mock import MagicMock
+
 import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -101,6 +103,7 @@ async def test_entity_unique_id_stable(
     """Verify unique_id format for one representative case per attribute variant."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_TOPIC: topic}, version=2)
     entry.add_to_hass(hass)
+    entry.runtime_data = MagicMock()
     entity = GoEChargerEntity(
         entry, GoEChargerEntityDescription(key=key, domain=domain, attribute=attribute)
     )
@@ -367,6 +370,7 @@ async def test_all_entity_unique_ids(
     """Assert the hard-coded unique_id for every entity definition across all platforms."""
     entry = MockConfigEntry(domain=DOMAIN, data={CONF_TOPIC: _TOPIC}, version=2)
     entry.add_to_hass(hass)
+    entry.runtime_data = MagicMock()
     entity = GoEChargerEntity(
         entry, GoEChargerEntityDescription(key=key, domain=domain, attribute=attribute)
     )

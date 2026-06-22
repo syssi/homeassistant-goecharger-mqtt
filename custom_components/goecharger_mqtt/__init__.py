@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from homeassistant.components import mqtt
@@ -10,6 +11,7 @@ from homeassistant.core import HomeAssistant, ServiceCall, callback
 from homeassistant.helpers import device_registry as dr
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 import voluptuous as vol
 
 from .const import (
@@ -21,6 +23,8 @@ from .const import (
     DEFAULT_TOPIC_PREFIX,
     DOMAIN,
 )
+
+HEARTBEAT_TIMEOUT = 10
 
 PLATFORMS: list[str] = [
     "binary_sensor",
@@ -61,6 +65,33 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up go-eCharger (MQTT) from a config entry."""
+    coordinator: DataUpdateCoordinator = DataUpdateCoordinator(
+        hass,
+        _LOGGER,
+        config_entry=entry,
+        name=f"goecharger_mqtt_{entry.entry_id}",
+    )
+    coordinator.last_update_success = False
+    entry.runtime_data = coordinator
+
+    topic = entry.data[CONF_TOPIC]
+    _timeout_handle: asyncio.TimerHandle | None = None
+
+    @callback
+    def _on_heartbeat(message):
+        nonlocal _timeout_handle
+        if _timeout_handle:
+            _timeout_handle.cancel()
+        coordinator.async_set_updated_data(None)
+        _timeout_handle = hass.loop.call_later(HEARTBEAT_TIMEOUT, _on_timeout)
+
+    def _on_timeout():
+        coordinator.async_set_update_error(Exception("Heartbeat timeout"))
+
+    unsub = await mqtt.async_subscribe(hass, f"{topic}/utc", _on_heartbeat, 1)
+    entry.async_on_unload(unsub)
+    entry.async_on_unload(lambda: _timeout_handle and _timeout_handle.cancel())
+
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
 

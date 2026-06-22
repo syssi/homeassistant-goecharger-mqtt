@@ -1,7 +1,8 @@
 """MQTT component mixins and helpers."""
 
 from homeassistant import config_entries
-from homeassistant.helpers.entity import DeviceInfo, Entity
+from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import slugify
 
 from .const import (
@@ -13,7 +14,7 @@ from .const import (
 from .definitions import GoEChargerEntityDescription
 
 
-class GoEChargerEntity(Entity):
+class GoEChargerEntity(CoordinatorEntity):
     """Common go-eCharger entity."""
 
     _attr_has_entity_name = True
@@ -24,6 +25,8 @@ class GoEChargerEntity(Entity):
         description: GoEChargerEntityDescription,
     ) -> None:
         """Initialize the sensor."""
+        super().__init__(config_entry.runtime_data)
+
         topic = config_entry.data[CONF_TOPIC]
         serial_number = topic.rstrip("/").split("/")[-1]
 

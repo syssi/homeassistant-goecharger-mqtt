@@ -74,13 +74,9 @@ class GoEChargerSensor(GoEChargerEntity, SensorEntity):
 
         self.entity_description = description
 
-    @property
-    def available(self):
-        """Return True if entity is available."""
-        return self._attr_native_value is not None
-
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
+        await super().async_added_to_hass()
 
         @callback
         def message_received(message):

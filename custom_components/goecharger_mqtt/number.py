@@ -40,7 +40,6 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
-        self._attr_available = False
 
     async def async_set_native_value(self, value: float) -> None:
         """Update the current value."""
@@ -53,11 +52,11 @@ class GoEChargerNumber(GoEChargerEntity, NumberEntity):
 
     async def async_added_to_hass(self):
         """Subscribe to MQTT events."""
+        await super().async_added_to_hass()
 
         @callback
         def message_received(message):
             """Handle new MQTT messages."""
-            self._attr_available = True
             if self.entity_description.state is not None:
                 self._attr_native_value = self.entity_description.state(
                     message.payload, self.entity_description.attribute
