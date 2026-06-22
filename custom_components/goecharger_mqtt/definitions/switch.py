@@ -124,7 +124,7 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
     ),
     GoEChargerSwitchEntityDescription(
         key="fzf",
-        name="Zero feedin mode",
+        name="Zero feedin",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
         entity_registry_enabled_default=True,
