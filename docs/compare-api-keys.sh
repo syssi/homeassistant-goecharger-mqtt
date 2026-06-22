@@ -40,13 +40,19 @@ do
     echo
     grep "/$KEY " $INPUT | sed 's/^/> /'
     echo
-    if ! cat $API_DESC_DE $API_DESC_EN | grep -q "^| ${KEY} "
+    DESC=$(awk -F'|' -v key="$KEY" '
+      NF>5 && $2 ~ " "key"[^a-zA-Z0-9_]" {
+        for(i=2;i<=6;i++) gsub(/^[[:space:]]+|[[:space:]]+$/, "", $i)
+        sub(/ \+$/, "", $6)
+        print "| " $2 " | " $3 " | " $4 " | " $5 " | " $6 " |"
+      }' $API_DESC_DE $API_DESC_EN | sort -u)
+    if [ -z "$DESC" ]
     then
       echo "No description available"
     else
-      echo "| Key        | R/W        | Type                         | Category      | Description                                                                         |"
-      echo "| ---------- | ---------- | ---------------------------- | ------------- | ----------------------------------------------------------------------------------- |"
-      cat $API_DESC_DE $API_DESC_EN | grep "^| ${KEY} "
+      echo "| Key | R/W | Type | Category | Description |"
+      echo "| --- | --- | ---- | -------- | ----------- |"
+      echo "$DESC"
     fi
     echo
   fi
