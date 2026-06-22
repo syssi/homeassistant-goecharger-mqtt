@@ -23,18 +23,16 @@ class GoEChargerSelectEntityDescription(
     domain: str = "select"
 
 
-_BUTTON_LOCK_OPTIONS = {
-    "0": "always_lock",
-    "1": "lock_when_car_connected",
-    "2": "lock_when_charging",
-    "3": "never_lock",
-}
-
 SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="bac",
         name="Button allow current change",
-        legacy_options=_BUTTON_LOCK_OPTIONS,
+        legacy_options={
+            "0": "always_lock",
+            "1": "lock_when_car_connected",
+            "2": "lock_when_charging",
+            "3": "never_lock",
+        },
         attribute="bac",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
@@ -44,7 +42,12 @@ SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
         key="sdp",
         name="Button allow force change",
-        legacy_options=_BUTTON_LOCK_OPTIONS,
+        legacy_options={
+            "0": "always_lock",
+            "1": "lock_when_car_connected",
+            "2": "lock_when_charging",
+            "3": "never_lock",
+        },
         attribute="sdp",
         entity_category=EntityCategory.CONFIG,
         device_class=None,
