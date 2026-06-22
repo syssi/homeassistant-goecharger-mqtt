@@ -1,12 +1,12 @@
 #!/bin/bash
 
-INPUT=mqtt-traffic-056.2.log
+INPUT=mqtt-traffic-060.5.log
 
 API_DESCRIPTIONS="https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-de.md https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-en.md"
 SKIP_KEYS="utc,rbt,loc,dns,ccw,dll"
 
-# https://github.com/goecharger/go-eCharger-API-v2/blob/main/apikeys-de.md
-# https://github.com/goecharger/go-eCharger-API-v2/blob/main/apikeys-en.md
+# https://github.com/goecharger/go-eCharger-API-v2/blob/main/API_KEYS_FIRMWARE/apikeys-de.md
+# https://github.com/goecharger/go-eCharger-API-v2/blob/main/API_KEYS_FIRMWARE/apikeys-en.md
 # https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-de.md
 # https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md
 
@@ -17,8 +17,8 @@ SUPPORTED_BY_COMPONENT_KEYS_CSV=$(echo $SUPPORTED_BY_COMPONENT_KEYS | sed 's# #,
 API_DESC_DE=$(mktemp)
 API_DESC_EN=$(mktemp)
 
-curl -s -o $API_DESC_DE https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-de.md
-curl -s -o $API_DESC_EN https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-en.md
+curl -s -o $API_DESC_DE https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/API_KEYS_FIRMWARE/apikeys-de.md
+curl -s -o $API_DESC_EN https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/API_KEYS_FIRMWARE/apikeys-en.md
 
 echo "# List of unsupported/new keys"
 echo
@@ -38,7 +38,7 @@ do
   then
     echo "## Key \`$KEY\`"
     echo
-    grep $KEY $INPUT | sed 's/^/> /'
+    grep "/$KEY " $INPUT | sed 's/^/> /'
     echo
     if ! cat $API_DESC_DE $API_DESC_EN | grep -q "^| ${KEY} "
     then
