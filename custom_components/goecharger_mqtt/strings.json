@@ -27,6 +27,7 @@
     },
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "mqtt_not_available": "The MQTT integration is not available. Please set up MQTT first.",
       "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]"
     }
   }

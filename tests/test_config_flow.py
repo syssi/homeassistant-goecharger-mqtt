@@ -1,6 +1,6 @@
 """Test the go-eCharger (MQTT) config flow."""
 
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
@@ -16,6 +16,12 @@ from custom_components.goecharger_mqtt.const import (
     DOMAIN,
 )
 
+MQTT_AVAILABLE = patch(
+    "custom_components.goecharger_mqtt.config_flow.mqtt.async_wait_for_mqtt_client",
+    new_callable=AsyncMock,
+    return_value=True,
+)
+
 try:
     from homeassistant.components.mqtt import MqttServiceInfo
 except ImportError:
@@ -29,13 +35,15 @@ except ImportError:
 
 async def test_form(hass: HomeAssistant) -> None:
     """Test manual setup with a leading-slash topic."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    with MQTT_AVAILABLE:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
     assert result["type"] == FlowResultType.FORM
     assert result["errors"] is None
 
     with (
+        MQTT_AVAILABLE,
         patch(
             "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
             return_value=True,
@@ -61,11 +69,13 @@ async def test_form(hass: HomeAssistant) -> None:
 
 async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
     """Test manual setup with a topic that has no leading slash."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    with MQTT_AVAILABLE:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
 
     with (
+        MQTT_AVAILABLE,
         patch(
             "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
             return_value=True,
@@ -86,15 +96,34 @@ async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
     }
 
 
+async def test_user_step_aborts_when_mqtt_unavailable(hass: HomeAssistant) -> None:
+    """Initiating the user flow without MQTT configured aborts with mqtt_not_available."""
+    with patch(
+        "custom_components.goecharger_mqtt.config_flow.mqtt.async_wait_for_mqtt_client",
+        new_callable=AsyncMock,
+        return_value=False,
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+
+    assert result["type"] == FlowResultType.ABORT
+    assert result["reason"] == "mqtt_not_available"
+
+
 async def test_form_cannot_connect(hass: HomeAssistant) -> None:
     """Test we handle cannot connect error."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    with MQTT_AVAILABLE:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
 
-    with patch(
+    with (
+        MQTT_AVAILABLE,
+        patch(
         "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
         side_effect=CannotConnectError,
+        ),
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -107,13 +136,17 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
 
 async def test_form_unknown_error(hass: HomeAssistant) -> None:
     """Test we handle unexpected errors."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    with MQTT_AVAILABLE:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
 
-    with patch(
-        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
-        side_effect=Exception("boom"),
+    with (
+        MQTT_AVAILABLE,
+        patch(
+            "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+            side_effect=Exception("boom"),
+        ),
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
@@ -242,6 +275,7 @@ async def test_mqtt_discovery_invalid_serial_aborts(hass: HomeAssistant) -> None
 async def test_form_duplicate_aborts(hass: HomeAssistant) -> None:
     """Manual setup with an already-configured serial number is aborted."""
     with (
+        MQTT_AVAILABLE,
         patch(
             "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
             return_value=True,
@@ -257,9 +291,12 @@ async def test_form_duplicate_aborts(hass: HomeAssistant) -> None:
         )
         await hass.async_block_till_done()
 
-    with patch(
-        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
-        return_value=True,
+    with (
+        MQTT_AVAILABLE,
+        patch(
+            "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+            return_value=True,
+        ),
     ):
         result2 = await hass.config_entries.flow.async_init(
             DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -315,11 +352,13 @@ async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
 
 async def test_form_11kw_charging_power_stored(hass: HomeAssistant) -> None:
     """Selecting 11 kW stores the correct charging_power in config entry data."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    with MQTT_AVAILABLE:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
 
     with (
+        MQTT_AVAILABLE,
         patch(
             "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
             return_value=True,

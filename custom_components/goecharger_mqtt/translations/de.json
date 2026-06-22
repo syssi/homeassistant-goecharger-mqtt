@@ -1,7 +1,8 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Gerät ist bereits konfiguriert"
+      "already_configured": "Gerät ist bereits konfiguriert",
+      "mqtt_not_available": "Die MQTT-Integration ist nicht verfügbar. Bitte richte zuerst MQTT ein."
     },
     "flow_title": "{name}",
     "error": {
