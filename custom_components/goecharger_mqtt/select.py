@@ -40,7 +40,7 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
-        self._attr_options = list(dict.fromkeys(description.legacy_options.values()))
+        self._attr_options = list(description.legacy_options.values())
         self._attr_current_option = None
 
     def key_from_option(self, option: str):
