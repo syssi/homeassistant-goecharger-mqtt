@@ -14,10 +14,17 @@
         "description": "Möchten Sie {name} einrichten?"
       },
       "user": {
-        "description": "Bitte geben Sie die Seriennummer Ihres Geräts an",
+        "description": "Bitte geben Sie das MQTT-Basis-Topic Ihres Geräts an (z.B. go-eCharger/072246)",
         "data": {
-          "serial_number": "Seriennummer",
-          "topic_prefix": "Basis-Topic"
+          "topic": "MQTT-Topic",
+          "charger_model": "Ladegerät-Modell"
+        }
+      },
+      "reconfigure": {
+        "description": "MQTT-Basis-Topic aktualisieren. Aktueller Wert: {current_topic}",
+        "data": {
+          "topic": "MQTT-Topic",
+          "charger_model": "Ladegerät-Modell"
         }
       }
     }

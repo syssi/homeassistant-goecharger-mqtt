@@ -8,7 +8,13 @@ from homeassistant.data_entry_flow import FlowResultType
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt.config_flow import CannotConnectError
-from custom_components.goecharger_mqtt.const import CONF_TOPIC, DOMAIN
+from custom_components.goecharger_mqtt.const import (
+    CHARGER_MODEL_11KW,
+    CHARGER_MODEL_22KW,
+    CONF_CHARGER_MODEL,
+    CONF_TOPIC,
+    DOMAIN,
+)
 
 try:
     from homeassistant.components.mqtt import MqttServiceInfo
@@ -40,13 +46,16 @@ async def test_form(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/012345"},
+            {"topic": "/go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
         )
         await hass.async_block_till_done()
 
     assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["title"] == "go-eCharger 012345"
-    assert result2["data"] == {"topic": "/go-eCharger/012345"}
+    assert result2["data"] == {
+        "topic": "/go-eCharger/012345",
+        "charger_model": CHARGER_MODEL_22KW,
+    }
     assert len(mock_setup_entry.mock_calls) == 1
 
 
@@ -65,13 +74,16 @@ async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "go-eCharger/012345"},
+            {"topic": "go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
         )
         await hass.async_block_till_done()
 
     assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["title"] == "go-eCharger 012345"
-    assert result2["data"] == {"topic": "go-eCharger/012345"}
+    assert result2["data"] == {
+        "topic": "go-eCharger/012345",
+        "charger_model": CHARGER_MODEL_22KW,
+    }
 
 
 async def test_form_cannot_connect(hass: HomeAssistant) -> None:
@@ -86,7 +98,7 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/012345"},
+            {"topic": "/go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
         )
 
     assert result2["type"] == FlowResultType.FORM
@@ -105,7 +117,7 @@ async def test_form_unknown_error(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/012345"},
+            {"topic": "/go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
         )
 
     assert result2["type"] == FlowResultType.FORM
@@ -197,13 +209,16 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/072246"},
+            {"topic": "/go-eCharger/072246", "charger_model": CHARGER_MODEL_22KW},
         )
         await hass.async_block_till_done()
 
     assert result2["type"] == FlowResultType.ABORT
     assert result2["reason"] == "reconfigure_successful"
-    assert entry.data == {CONF_TOPIC: "/go-eCharger/072246"}
+    assert entry.data == {
+        CONF_TOPIC: "/go-eCharger/072246",
+        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+    }
 
 
 async def test_mqtt_discovery_invalid_serial_aborts(hass: HomeAssistant) -> None:
@@ -237,7 +252,8 @@ async def test_form_duplicate_aborts(hass: HomeAssistant) -> None:
             DOMAIN, context={"source": config_entries.SOURCE_USER}
         )
         await hass.config_entries.flow.async_configure(
-            result["flow_id"], {"topic": "go-eCharger/012345"}
+            result["flow_id"],
+            {"topic": "go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
         )
         await hass.async_block_till_done()
 
@@ -290,3 +306,85 @@ async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
     )
     assert result2["type"] == FlowResultType.ABORT
     assert result2["reason"] == "already_configured"
+
+
+# ---------------------------------------------------------------------------
+# Charger model selection
+# ---------------------------------------------------------------------------
+
+
+async def test_form_11kw_model_stored(hass: HomeAssistant) -> None:
+    """Selecting 11 kW stores the correct model key in config entry data."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with (
+        patch(
+            "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+            return_value=True,
+        ),
+        patch("custom_components.goecharger_mqtt.async_setup_entry", return_value=True),
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"topic": "go-eCharger/012345", "charger_model": CHARGER_MODEL_11KW},
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
+    assert result2["data"][CONF_CHARGER_MODEL] == CHARGER_MODEL_11KW
+
+
+async def test_reconfigure_can_change_model(hass: HomeAssistant) -> None:
+    """Reconfigure lets the user switch from 22 kW to 11 kW."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_22KW},
+        version=2,
+        unique_id="072246",
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={
+            "source": config_entries.SOURCE_RECONFIGURE,
+            "entry_id": entry.entry_id,
+        },
+    )
+
+    with patch(
+        "custom_components.goecharger_mqtt.async_setup_entry", return_value=True
+    ):
+        await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {"topic": "go-eCharger/072246", "charger_model": CHARGER_MODEL_11KW},
+        )
+        await hass.async_block_till_done()
+
+    assert entry.data[CONF_CHARGER_MODEL] == CHARGER_MODEL_11KW
+
+
+async def test_reconfigure_prefills_existing_model(hass: HomeAssistant) -> None:
+    """Reconfigure form shows the currently configured model as default."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_11KW},
+        version=2,
+        unique_id="072246",
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={
+            "source": config_entries.SOURCE_RECONFIGURE,
+            "entry_id": entry.entry_id,
+        },
+    )
+
+    assert result["type"] == FlowResultType.FORM
+    schema = result["data_schema"].schema
+    charger_key = next(k for k in schema if str(k) == CONF_CHARGER_MODEL)
+    assert charger_key.default() == CHARGER_MODEL_11KW

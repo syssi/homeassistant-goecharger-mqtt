@@ -16,13 +16,15 @@
       "user": {
         "description": "Please provide the MQTT base topic of your device (e.g. go-eCharger/072246 or /go-eCharger/072246)",
         "data": {
-          "topic": "MQTT topic"
+          "topic": "MQTT topic",
+          "charger_model": "Charger model"
         }
       },
       "reconfigure": {
         "description": "Update the MQTT base topic for this device (e.g. after a firmware update changed the topic prefix). Current value: {current_topic}",
         "data": {
-          "topic": "MQTT topic"
+          "topic": "MQTT topic",
+          "charger_model": "Charger model"
         }
       }
     }

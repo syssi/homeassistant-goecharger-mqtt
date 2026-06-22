@@ -8,13 +8,15 @@
       "user": {
         "description": "[%key:common::config_flow::description%]",
         "data": {
-          "topic": "MQTT topic"
+          "topic": "MQTT topic",
+          "charger_model": "Charger model"
         }
       },
       "reconfigure": {
         "description": "Update the MQTT base topic for this device. Current value: {current_topic}",
         "data": {
-          "topic": "MQTT topic"
+          "topic": "MQTT topic",
+          "charger_model": "Charger model"
         }
       }
     },
