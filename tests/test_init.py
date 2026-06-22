@@ -313,7 +313,7 @@ async def test_update_grid_power_p_grid_only(hass: HomeAssistant) -> None:
         await hass.services.async_call(
             DOMAIN,
             "update_grid_power",
-            {"device_id": device.id, "p_grid": 500.0},
+            {"device_id": device.id, "power_grid": 500.0},
             blocking=True,
         )
 
@@ -332,7 +332,7 @@ async def test_update_grid_power_all_fields(hass: HomeAssistant) -> None:
         await hass.services.async_call(
             DOMAIN,
             "update_grid_power",
-            {"device_id": device.id, "p_grid": -200.0, "p_pv": 1400.0, "p_akku": 0.0},
+            {"device_id": device.id, "power_grid": -200.0, "power_pv": 1400.0, "power_akku": 0.0},
             blocking=True,
         )
 
@@ -351,7 +351,7 @@ async def test_update_grid_power_leading_slash_topic(hass: HomeAssistant) -> Non
         await hass.services.async_call(
             DOMAIN,
             "update_grid_power",
-            {"device_id": device.id, "p_grid": 0.0},
+            {"device_id": device.id, "power_grid": 0.0},
             blocking=True,
         )
 
@@ -373,7 +373,7 @@ async def test_update_grid_power_unknown_device_logs_error(
         await hass.services.async_call(
             DOMAIN,
             "update_grid_power",
-            {"device_id": "nonexistent-id", "p_grid": 500.0},
+            {"device_id": "nonexistent-id", "power_grid": 500.0},
             blocking=True,
         )
 
