@@ -330,6 +330,11 @@ _ALL_ENTITIES = [
     ("awp", "number", "", "072246-number-awp-0"),
     ("dwo", "number", "", "072246-number-dwo-0"),
     ("lop", "number", "", "072246-number-lop-0"),
+    ("fst", "number", "", "072246-number-fst-0"),
+    ("sh", "number", "", "072246-number-sh-0"),
+    ("psh", "number", "", "072246-number-psh-0"),
+    ("po", "number", "", "072246-number-po-0"),
+    ("zfo", "number", "", "072246-number-zfo-0"),
     # --- select (5 entries) ---
     ("lmo", "select", "", "072246-select-lmo-0"),
     ("ust", "select", "ust", "072246-select-ust-ust"),
