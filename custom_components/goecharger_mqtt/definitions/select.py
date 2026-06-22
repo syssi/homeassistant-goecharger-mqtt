@@ -28,8 +28,6 @@ _BUTTON_LOCK_OPTIONS = {
     "1": "lock_when_car_connected",
     "2": "lock_when_charging",
     "3": "never_lock",
-    "false": "always_lock",  # compat: pre-0.55 firmware sent boolean
-    "true": "never_lock",    # compat: pre-0.55 firmware sent boolean
 }
 
 SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
