@@ -49,6 +49,55 @@
           "lock_when_charging": "Gesperrt beim Laden",
           "never_lock": "Nie gesperrt"
         }
+      },
+      "lmo": {
+        "name": "Logikmodus",
+        "state": {
+          "default": "Standard",
+          "awattar": "Awattar",
+          "auto_stop": "Automatischer Stopp"
+        }
+      },
+      "ust": {
+        "name": "Kabelentriegelungsmodus",
+        "state": {
+          "normal": "Normal",
+          "auto_unlock": "Automatische Entriegelung",
+          "always_locked": "Immer verriegelt"
+        }
+      },
+      "frc": {
+        "name": "Zwangszustand",
+        "state": {
+          "neutral": "Neutral",
+          "dont_charge": "Nicht laden",
+          "charge": "Laden"
+        }
+      },
+      "trx": {
+        "name": "Transaktion",
+        "state": {
+          "none": "Keine",
+          "without_card": "Ohne Karte",
+          "card_0": "Karte 0",
+          "card_1": "Karte 1",
+          "card_2": "Karte 2",
+          "card_3": "Karte 3",
+          "card_4": "Karte 4",
+          "card_5": "Karte 5",
+          "card_6": "Karte 6",
+          "card_7": "Karte 7",
+          "card_8": "Karte 8",
+          "card_9": "Karte 9"
+        }
+      },
+      "psm": {
+        "name": "Phasenumschaltmodus",
+        "state": {
+          "auto": "Automatisch",
+          "one_phase": "1 Phase",
+          "three_phases": "3 Phasen"
+        }
       }
     },
     "sensor": {

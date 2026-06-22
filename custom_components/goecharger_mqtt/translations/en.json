@@ -49,6 +49,55 @@
           "lock_when_charging": "Lock when charging",
           "never_lock": "Never lock"
         }
+      },
+      "lmo": {
+        "name": "Logic mode",
+        "state": {
+          "default": "Default",
+          "awattar": "Awattar",
+          "auto_stop": "Automatic Stop"
+        }
+      },
+      "ust": {
+        "name": "Cable unlock mode",
+        "state": {
+          "normal": "Normal",
+          "auto_unlock": "Auto Unlock",
+          "always_locked": "Always Locked"
+        }
+      },
+      "frc": {
+        "name": "Force state",
+        "state": {
+          "neutral": "Neutral",
+          "dont_charge": "Don't charge",
+          "charge": "Charge"
+        }
+      },
+      "trx": {
+        "name": "Transaction",
+        "state": {
+          "none": "None",
+          "without_card": "Without card",
+          "card_0": "Card 0",
+          "card_1": "Card 1",
+          "card_2": "Card 2",
+          "card_3": "Card 3",
+          "card_4": "Card 4",
+          "card_5": "Card 5",
+          "card_6": "Card 6",
+          "card_7": "Card 7",
+          "card_8": "Card 8",
+          "card_9": "Card 9"
+        }
+      },
+      "psm": {
+        "name": "Phase switch mode",
+        "state": {
+          "auto": "Auto",
+          "one_phase": "1 Phase",
+          "three_phases": "3 Phases"
+        }
       }
     },
     "sensor": {
