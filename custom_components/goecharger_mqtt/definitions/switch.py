@@ -123,6 +123,15 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         disabled=False,
     ),
     GoEChargerSwitchEntityDescription(
+        key="fzf",
+        name="Zero feedin mode",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        icon="mdi:transmission-tower-export",
+        disabled=False,
+    ),
+    GoEChargerSwitchEntityDescription(
         key="su",
         name="Simulate unplugging",
         entity_category=EntityCategory.CONFIG,

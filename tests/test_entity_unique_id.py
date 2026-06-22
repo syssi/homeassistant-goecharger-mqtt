@@ -353,6 +353,7 @@ _ALL_ENTITIES = [
     ("acp", "switch", "", "072246-switch-acp-0"),
     ("esk", "switch", "", "072246-switch-esk-0"),
     ("fup", "switch", "", "072246-switch-fup-0"),
+    ("fzf", "switch", "", "072246-switch-fzf-0"),
     ("su", "switch", "", "072246-switch-su-0"),
     ("hws", "switch", "", "072246-switch-hws-0"),
     ("hsa", "switch", "", "072246-switch-hsa-0"),
