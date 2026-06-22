@@ -1,3 +1,50 @@
+update_grid_power:
+  name: Update grid power
+  description: >
+    Publishes real-time grid power data to the wallbox (ids API key).
+    Must be called repeatedly every 5 seconds or less while PV surplus
+    or zero feed-in control is active; the wallbox does not stop
+    automatically when updates cease.
+  fields:
+    device_id:
+      name: Device
+      description: The go-eCharger device to update.
+      required: true
+      selector:
+        device:
+          integration: goecharger_mqtt
+    p_grid:
+      name: Grid power (W)
+      description: >
+        Current grid power in watts. Positive = importing from grid,
+        negative = exporting to grid.
+      required: true
+      selector:
+        number:
+          min: -100000
+          max: 100000
+          unit_of_measurement: W
+    p_pv:
+      name: PV power (W)
+      description: Current PV generation in watts (optional).
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 100000
+          unit_of_measurement: W
+    p_akku:
+      name: Battery power (W)
+      description: >
+        Current battery power in watts. Positive = charging,
+        negative = discharging (optional).
+      required: false
+      selector:
+        number:
+          min: -100000
+          max: 100000
+          unit_of_measurement: W
+
 set_config_key:
   name: Set config key
   description: Sets a config key to a provided value.

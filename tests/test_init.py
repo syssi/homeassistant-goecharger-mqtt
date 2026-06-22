@@ -296,3 +296,86 @@ async def test_service_device_without_matching_entry_logs_error(
 
     mock_pub.assert_not_called()
     assert device.id in caplog.text
+
+
+# ---------------------------------------------------------------------------
+# update_grid_power service
+# ---------------------------------------------------------------------------
+
+
+async def test_update_grid_power_p_grid_only(hass: HomeAssistant) -> None:
+    """Only p_grid publishes a minimal JSON payload."""
+    device = await _register_service_and_device(hass, "go-eCharger/072246")
+
+    with patch(
+        "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+    ) as mock_pub:
+        await hass.services.async_call(
+            DOMAIN,
+            "update_grid_power",
+            {"device_id": device.id, "p_grid": 500.0},
+            blocking=True,
+        )
+
+    mock_pub.assert_called_once_with(
+        hass, "go-eCharger/072246/ids/set", '{"pGrid": 500.0}'
+    )
+
+
+async def test_update_grid_power_all_fields(hass: HomeAssistant) -> None:
+    """All three power values are included in the payload when provided."""
+    device = await _register_service_and_device(hass, "go-eCharger/072246")
+
+    with patch(
+        "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+    ) as mock_pub:
+        await hass.services.async_call(
+            DOMAIN,
+            "update_grid_power",
+            {"device_id": device.id, "p_grid": -200.0, "p_pv": 1400.0, "p_akku": 0.0},
+            blocking=True,
+        )
+
+    import json as _json
+    payload = _json.loads(mock_pub.call_args[0][2])
+    assert payload == {"pGrid": -200.0, "pPv": 1400.0, "pAkku": 0.0}
+
+
+async def test_update_grid_power_leading_slash_topic(hass: HomeAssistant) -> None:
+    """Leading slash in device topic is preserved."""
+    device = await _register_service_and_device(hass, "/go-eCharger/072246")
+
+    with patch(
+        "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+    ) as mock_pub:
+        await hass.services.async_call(
+            DOMAIN,
+            "update_grid_power",
+            {"device_id": device.id, "p_grid": 0.0},
+            blocking=True,
+        )
+
+    assert mock_pub.call_args[0][1] == "/go-eCharger/072246/ids/set"
+
+
+async def test_update_grid_power_unknown_device_logs_error(
+    hass: HomeAssistant, caplog
+) -> None:
+    """An unknown device_id logs an error and does not publish."""
+    await async_setup(hass, {})
+
+    with (
+        patch(
+            "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+        ) as mock_pub,
+        caplog.at_level(logging.ERROR),
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            "update_grid_power",
+            {"device_id": "nonexistent-id", "p_grid": 500.0},
+            blocking=True,
+        )
+
+    mock_pub.assert_not_called()
+    assert "nonexistent-id" in caplog.text

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 
 from homeassistant.components import mqtt
@@ -44,6 +45,15 @@ SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
         vol.Required("device_id"): cv.string,
         vol.Required(ATTR_KEY): cv.string,
         vol.Required(ATTR_VALUE): cv.string,
+    }
+)
+
+SERVICE_SCHEMA_UPDATE_GRID_POWER = vol.Schema(
+    {
+        vol.Required("device_id"): cv.string,
+        vol.Required("p_grid"): vol.Coerce(float),
+        vol.Optional("p_pv"): vol.Coerce(float),
+        vol.Optional("p_akku"): vol.Coerce(float),
     }
 )
 
@@ -116,32 +126,36 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 
+def _entry_for_device(hass: HomeAssistant, device_id: str) -> ConfigEntry | None:
+    device = dr.async_get(hass).async_get(device_id)
+    if device is None:
+        _LOGGER.error("Device %s not found", device_id)
+        return None
+    entry = next(
+        (
+            e
+            for eid in device.config_entries
+            if (e := hass.config_entries.async_get_entry(eid))
+            and e.domain == DOMAIN
+        ),
+        None,
+    )
+    if entry is None:
+        _LOGGER.error("No %s config entry found for device %s", DOMAIN, device_id)
+    return entry
+
+
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up integration."""
 
     @callback
     async def set_config_key_service(call: ServiceCall) -> None:
-        device_id = call.data["device_id"]
+        entry = _entry_for_device(hass, call.data["device_id"])
+        if entry is None:
+            return
+
         key = call.data[ATTR_KEY]
         value = call.data[ATTR_VALUE]
-
-        device = dr.async_get(hass).async_get(device_id)
-        if device is None:
-            _LOGGER.error("Device %s not found", device_id)
-            return
-
-        entry = next(
-            (
-                e
-                for eid in device.config_entries
-                if (e := hass.config_entries.async_get_entry(eid))
-                and e.domain == DOMAIN
-            ),
-            None,
-        )
-        if entry is None:
-            _LOGGER.error("No %s config entry found for device %s", DOMAIN, device_id)
-            return
 
         if not value.isnumeric():
             if value in ["true", "True"]:
@@ -153,11 +167,34 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
         await mqtt.async_publish(hass, f"{entry.data[CONF_TOPIC]}/{key}/set", value)
 
+    async def update_grid_power_service(call: ServiceCall) -> None:
+        entry = _entry_for_device(hass, call.data["device_id"])
+        if entry is None:
+            return
+
+        payload: dict[str, float] = {"pGrid": call.data["p_grid"]}
+        if "p_pv" in call.data:
+            payload["pPv"] = call.data["p_pv"]
+        if "p_akku" in call.data:
+            payload["pAkku"] = call.data["p_akku"]
+
+        await mqtt.async_publish(
+            hass,
+            f"{entry.data[CONF_TOPIC]}/ids/set",
+            json.dumps(payload),
+        )
+
     hass.services.async_register(
         DOMAIN,
         "set_config_key",
         set_config_key_service,
         schema=SERVICE_SCHEMA_SET_CONFIG_KEY,
+    )
+    hass.services.async_register(
+        DOMAIN,
+        "update_grid_power",
+        update_grid_power_service,
+        schema=SERVICE_SCHEMA_UPDATE_GRID_POWER,
     )
 
     return True
