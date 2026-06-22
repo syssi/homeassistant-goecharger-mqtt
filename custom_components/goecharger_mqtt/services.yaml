@@ -13,18 +13,16 @@ update_grid_power:
       selector:
         device:
           integration: goecharger_mqtt
-    p_grid:
+    power_grid:
       name: Grid power (W)
-      description: >
-        Current grid power in watts. Positive = importing from grid,
-        negative = exporting to grid.
+      description: Current grid power in watts. Positive = importing from grid, negative = exporting to grid.
       required: true
       selector:
         number:
           min: -100000
           max: 100000
           unit_of_measurement: W
-    p_pv:
+    power_pv:
       name: PV power (W)
       description: Current PV generation in watts (optional).
       required: false
@@ -33,11 +31,9 @@ update_grid_power:
           min: 0
           max: 100000
           unit_of_measurement: W
-    p_akku:
+    power_battery:
       name: Battery power (W)
-      description: >
-        Current battery power in watts. Positive = charging,
-        negative = discharging (optional).
+      description: Current battery power in watts. Positive = charging, negative = discharging (optional).
       required: false
       selector:
         number:
