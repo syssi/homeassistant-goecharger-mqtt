@@ -17,14 +17,14 @@
         "description": "Bitte geben Sie das MQTT-Basis-Topic Ihres Geräts an (z.B. go-eCharger/072246)",
         "data": {
           "topic": "MQTT-Topic",
-          "charger_model": "Wallbox-Modell"
+          "charging_power": "Ladeleistung"
         }
       },
       "reconfigure": {
         "description": "MQTT-Basis-Topic aktualisieren. Aktueller Wert: {current_topic}",
         "data": {
           "topic": "MQTT-Topic",
-          "charger_model": "Wallbox-Modell"
+          "charging_power": "Ladeleistung"
         }
       }
     }

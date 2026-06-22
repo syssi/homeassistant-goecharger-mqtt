@@ -14,9 +14,9 @@ from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig
 import voluptuous as vol
 
 from .const import (
-    CHARGER_MODEL_11KW,
-    CHARGER_MODEL_22KW,
-    CONF_CHARGER_MODEL,
+    CHARGING_POWER_11KW,
+    CHARGING_POWER_22KW,
+    CONF_CHARGING_POWER,
     CONF_TOPIC,
     DEFAULT_TOPIC_PREFIX,
     DOMAIN,
@@ -33,11 +33,11 @@ _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "go-eCharger"
 
-_CHARGER_MODEL_SELECTOR = SelectSelector(
+_CHARGING_POWER_SELECTOR = SelectSelector(
     SelectSelectorConfig(
         options=[
-            {"value": CHARGER_MODEL_11KW, "label": "11 kW (max. 16 A)"},
-            {"value": CHARGER_MODEL_22KW, "label": "22 kW (max. 32 A)"},
+            {"value": CHARGING_POWER_11KW, "label": "11 kW (max. 16 A)"},
+            {"value": CHARGING_POWER_22KW, "label": "22 kW (max. 32 A)"},
         ]
     )
 )
@@ -45,7 +45,7 @@ _CHARGER_MODEL_SELECTOR = SelectSelector(
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_TOPIC, default=DEFAULT_TOPIC_PREFIX): cv.string,
-        vol.Required(CONF_CHARGER_MODEL, default=CHARGER_MODEL_22KW): _CHARGER_MODEL_SELECTOR,
+        vol.Required(CONF_CHARGING_POWER, default=CHARGING_POWER_22KW): _CHARGING_POWER_SELECTOR,
     }
 )
 
@@ -176,11 +176,11 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                             ),
                         ): cv.string,
                         vol.Required(
-                            CONF_CHARGER_MODEL,
+                            CONF_CHARGING_POWER,
                             default=reconfigure_entry.data.get(
-                                CONF_CHARGER_MODEL, CHARGER_MODEL_22KW
+                                CONF_CHARGING_POWER, CHARGING_POWER_22KW
                             ),
-                        ): _CHARGER_MODEL_SELECTOR,
+                        ): _CHARGING_POWER_SELECTOR,
                     }
                 ),
                 description_placeholders={
@@ -192,7 +192,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             reconfigure_entry,
             data={
                 CONF_TOPIC: user_input[CONF_TOPIC],
-                CONF_CHARGER_MODEL: user_input[CONF_CHARGER_MODEL],
+                CONF_CHARGING_POWER: user_input[CONF_CHARGING_POWER],
             },
         )
         await self.hass.config_entries.async_reload(reconfigure_entry.entry_id)

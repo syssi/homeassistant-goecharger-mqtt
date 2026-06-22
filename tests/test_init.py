@@ -9,8 +9,8 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt import async_migrate_entry, async_setup
 from custom_components.goecharger_mqtt.const import (
-    CHARGER_MODEL_22KW,
-    CONF_CHARGER_MODEL,
+    CHARGING_POWER_22KW,
+    CONF_CHARGING_POWER,
     CONF_TOPIC,
     DOMAIN,
 )
@@ -19,7 +19,7 @@ from custom_components.goecharger_mqtt.const import (
 # Migration v1 → v3
 # ---------------------------------------------------------------------------
 
-_EXPECTED_V3_DATA = {CONF_TOPIC: "/go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_22KW}
+_EXPECTED_V3_DATA = {CONF_TOPIC: "/go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_22KW}
 
 
 async def test_migration_v1_with_leading_slash(hass: HomeAssistant) -> None:
@@ -49,7 +49,7 @@ async def test_migration_v1_without_leading_slash(hass: HomeAssistant) -> None:
 
     assert entry.data == {
         CONF_TOPIC: "go-eCharger/072246",
-        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
     }
 
 
@@ -68,7 +68,7 @@ async def test_migration_v1_missing_topic_prefix_uses_default(
 
     assert entry.data == {
         CONF_TOPIC: "go-eCharger/072246",
-        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
     }
 
 
@@ -87,7 +87,7 @@ async def test_migration_v1_strips_trailing_slash_from_prefix(
 
     assert entry.data == {
         CONF_TOPIC: "go-eCharger/072246",
-        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
     }
 
 
@@ -104,7 +104,7 @@ async def test_migration_v2_adds_charger_model(hass: HomeAssistant) -> None:
     assert entry.version == 3
     assert entry.data == {
         CONF_TOPIC: "go-eCharger/072246",
-        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
     }
 
 
@@ -121,7 +121,7 @@ async def test_migration_v1_also_adds_charger_model(hass: HomeAssistant) -> None
     assert entry.version == 3
     assert entry.data == {
         CONF_TOPIC: "go-eCharger/072246",
-        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
     }
 
 

@@ -9,9 +9,9 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt.config_flow import CannotConnectError
 from custom_components.goecharger_mqtt.const import (
-    CHARGER_MODEL_11KW,
-    CHARGER_MODEL_22KW,
-    CONF_CHARGER_MODEL,
+    CHARGING_POWER_11KW,
+    CHARGING_POWER_22KW,
+    CONF_CHARGING_POWER,
     CONF_TOPIC,
     DOMAIN,
 )
@@ -46,7 +46,7 @@ async def test_form(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
+            {"topic": "/go-eCharger/012345", "charging_power": CHARGING_POWER_22KW},
         )
         await hass.async_block_till_done()
 
@@ -54,7 +54,7 @@ async def test_form(hass: HomeAssistant) -> None:
     assert result2["title"] == "go-eCharger 012345"
     assert result2["data"] == {
         "topic": "/go-eCharger/012345",
-        "charger_model": CHARGER_MODEL_22KW,
+        "charging_power": CHARGING_POWER_22KW,
     }
     assert len(mock_setup_entry.mock_calls) == 1
 
@@ -74,7 +74,7 @@ async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
+            {"topic": "go-eCharger/012345", "charging_power": CHARGING_POWER_22KW},
         )
         await hass.async_block_till_done()
 
@@ -82,7 +82,7 @@ async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
     assert result2["title"] == "go-eCharger 012345"
     assert result2["data"] == {
         "topic": "go-eCharger/012345",
-        "charger_model": CHARGER_MODEL_22KW,
+        "charging_power": CHARGING_POWER_22KW,
     }
 
 
@@ -98,7 +98,7 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
+            {"topic": "/go-eCharger/012345", "charging_power": CHARGING_POWER_22KW},
         )
 
     assert result2["type"] == FlowResultType.FORM
@@ -117,7 +117,7 @@ async def test_form_unknown_error(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
+            {"topic": "/go-eCharger/012345", "charging_power": CHARGING_POWER_22KW},
         )
 
     assert result2["type"] == FlowResultType.FORM
@@ -209,7 +209,7 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "/go-eCharger/072246", "charger_model": CHARGER_MODEL_22KW},
+            {"topic": "/go-eCharger/072246", "charging_power": CHARGING_POWER_22KW},
         )
         await hass.async_block_till_done()
 
@@ -217,7 +217,7 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
     assert result2["reason"] == "reconfigure_successful"
     assert entry.data == {
         CONF_TOPIC: "/go-eCharger/072246",
-        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+        CONF_CHARGING_POWER: CHARGING_POWER_22KW,
     }
 
 
@@ -253,7 +253,7 @@ async def test_form_duplicate_aborts(hass: HomeAssistant) -> None:
         )
         await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "go-eCharger/012345", "charger_model": CHARGER_MODEL_22KW},
+            {"topic": "go-eCharger/012345", "charging_power": CHARGING_POWER_22KW},
         )
         await hass.async_block_till_done()
 
@@ -328,19 +328,19 @@ async def test_form_11kw_model_stored(hass: HomeAssistant) -> None:
     ):
         result2 = await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "go-eCharger/012345", "charger_model": CHARGER_MODEL_11KW},
+            {"topic": "go-eCharger/012345", "charging_power": CHARGING_POWER_11KW},
         )
         await hass.async_block_till_done()
 
     assert result2["type"] == FlowResultType.CREATE_ENTRY
-    assert result2["data"][CONF_CHARGER_MODEL] == CHARGER_MODEL_11KW
+    assert result2["data"][CONF_CHARGING_POWER] == CHARGING_POWER_11KW
 
 
 async def test_reconfigure_can_change_model(hass: HomeAssistant) -> None:
     """Reconfigure lets the user switch from 22 kW to 11 kW."""
     entry = MockConfigEntry(
         domain=DOMAIN,
-        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_22KW},
+        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_22KW},
         version=3,
         unique_id="072246",
     )
@@ -359,18 +359,18 @@ async def test_reconfigure_can_change_model(hass: HomeAssistant) -> None:
     ):
         await hass.config_entries.flow.async_configure(
             result["flow_id"],
-            {"topic": "go-eCharger/072246", "charger_model": CHARGER_MODEL_11KW},
+            {"topic": "go-eCharger/072246", "charging_power": CHARGING_POWER_11KW},
         )
         await hass.async_block_till_done()
 
-    assert entry.data[CONF_CHARGER_MODEL] == CHARGER_MODEL_11KW
+    assert entry.data[CONF_CHARGING_POWER] == CHARGING_POWER_11KW
 
 
 async def test_reconfigure_prefills_existing_model(hass: HomeAssistant) -> None:
     """Reconfigure form shows the currently configured model as default."""
     entry = MockConfigEntry(
         domain=DOMAIN,
-        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_11KW},
+        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_11KW},
         version=3,
         unique_id="072246",
     )
@@ -386,5 +386,5 @@ async def test_reconfigure_prefills_existing_model(hass: HomeAssistant) -> None:
 
     assert result["type"] == FlowResultType.FORM
     schema = result["data_schema"].schema
-    charger_key = next(k for k in schema if str(k) == CONF_CHARGER_MODEL)
-    assert charger_key.default() == CHARGER_MODEL_11KW
+    charger_key = next(k for k in schema if str(k) == CONF_CHARGING_POWER)
+    assert charger_key.default() == CHARGING_POWER_11KW
