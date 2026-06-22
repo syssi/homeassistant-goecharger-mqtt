@@ -3,7 +3,7 @@
 INPUT=mqtt-traffic-060.5.log
 
 API_DESCRIPTIONS="https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-de.md https://raw.githubusercontent.com/goecharger/go-eCharger-API-v2/main/apikeys-en.md"
-SKIP_KEYS="utc,rbt,loc,dns,ccw,dll"
+SKIP_KEYS="utc,rbt,loc,dns,ccw,dll,pakku,ppv"
 
 # https://github.com/goecharger/go-eCharger-API-v2/blob/main/API_KEYS_FIRMWARE/apikeys-de.md
 # https://github.com/goecharger/go-eCharger-API-v2/blob/main/API_KEYS_FIRMWARE/apikeys-en.md
