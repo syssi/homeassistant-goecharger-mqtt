@@ -189,7 +189,7 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_TOPIC: "go-eCharger/072246"},
-        version=2,
+        version=3,
         unique_id="072246",
     )
     entry.add_to_hass(hass)
@@ -341,7 +341,7 @@ async def test_reconfigure_can_change_model(hass: HomeAssistant) -> None:
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_22KW},
-        version=2,
+        version=3,
         unique_id="072246",
     )
     entry.add_to_hass(hass)
@@ -371,7 +371,7 @@ async def test_reconfigure_prefills_existing_model(hass: HomeAssistant) -> None:
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_11KW},
-        version=2,
+        version=3,
         unique_id="072246",
     )
     entry.add_to_hass(hass)

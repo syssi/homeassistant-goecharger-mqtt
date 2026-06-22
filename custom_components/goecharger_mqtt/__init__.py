@@ -17,6 +17,8 @@ import voluptuous as vol
 from .const import (
     ATTR_KEY,
     ATTR_VALUE,
+    CHARGER_MODEL_22KW,
+    CONF_CHARGER_MODEL,
     CONF_SERIAL_NUMBER,
     CONF_TOPIC,
     CONF_TOPIC_PREFIX,
@@ -47,7 +49,7 @@ SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
 
 
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Migrate config entry from v1 (topic_prefix + serial_number) to v2 (topic)."""
+    """Migrate config entries to the current version."""
     if entry.version == 1:
         topic_prefix = entry.data.get(CONF_TOPIC_PREFIX, DEFAULT_TOPIC_PREFIX).rstrip(
             "/"
@@ -60,6 +62,19 @@ async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             version=2,
         )
         _LOGGER.info("Migrated config entry %s to v2: topic=%s", entry.entry_id, topic)
+
+    if entry.version == 2:
+        hass.config_entries.async_update_entry(
+            entry,
+            data={**entry.data, CONF_CHARGER_MODEL: CHARGER_MODEL_22KW},
+            version=3,
+        )
+        _LOGGER.info(
+            "Migrated config entry %s to v3: charger_model=%s",
+            entry.entry_id,
+            CHARGER_MODEL_22KW,
+        )
+
     return True
 
 

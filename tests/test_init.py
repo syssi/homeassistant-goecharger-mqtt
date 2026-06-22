@@ -8,15 +8,22 @@ from homeassistant.helpers import device_registry as dr
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt import async_migrate_entry, async_setup
-from custom_components.goecharger_mqtt.const import CONF_TOPIC, DOMAIN
+from custom_components.goecharger_mqtt.const import (
+    CHARGER_MODEL_22KW,
+    CONF_CHARGER_MODEL,
+    CONF_TOPIC,
+    DOMAIN,
+)
 
 # ---------------------------------------------------------------------------
-# Migration v1 → v2
+# Migration v1 → v3
 # ---------------------------------------------------------------------------
+
+_EXPECTED_V3_DATA = {CONF_TOPIC: "/go-eCharger/072246", CONF_CHARGER_MODEL: CHARGER_MODEL_22KW}
 
 
 async def test_migration_v1_with_leading_slash(hass: HomeAssistant) -> None:
-    """/go-eCharger + 072246 migrates to /go-eCharger/072246."""
+    """/go-eCharger + 072246 migrates all the way to v3 with charger_model."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={"serial_number": "072246", "topic_prefix": "/go-eCharger"},
@@ -25,12 +32,12 @@ async def test_migration_v1_with_leading_slash(hass: HomeAssistant) -> None:
     entry.add_to_hass(hass)
 
     assert await async_migrate_entry(hass, entry) is True
-    assert entry.version == 2
-    assert entry.data == {CONF_TOPIC: "/go-eCharger/072246"}
+    assert entry.version == 3
+    assert entry.data == _EXPECTED_V3_DATA
 
 
 async def test_migration_v1_without_leading_slash(hass: HomeAssistant) -> None:
-    """go-eCharger + 072246 migrates to go-eCharger/072246."""
+    """go-eCharger + 072246 migrates to go-eCharger/072246 with charger_model."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={"serial_number": "072246", "topic_prefix": "go-eCharger"},
@@ -40,7 +47,10 @@ async def test_migration_v1_without_leading_slash(hass: HomeAssistant) -> None:
 
     await async_migrate_entry(hass, entry)
 
-    assert entry.data == {CONF_TOPIC: "go-eCharger/072246"}
+    assert entry.data == {
+        CONF_TOPIC: "go-eCharger/072246",
+        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+    }
 
 
 async def test_migration_v1_missing_topic_prefix_uses_default(
@@ -56,7 +66,10 @@ async def test_migration_v1_missing_topic_prefix_uses_default(
 
     await async_migrate_entry(hass, entry)
 
-    assert entry.data == {CONF_TOPIC: "go-eCharger/072246"}
+    assert entry.data == {
+        CONF_TOPIC: "go-eCharger/072246",
+        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+    }
 
 
 async def test_migration_v1_strips_trailing_slash_from_prefix(
@@ -72,11 +85,14 @@ async def test_migration_v1_strips_trailing_slash_from_prefix(
 
     await async_migrate_entry(hass, entry)
 
-    assert entry.data == {CONF_TOPIC: "go-eCharger/072246"}
+    assert entry.data == {
+        CONF_TOPIC: "go-eCharger/072246",
+        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+    }
 
 
-async def test_migration_v2_is_noop(hass: HomeAssistant) -> None:
-    """v2 entries are returned unchanged."""
+async def test_migration_v2_adds_charger_model(hass: HomeAssistant) -> None:
+    """v2 entries get charger_model=22kw added and are bumped to v3."""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={CONF_TOPIC: "go-eCharger/072246"},
@@ -85,7 +101,28 @@ async def test_migration_v2_is_noop(hass: HomeAssistant) -> None:
     entry.add_to_hass(hass)
 
     assert await async_migrate_entry(hass, entry) is True
-    assert entry.data == {CONF_TOPIC: "go-eCharger/072246"}
+    assert entry.version == 3
+    assert entry.data == {
+        CONF_TOPIC: "go-eCharger/072246",
+        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+    }
+
+
+async def test_migration_v1_also_adds_charger_model(hass: HomeAssistant) -> None:
+    """v1 entries pass through both migrations and end up at v3 with charger_model."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={"serial_number": "072246", "topic_prefix": "go-eCharger"},
+        version=1,
+    )
+    entry.add_to_hass(hass)
+
+    assert await async_migrate_entry(hass, entry) is True
+    assert entry.version == 3
+    assert entry.data == {
+        CONF_TOPIC: "go-eCharger/072246",
+        CONF_CHARGER_MODEL: CHARGER_MODEL_22KW,
+    }
 
 
 # ---------------------------------------------------------------------------
