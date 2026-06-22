@@ -4,11 +4,7 @@ from unittest.mock import patch
 
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import (
-    RESULT_TYPE_ABORT,
-    RESULT_TYPE_CREATE_ENTRY,
-    RESULT_TYPE_FORM,
-)
+from homeassistant.data_entry_flow import FlowResultType
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt.config_flow import CannotConnectError
@@ -30,7 +26,7 @@ async def test_form(hass: HomeAssistant) -> None:
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
     )
-    assert result["type"] == RESULT_TYPE_FORM
+    assert result["type"] == FlowResultType.FORM
     assert result["errors"] is None
 
     with (
@@ -48,7 +44,7 @@ async def test_form(hass: HomeAssistant) -> None:
         )
         await hass.async_block_till_done()
 
-    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["title"] == "go-eCharger 012345"
     assert result2["data"] == {"topic": "/go-eCharger/012345"}
     assert len(mock_setup_entry.mock_calls) == 1
@@ -73,7 +69,7 @@ async def test_form_without_leading_slash(hass: HomeAssistant) -> None:
         )
         await hass.async_block_till_done()
 
-    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["title"] == "go-eCharger 012345"
     assert result2["data"] == {"topic": "go-eCharger/012345"}
 
@@ -93,7 +89,7 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
             {"topic": "/go-eCharger/012345"},
         )
 
-    assert result2["type"] == RESULT_TYPE_FORM
+    assert result2["type"] == FlowResultType.FORM
     assert result2["errors"] == {"base": "cannot_connect"}
 
 
@@ -112,7 +108,7 @@ async def test_form_unknown_error(hass: HomeAssistant) -> None:
             {"topic": "/go-eCharger/012345"},
         )
 
-    assert result2["type"] == RESULT_TYPE_FORM
+    assert result2["type"] == FlowResultType.FORM
     assert result2["errors"] == {"base": "unknown"}
 
 
@@ -135,7 +131,7 @@ async def test_mqtt_discovery_with_leading_slash(hass: HomeAssistant) -> None:
             timestamp=None,
         ),
     )
-    assert result["type"] == RESULT_TYPE_FORM
+    assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "discovery_confirm"
 
     with patch(
@@ -144,7 +140,7 @@ async def test_mqtt_discovery_with_leading_slash(hass: HomeAssistant) -> None:
         result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
         await hass.async_block_till_done()
 
-    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["title"] == "go-eCharger 072246"
     assert result2["data"] == {"topic": "/go-eCharger/072246"}
 
@@ -163,7 +159,7 @@ async def test_mqtt_discovery_without_leading_slash(hass: HomeAssistant) -> None
             timestamp=None,
         ),
     )
-    assert result["type"] == RESULT_TYPE_FORM
+    assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "discovery_confirm"
 
     with patch(
@@ -172,7 +168,7 @@ async def test_mqtt_discovery_without_leading_slash(hass: HomeAssistant) -> None
         result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {})
         await hass.async_block_till_done()
 
-    assert result2["type"] == RESULT_TYPE_CREATE_ENTRY
+    assert result2["type"] == FlowResultType.CREATE_ENTRY
     assert result2["data"] == {"topic": "go-eCharger/072246"}
 
 
@@ -193,7 +189,7 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
             "entry_id": entry.entry_id,
         },
     )
-    assert result["type"] == RESULT_TYPE_FORM
+    assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "reconfigure"
 
     with patch(
@@ -205,7 +201,7 @@ async def test_reconfigure_updates_topic(hass: HomeAssistant) -> None:
         )
         await hass.async_block_till_done()
 
-    assert result2["type"] == RESULT_TYPE_ABORT
+    assert result2["type"] == FlowResultType.ABORT
     assert result2["reason"] == "reconfigure_successful"
     assert entry.data == {CONF_TOPIC: "/go-eCharger/072246"}
 
@@ -224,7 +220,7 @@ async def test_mqtt_discovery_invalid_serial_aborts(hass: HomeAssistant) -> None
             timestamp=None,
         ),
     )
-    assert result["type"] == RESULT_TYPE_ABORT
+    assert result["type"] == FlowResultType.ABORT
     assert result["reason"] == "invalid_discovery_info"
 
 
@@ -256,7 +252,7 @@ async def test_form_duplicate_aborts(hass: HomeAssistant) -> None:
             result2["flow_id"], {"topic": "/go-eCharger/012345"}
         )
 
-    assert result2["type"] == RESULT_TYPE_ABORT
+    assert result2["type"] == FlowResultType.ABORT
     assert result2["reason"] == "already_configured"
 
 
@@ -292,5 +288,5 @@ async def test_mqtt_discovery_duplicate_aborts(hass: HomeAssistant) -> None:
             timestamp=None,
         ),
     )
-    assert result2["type"] == RESULT_TYPE_ABORT
+    assert result2["type"] == FlowResultType.ABORT
     assert result2["reason"] == "already_configured"
