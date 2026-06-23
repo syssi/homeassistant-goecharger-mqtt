@@ -30,7 +30,7 @@ from . import GoEChargerEntityDescription
 _LOGGER = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class GoEChargerSensorEntityDescription(
     GoEChargerEntityDescription, SensorEntityDescription
 ):

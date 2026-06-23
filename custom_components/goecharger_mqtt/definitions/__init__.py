@@ -11,7 +11,7 @@ from homeassistant.helpers.entity import EntityDescription
 _LOGGER = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class GoEChargerEntityDescription(EntityDescription):
     """Generic entity description for go-eCharger."""
 

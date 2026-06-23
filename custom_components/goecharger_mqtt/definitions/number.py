@@ -20,7 +20,7 @@ from . import GoEChargerEntityDescription
 _LOGGER = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(frozen=True)
 class GoEChargerNumberEntityDescription(
     GoEChargerEntityDescription, NumberEntityDescription
 ):

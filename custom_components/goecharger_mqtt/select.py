@@ -40,11 +40,13 @@ class GoEChargerSelect(GoEChargerEntity, SelectEntity):
         super().__init__(config_entry, description)
 
         self.entity_description = description
+        assert description.legacy_options is not None
         self._attr_options = list(description.legacy_options.values())
         self._attr_current_option = None
 
     def key_from_option(self, option: str):
         """Return the option a given payload is assigned to."""
+        assert self.entity_description.legacy_options is not None
         try:
             return next(
                 key

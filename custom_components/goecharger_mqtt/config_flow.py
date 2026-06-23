@@ -7,11 +7,16 @@ from typing import Any
 
 from homeassistant import config_entries
 from homeassistant.components import mqtt
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig
+from homeassistant.helpers.selector import (
+    SelectOptionDict,
+    SelectSelector,
+    SelectSelectorConfig,
+)
+from homeassistant.helpers.service_info.mqtt import MqttServiceInfo
 import voluptuous as vol
 
 from .const import (
@@ -23,13 +28,6 @@ from .const import (
     DOMAIN,
 )
 
-try:
-    # < HA 2022.8.0
-    from homeassistant.components.mqtt import MqttServiceInfo
-except ImportError:
-    # >= HA 2022.8.0
-    from homeassistant.helpers.service_info.mqtt import MqttServiceInfo
-
 _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "go-eCharger"
@@ -37,8 +35,8 @@ DEFAULT_NAME = "go-eCharger"
 _CHARGING_POWER_SELECTOR = SelectSelector(
     SelectSelectorConfig(
         options=[
-            {"value": CHARGING_POWER_11KW, "label": "11 kW (max. 16 A)"},
-            {"value": CHARGING_POWER_22KW, "label": "22 kW (max. 32 A)"},
+            SelectOptionDict(value=CHARGING_POWER_11KW, label="11 kW (max. 16 A)"),
+            SelectOptionDict(value=CHARGING_POWER_22KW, label="22 kW (max. 32 A)"),
         ]
     )
 )
@@ -89,10 +87,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         """Initialize flow."""
-        self._topic = None
+        self._topic: str | None = None
         self._charging_power = CHARGING_POWER_22KW
 
-    async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> FlowResult:
+    async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> ConfigFlowResult:
         """Handle a flow initialized by MQTT discovery."""
         subscribed_topic = discovery_info.subscribed_topic
 
@@ -119,8 +117,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_discovery_confirm(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Confirm the setup."""
+        assert self._topic is not None
         serial_number = self._topic.rstrip("/").split("/")[-1]
         name = f"{DEFAULT_NAME} {serial_number}"
         self.context["title_placeholders"] = {"name": name}
@@ -142,7 +141,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the initial step."""
         if not await mqtt.async_wait_for_mqtt_client(self.hass):
             return self.async_abort(reason="mqtt_not_available")
@@ -176,7 +175,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_reconfigure(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Allow correcting the MQTT topic after initial setup (e.g. after a firmware update)."""
         reconfigure_entry = self._get_reconfigure_entry()
 
