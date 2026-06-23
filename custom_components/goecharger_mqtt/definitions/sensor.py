@@ -216,7 +216,6 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         entity_registry_enabled_default=True,
         disabled=False,
     ),
-
     GoEChargerSensorEntityDescription(
         key="ate",
         name="Automatic stop energy",

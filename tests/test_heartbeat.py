@@ -2,8 +2,8 @@
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
 from homeassistant.core import HomeAssistant
+import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.goecharger_mqtt import async_setup_entry
@@ -35,7 +35,9 @@ async def entry_with_mocks(hass: HomeAssistant):
             "homeassistant.components.mqtt.async_subscribe",
             side_effect=fake_subscribe,
         ),
-        patch.object(hass.config_entries, "async_forward_entry_setups", new=AsyncMock()),
+        patch.object(
+            hass.config_entries, "async_forward_entry_setups", new=AsyncMock()
+        ),
         patch.object(hass.loop, "call_later", side_effect=fake_call_later),
     ):
         await async_setup_entry(hass, entry)

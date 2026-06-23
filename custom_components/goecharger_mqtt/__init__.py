@@ -135,8 +135,7 @@ def _entry_for_device(hass: HomeAssistant, device_id: str) -> ConfigEntry | None
         (
             e
             for eid in device.config_entries
-            if (e := hass.config_entries.async_get_entry(eid))
-            and e.domain == DOMAIN
+            if (e := hass.config_entries.async_get_entry(eid)) and e.domain == DOMAIN
         ),
         None,
     )

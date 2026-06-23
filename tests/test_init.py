@@ -1,5 +1,6 @@
 """Test go-eCharger (MQTT) setup: migration and set_config_key service."""
 
+import json
 import logging
 from unittest.mock import AsyncMock, patch
 
@@ -19,7 +20,10 @@ from custom_components.goecharger_mqtt.const import (
 # Migration v1 → v3
 # ---------------------------------------------------------------------------
 
-_EXPECTED_V3_DATA = {CONF_TOPIC: "/go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_22KW}
+_EXPECTED_V3_DATA = {
+    CONF_TOPIC: "/go-eCharger/072246",
+    CONF_CHARGING_POWER: CHARGING_POWER_22KW,
+}
 
 
 async def test_migration_v1_with_leading_slash(hass: HomeAssistant) -> None:
@@ -332,12 +336,16 @@ async def test_update_grid_power_all_fields(hass: HomeAssistant) -> None:
         await hass.services.async_call(
             DOMAIN,
             "update_grid_power",
-            {"device_id": device.id, "power_grid": -200.0, "power_pv": 1400.0, "power_battery": 0.0},
+            {
+                "device_id": device.id,
+                "power_grid": -200.0,
+                "power_pv": 1400.0,
+                "power_battery": 0.0,
+            },
             blocking=True,
         )
 
-    import json as _json
-    payload = _json.loads(mock_pub.call_args[0][2])
+    payload = json.loads(mock_pub.call_args[0][2])
     assert payload == {"pGrid": -200.0, "pPv": 1400.0, "pAkku": 0.0}
 
 

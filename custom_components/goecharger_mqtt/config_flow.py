@@ -46,7 +46,9 @@ _CHARGING_POWER_SELECTOR = SelectSelector(
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_TOPIC, default=DEFAULT_TOPIC_PREFIX): cv.string,
-        vol.Required(CONF_CHARGING_POWER, default=CHARGING_POWER_22KW): _CHARGING_POWER_SELECTOR,
+        vol.Required(
+            CONF_CHARGING_POWER, default=CHARGING_POWER_22KW
+        ): _CHARGING_POWER_SELECTOR,
     }
 )
 

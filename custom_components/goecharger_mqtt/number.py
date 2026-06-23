@@ -8,7 +8,7 @@ from homeassistant.components import mqtt
 from homeassistant.components.number import NumberEntity
 from homeassistant.core import callback
 
-from .const import CHARGING_POWER_MAX_CURRENT, CHARGING_POWER_22KW, CONF_CHARGING_POWER
+from .const import CHARGING_POWER_22KW, CHARGING_POWER_MAX_CURRENT, CONF_CHARGING_POWER
 from .definitions.number import NUMBERS, GoEChargerNumberEntityDescription
 from .entity import GoEChargerEntity
 
@@ -30,11 +30,12 @@ async def async_setup_entry(
     for description in NUMBERS:
         if description.disabled:
             continue
-        if description.key in _CURRENT_LIMITED_KEYS:
-            description = dataclasses.replace(
-                description, native_max_value=max_current
-            )
-        entities.append(GoEChargerNumber(config_entry, description))
+        desc = (
+            dataclasses.replace(description, native_max_value=max_current)
+            if description.key in _CURRENT_LIMITED_KEYS
+            else description
+        )
+        entities.append(GoEChargerNumber(config_entry, desc))
     async_add_entities(entities)
 
 

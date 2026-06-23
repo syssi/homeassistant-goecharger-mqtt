@@ -121,8 +121,8 @@ async def test_form_cannot_connect(hass: HomeAssistant) -> None:
     with (
         MQTT_AVAILABLE,
         patch(
-        "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
-        side_effect=CannotConnectError,
+            "custom_components.goecharger_mqtt.config_flow.PlaceholderHub.validate_device_topic",
+            side_effect=CannotConnectError,
         ),
     ):
         result2 = await hass.config_entries.flow.async_configure(
@@ -271,7 +271,9 @@ async def test_mqtt_discovery_payload_22_sets_22kw(hass: HomeAssistant) -> None:
     assert result2["data"][CONF_CHARGING_POWER] == CHARGING_POWER_22KW
 
 
-async def test_mqtt_discovery_unknown_payload_falls_back_to_22kw(hass: HomeAssistant) -> None:
+async def test_mqtt_discovery_unknown_payload_falls_back_to_22kw(
+    hass: HomeAssistant,
+) -> None:
     """Discovery with an unexpected payload falls back to 22 kW."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -457,7 +459,10 @@ async def test_reconfigure_can_change_model(hass: HomeAssistant) -> None:
     """Reconfigure lets the user switch from 22 kW to 11 kW."""
     entry = MockConfigEntry(
         domain=DOMAIN,
-        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_22KW},
+        data={
+            CONF_TOPIC: "go-eCharger/072246",
+            CONF_CHARGING_POWER: CHARGING_POWER_22KW,
+        },
         version=3,
         unique_id="072246",
     )
@@ -487,7 +492,10 @@ async def test_reconfigure_prefills_existing_model(hass: HomeAssistant) -> None:
     """Reconfigure form shows the currently configured charging power as default."""
     entry = MockConfigEntry(
         domain=DOMAIN,
-        data={CONF_TOPIC: "go-eCharger/072246", CONF_CHARGING_POWER: CHARGING_POWER_11KW},
+        data={
+            CONF_TOPIC: "go-eCharger/072246",
+            CONF_CHARGING_POWER: CHARGING_POWER_11KW,
+        },
         version=3,
         unique_id="072246",
     )
