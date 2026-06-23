@@ -90,7 +90,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._topic: str | None = None
         self._charging_power = CHARGING_POWER_22KW
 
-    async def async_step_mqtt(self, discovery_info: MqttServiceInfo) -> ConfigFlowResult:
+    async def async_step_mqtt(
+        self, discovery_info: MqttServiceInfo
+    ) -> ConfigFlowResult:
         """Handle a flow initialized by MQTT discovery."""
         subscribed_topic = discovery_info.subscribed_topic
 

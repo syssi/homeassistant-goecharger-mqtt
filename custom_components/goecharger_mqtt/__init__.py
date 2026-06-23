@@ -114,6 +114,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator.async_set_update_error(Exception("Heartbeat timeout"))
 
     unsub = await mqtt.async_subscribe(hass, f"{topic}/utc", _on_heartbeat, 1)
+
     def _cancel_timeout() -> None:
         if _timeout_handle:
             _timeout_handle.cancel()
