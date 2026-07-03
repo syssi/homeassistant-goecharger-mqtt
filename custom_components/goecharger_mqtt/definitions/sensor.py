@@ -204,6 +204,19 @@ def to_code_slug(value, attribute) -> str:
         return str(value)
 
 
+def to_psm_slug(value, unused) -> str:
+    """Map a raw psm MQTT status code to a slug.
+
+    Unlike to_code_slug(), the lookup key is hardcoded instead of taken from
+    attribute, since attribute must stay "" here to keep this sensor's
+    unique_id stable (see #227).
+    """
+    try:
+        return _CODE_STATES["psm"].get(int(value), str(value))
+    except (ValueError, KeyError):
+        return str(value)
+
+
 SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="+/result",
@@ -2066,7 +2079,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(
         key="psm",
         name="Phase switch mode",
-        state=to_code_slug,
+        state=to_psm_slug,
         entity_category=None,
         icon="mdi:speedometer",
         device_class=SensorDeviceClass.ENUM,
