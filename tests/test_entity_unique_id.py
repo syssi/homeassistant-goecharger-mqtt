@@ -320,6 +320,7 @@ _ALL_ENTITIES = [
     ("frc", "button", "0", "072246-button-frc-0"),
     ("frc", "button", "1", "072246-button-frc-1"),
     ("frc", "button", "2", "072246-button-frc-2"),
+    ("dwo", "button", "", "072246-button-dwo-0"),
     # --- number (8 entries) ---
     ("ama", "number", "", "072246-number-ama-0"),
     ("amp", "number", "", "072246-number-amp-0"),

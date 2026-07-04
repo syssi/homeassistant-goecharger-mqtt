@@ -27,7 +27,6 @@ class GoEChargerNumberEntityDescription(
     """Number entity description for go-eCharger."""
 
     domain: str = "number"
-    treat_zero_as_null: bool = False
 
 
 NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
@@ -114,7 +113,6 @@ NUMBERS: tuple[GoEChargerNumberEntityDescription, ...] = (
         native_max_value=1000000,
         native_min_value=0,
         native_step=1,
-        treat_zero_as_null=True,
     ),
     GoEChargerNumberEntityDescription(
         key="lop",

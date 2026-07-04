@@ -67,4 +67,14 @@ BUTTONS: tuple[GoEChargerButtonEntityDescription, ...] = (
         entity_registry_enabled_default=False,
         disabled=False,
     ),
+    GoEChargerButtonEntityDescription(
+        key="dwo",
+        name="Clear energy limit",
+        payload_press="null",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        icon="mdi:infinity",
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
 )

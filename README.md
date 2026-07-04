@@ -84,13 +84,13 @@ This manual method achieves the same result as the HACS installation but require
 | `frc` | Force state neutral | `config` | :white_large_square: | :heavy_check_mark: | |
 | `frc` | Force state dont charge | `config` | :white_large_square: | :heavy_check_mark: | |
 | `frc` | Force state charge | `config` | :white_large_square: | :heavy_check_mark: | |
+| `dwo` | Clear energy limit | `config` | :heavy_check_mark:  | :heavy_check_mark: | |
 
 ### Sensors
 
 | Key | Friendly name | Category | Unit | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ---- | ------------------- | --------- | ------------------ |
 | `+/result` | Last set config key result | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-
 | `ate` | Automatic stop energy | `config` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
 | `att` | Automatic stop time | `config` | s | :heavy_check_mark: | :heavy_check_mark: | |
 | `awc` | Awattar country | `config` |  | :white_large_square: | :white_large_square: | [^1] |
