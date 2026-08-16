@@ -36,6 +36,7 @@ def test_json_array_to_csv_with_null_value_returns_empty_string() -> None:
 
 
 def test_json_array_to_csv_joins_items_with_comma_and_space() -> None:
+    """The CSV separator between items is ", "."""
     assert (
         json_array_to_csv(json.dumps(["60.6 BETA", "60.5 BETA"]), "")
         == "60.6 BETA, 60.5 BETA"
@@ -92,7 +93,7 @@ def test_json_array_to_csv_truncates_lists_longer_than_255_chars() -> None:
     assert csv.startswith("60.6 BETA, 60.5 BETA")
 
 
-def test_json_array_to_csv_stops_adding_items_once_250_chars_would_be_exceeded() -> None:
+def test_json_array_to_csv_drops_item_that_would_exceed_250_chars() -> None:
     """The item that would push the string past 250 chars is dropped, not cut."""
     # The 41 "aa" items alone join to 162 chars; adding the 100-char item
     # would push the running total to 264, so it must be dropped whole.
