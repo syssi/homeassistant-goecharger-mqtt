@@ -73,7 +73,18 @@ def json_array_to_csv(value, unused) -> str:
     if value == "null":
         return ""
 
-    return ", ".join(json.loads(value))
+    items = json.loads(value)
+    csv = ", ".join(items)
+    if len(csv) <= 255:
+        return csv
+
+    length = 0
+    for cutoff, item in enumerate(items):
+        length += len(item) + (2 if cutoff else 0)  # ", " separator
+        if length > 250:
+            break
+
+    return ", ".join(items[:cutoff]) + ", ..."
 
 
 def extract_item_from_array_to_float(value, key) -> float | None:
