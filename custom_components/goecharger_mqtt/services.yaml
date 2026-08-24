@@ -128,7 +128,9 @@ set_config_key:
             - wifis
     value:
       name: Value
-      description: The new value to set for this config parameter.
+      description: >
+        The new value. Use "null" to clear nullable keys such as trx
+        (transaction) or dwo (energy limit).
       example: "go-e"
       required: true
       selector:

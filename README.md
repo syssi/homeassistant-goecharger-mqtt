@@ -369,13 +369,15 @@ action:
 
 ### Service `goecharger_mqtt.set_config_key`
 
-Sets a config `key` to a `value`.
+Sets a config `key` to a `value` by publishing to `{topic}/{key}/set`.
 
 | Service data attribute    | Optional | Description                                                          |
 |---------------------------|----------|----------------------------------------------------------------------|
-| `serial_number`           |       no | The serial number of the go-e device                                 |
+| `device_id`               |       no | The go-eCharger device to configure                                  |
 | `key`                     |       no | The key of the config parameter you want to change                   |
 | `value`                   |       no | The new value                                                        |
+
+`value` is a string (or YAML `null`). Numeric values are published as-is. The strings `true`/`True` and `false`/`False` are published as lowercase booleans. `null`/`none` (and YAML `null`) are published as JSON `null` — required to clear nullable keys such as `trx`. Any other string is JSON-quoted.
 
 ## Tips and tricks
 

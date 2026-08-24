@@ -223,6 +223,57 @@ async def test_service_bool_false(hass: HomeAssistant) -> None:
     mock_pub.assert_called_once_with(hass, "go-eCharger/072246/bac/set", "false")
 
 
+async def test_service_null_string_is_unquoted(hass: HomeAssistant) -> None:
+    """The string 'null' is published as JSON null, not the quoted string "null"."""
+    device = await _register_service_and_device(hass, "go-eCharger/072246")
+
+    with patch(
+        "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+    ) as mock_pub:
+        await hass.services.async_call(
+            DOMAIN,
+            "set_config_key",
+            {"device_id": device.id, "key": "trx", "value": "null"},
+            blocking=True,
+        )
+
+    mock_pub.assert_called_once_with(hass, "go-eCharger/072246/trx/set", "null")
+
+
+async def test_service_none_string_is_unquoted(hass: HomeAssistant) -> None:
+    """The string 'none' is published as JSON null (select option name for trx)."""
+    device = await _register_service_and_device(hass, "go-eCharger/072246")
+
+    with patch(
+        "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+    ) as mock_pub:
+        await hass.services.async_call(
+            DOMAIN,
+            "set_config_key",
+            {"device_id": device.id, "key": "trx", "value": "none"},
+            blocking=True,
+        )
+
+    mock_pub.assert_called_once_with(hass, "go-eCharger/072246/trx/set", "null")
+
+
+async def test_service_yaml_null_is_unquoted(hass: HomeAssistant) -> None:
+    """YAML null (Python None) is published as JSON null."""
+    device = await _register_service_and_device(hass, "go-eCharger/072246")
+
+    with patch(
+        "homeassistant.components.mqtt.async_publish", new_callable=AsyncMock
+    ) as mock_pub:
+        await hass.services.async_call(
+            DOMAIN,
+            "set_config_key",
+            {"device_id": device.id, "key": "trx", "value": None},
+            blocking=True,
+        )
+
+    mock_pub.assert_called_once_with(hass, "go-eCharger/072246/trx/set", "null")
+
+
 # ---------------------------------------------------------------------------
 # set_config_key service — topic variants
 # ---------------------------------------------------------------------------

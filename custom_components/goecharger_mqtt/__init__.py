@@ -44,7 +44,7 @@ SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
     {
         vol.Required("device_id"): cv.string,
         vol.Required(ATTR_KEY): cv.string,
-        vol.Required(ATTR_VALUE): cv.string,
+        vol.Required(ATTR_VALUE): vol.Any(None, cv.string),
     }
 )
 
@@ -131,6 +131,23 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 
+def _format_config_value(value: str | None) -> str:
+    """Encode a set_config_key value as an MQTT payload.
+
+    Numbers, booleans and JSON null are published unquoted. Other strings are
+    JSON-quoted so the charger treats them as strings.
+    """
+    if value is None or value.lower() in ("null", "none"):
+        return "null"
+    if value.isnumeric():
+        return value
+    if value in ("true", "True"):
+        return "true"
+    if value in ("false", "False"):
+        return "false"
+    return f'"{value}"'
+
+
 def _entry_for_device(hass: HomeAssistant, device_id: str) -> ConfigEntry | None:
     device = dr.async_get(hass).async_get(device_id)
     if device is None:
@@ -159,15 +176,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             return
 
         key = call.data[ATTR_KEY]
-        value = call.data[ATTR_VALUE]
-
-        if not value.isnumeric():
-            if value in ["true", "True"]:
-                value = "true"
-            elif value in ["false", "False"]:
-                value = "false"
-            else:
-                value = f'"{value}"'
+        value = _format_config_value(call.data[ATTR_VALUE])
 
         await mqtt.async_publish(hass, f"{entry.data[CONF_TOPIC]}/{key}/set", value)
 
