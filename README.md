@@ -8,7 +8,7 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/syssi/homeassistant-goecharger-mqtt)
 [!["Buy Me A Coffee"](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/syssi)
 
-This is a custom component for Home Assistant to integrate the go-eCharger HOME+, HOMEfix and Gemini using the MQTT API (v2). If you are using the go-eController there's [another project](https://github.com/karloskar/homeassistant-goecontroller-mqtt) covering that.
+This is a custom component for Home Assistant to integrate the go-eCharger HOME+, HOMEfix and Gemini using the MQTT API (v1 and v2). If you are using the go-eController there's [another project](https://github.com/karloskar/homeassistant-goecontroller-mqtt) covering that.
 
 ![Lovelace entities card](assets/lovelace-entities-card.png "Lovelace entities card")
 
@@ -62,236 +62,238 @@ This manual method achieves the same result as the HACS installation but require
 | `pha` | Phase L1 before contactor | `diagnostic` | :white_large_square: | :heavy_check_mark: | |
 | `pha` | Phase L2 before contactor | `diagnostic` | :white_large_square: | :heavy_check_mark: | |
 | `pha` | Phase L3 before contactor | `diagnostic` | :white_large_square: | :heavy_check_mark: | |
-| `cca` | Cloud websocket use client auth | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `ocuca` | OTA cloud use client auth | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `sbe` | Secure boot enabled |  | :white_large_square: | :white_large_square: | [^1] |
+| `cca` | Cloud websocket use client auth | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ocuca` | OTA cloud use client auth | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `sbe` | Secure boot enabled |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `adi` | 16A adapter attached | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | |
-| `cpe` | Charge control requests the cp signal enabled or not immediately | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `cpr` | CP enable request | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `cws` | Cloud websocket started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `cwsc` | Cloud websocket connected | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `fsp` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | Is always false. Please use `psm` instead |
-| `lwcf` | Last failed WiFi connect | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] |
-| `sua` | Simulate unplugging permanently | `config` | :white_large_square: | :white_large_square: | [^1] |
+| `cpe` | Charge control requests the cp signal enabled or not immediately | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `cpr` | CP enable request | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `cws` | Cloud websocket started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `cwsc` | Cloud websocket connected | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `fsp` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | Is always false. Please use `psm` instead [^3] |
+| `lwcf` | Last failed WiFi connect | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `tlf` | Test charging finished | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `tls` | Test charging started | `diagnostic` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `sua` | Simulate unplugging permanently | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
 
 ### Buttons
 
 | Topic | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | ----- | ------------- | -------- | ------------------- | --------- | ------------------ |
-| `rst` | Restart device | `config` | :heavy_check_mark:  | :heavy_check_mark: | |
-| `frc` | Force state neutral | `config` | :white_large_square: | :heavy_check_mark: | |
-| `frc` | Force state dont charge | `config` | :white_large_square: | :heavy_check_mark: | |
-| `frc` | Force state charge | `config` | :white_large_square: | :heavy_check_mark: | |
+| `rst` | Restart device | `config` | :heavy_check_mark:  | :heavy_check_mark: | [^3] |
+| `frc` | Force state neutral | `config` | :white_large_square: | :heavy_check_mark: | [^3] |
+| `frc` | Force state dont charge | `config` | :white_large_square: | :heavy_check_mark: | [^3] |
+| `frc` | Force state charge | `config` | :white_large_square: | :heavy_check_mark: | [^3] |
 | `dwo` | Clear energy limit | `config` | :heavy_check_mark:  | :heavy_check_mark: | |
 
 ### Sensors
 
 | Key | Friendly name | Category | Unit | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ---- | ------------------- | --------- | ------------------ |
-| `+/result` | Last set config key result | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `ate` | Automatic stop energy | `config` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
-| `att` | Automatic stop time | `config` | s | :heavy_check_mark: | :heavy_check_mark: | |
-| `awc` | Awattar country | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `awp` | Awattar maximum price threshold | `config` | ¢ | :white_large_square: | :heavy_check_mark: | |
+| `+/result` | Last set config key result | `config` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `ate` | Automatic stop energy | `config` | Wh | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `att` | Automatic stop time | `config` | s | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `awc` | Awattar country | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `awp` | Awattar maximum price threshold | `config` | ¢ | :white_large_square: | :heavy_check_mark: | [^3] |
 | `cch` | Color charging | `config` |  | :white_large_square: | :heavy_check_mark: | |
 | `cco` | Car consumption | `config` |  | :white_large_square: | :white_large_square: | App only |
 | `cfi` | Color finished | `config` |  | :white_large_square: | :heavy_check_mark: | |
 | `cid` | Color idle | `config` |  | :white_large_square: | :heavy_check_mark: | |
-| `clp` | Current limit presets | `config` | A | :white_large_square: | :heavy_check_mark: | |
-| `ct` | Car type | `config` |  | :white_large_square: | :white_large_square: | App only |
-| `cwc` | Color wait for car | `config` |  | :white_large_square: | :heavy_check_mark: | |
-| `fna` | Friendly name | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `frc` | Force state | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `frc` | Force state code | `config` |  | :white_large_square: | :heavy_check_mark: | |
+| `clp` | Current limit presets | `config` | A | :white_large_square: | :heavy_check_mark: | [^3] |
+| `ct` | Car type | `config` |  | :white_large_square: | :white_large_square: | App only [^3] |
+| `cwc` | Color wait for car | `config` |  | :white_large_square: | :heavy_check_mark: | [^3] |
+| `fna` | Friendly name | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `frc` | Force state | `config` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `frc` | Force state code | `config` |  | :white_large_square: | :heavy_check_mark: | [^3] |
 | `lbr` | LED brightness | `config` |  | :white_large_square: | :heavy_check_mark: | |
-| `lmo` | Logic mode | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
+| `lmo` | Logic mode | `config` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 | `lof` | Load balancing fallback current | `config` | A | :white_large_square: | :white_large_square: | [^1] |
 | `log` | Load balancing group id | `config` |  | :white_large_square: | :white_large_square: | [^1] |
 | `lop` | Load balancing priority | `config` |  | :white_large_square: | :white_large_square: | [^1] |
 | `lot` | Load balancing total ampere | `config` | A | :white_large_square: | :white_large_square: | [^1] |
-| `loty` | Load balancing type | `config` |  | :white_large_square: | :white_large_square: | [^1] |
+| `loty` | Load balancing type | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `map` | Load mapping | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `mca` | Minimum charging current | `config` | A | :heavy_check_mark: | :heavy_check_mark: | |
-| `mci` | Minimum charging interval | `config` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `mcpd` | Minimum charge pause duration | `config` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `mptwt` | Minimum phase toggle wait time | `config` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `mpwst` | Minimum phase wish switch time | `config` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `pass` | User password | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `psmd` | Force single phase duration | `config` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `sch_satur` | Scheduler saturday | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `sch_sund` | Scheduler sunday | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `sch_week` | Scheduler weekday | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `spl3` | Three phase switch level | `config` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `sumd` | Simulate unplugging duration | `config` | ms | :white_large_square: | :white_large_square: | [^1] |
+| `mca` | Minimum charging current | `config` | A | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `mci` | Minimum charging interval | `config` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `mcpd` | Minimum charge pause duration | `config` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `mptwt` | Minimum phase toggle wait time | `config` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `mpwst` | Minimum phase wish switch time | `config` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `pass` | User password | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `psmd` | Force single phase duration | `config` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `sch_satur` | Scheduler saturday | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `sch_sund` | Scheduler sunday | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `sch_week` | Scheduler weekday | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `spl3` | Three phase switch level | `config` | W | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `sumd` | Simulate unplugging duration | `config` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `tds` | Timezone daylight saving mode | `config` |  | :white_large_square: | :white_large_square: | [^1] |
 | `tof` | Timezone offset in minutes | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ts` | Time server | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `tssi` | Time server sync interval | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `tssm` | Time server sync mode | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `tsss` | Time server sync status | `config` |  | :white_large_square: | :white_large_square: | [^1] |
+| `ts` | Time server | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `tssi` | Time server sync interval | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `tssm` | Time server sync mode | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `tsss` | Time server sync status | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `ust` | Cable unlock mode | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `ust` | Cable unlock mode code | `config` |  | :white_large_square: | :heavy_check_mark: | |
 | `wak` | WiFi accesspoint encryption key | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `wan` | WiFi accesspoint network name | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `wifis` | WiFi configurations | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `apd` | Firmware description |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `arv` | App recommended version |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `ecf` | ESP CPU frequency |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `eci` | ESP Chip info |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `eem` | ESP CPU frequency |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `efi` | ESP Flash info |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `facwak` | WiFi accesspoint key reset value |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `fem` | Flash encryption mode |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `ffna` | Factory friendly name |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `fwan` | Factory WiFi accesspoint network name |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `fwc` | Firmware from car control |  |  | :white_large_square: | :white_large_square: | [^1] |
+| `wan` | WiFi accesspoint network name | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `wifis` | WiFi configurations | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `apd` | Firmware description |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `arv` | App recommended version |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ecf` | ESP CPU frequency |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `eci` | ESP Chip info |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `eem` | ESP CPU frequency |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `efi` | ESP Flash info |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `facwak` | WiFi accesspoint key reset value |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `fem` | Flash encryption mode |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ffna` | Factory friendly name |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `fwan` | Factory WiFi accesspoint network name |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `fwc` | Firmware from car control |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `fwv` | Firmware version |  |  | :white_large_square: | :heavy_check_mark: | |
-| `mod` | Hardware version |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `oem` | Manufacturer |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `otap` | Active OTA partition |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `part` | Partition table |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `pto` | Partition table offset in flash |  |  | :white_large_square: | :white_large_square: | [^1] |
+| `mod` | Hardware version |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `oem` | Manufacturer |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `otap` | Active OTA partition |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `part` | Partition table |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `pto` | Partition table offset in flash |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `sse` | Serial number |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `typ` | Device type |  |  | :white_large_square: | :white_large_square: | [^1] |
-| `var` | Device variant |  | kW | :white_large_square: | :heavy_check_mark: | |
-| `del` | Delete card | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `delw` | Delete STA config | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `lrn` | Learn card | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `oct` | Firmware update trigger | `config` |  | :white_large_square: | :white_large_square: | [^1] |
-| `acu` | Maximum allowed current | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
+| `typ` | Device type |  |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `var` | Device variant |  | kW | :white_large_square: | :heavy_check_mark: | [^3] |
+| `del` | Delete card | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `delw` | Delete STA config | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `lrn` | Learn card | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `oct` | Firmware update trigger | `config` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `acu` | Maximum allowed current | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 | `amt` | Current temperature limit | `diagnostic` | °C | :heavy_check_mark: | :heavy_check_mark: | |
-| `atp` | Next trip plan data | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `awcp` | Awattar current price | `diagnostic` | ¢ | :white_large_square: | :heavy_check_mark: | |
-| `awpl` | Awattar price list | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
+| `atp` | Next trip plan data | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `awcp` | Awattar current price | `diagnostic` | ¢ | :white_large_square: | :heavy_check_mark: | [^3] |
+| `awpl` | Awattar price list | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `car` | Car state | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `cbl` | Cable maximum current | `diagnostic` | A | :white_large_square: | :heavy_check_mark: | |
-| `ccu` | Charge controller update progress | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ccw` | Connected WiFi | `diagnostic` |  | :white_large_square: | :white_large_square: | JSON decoding required. Values non-essential |
+| `ccu` | Charge controller update progress | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ccw` | Connected WiFi | `diagnostic` |  | :white_large_square: | :white_large_square: | JSON decoding required. Values non-essential [^3] |
 | `cdi` | Charging duration | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | |
 | `cdi` | Charging duration counter | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `cus` | Cable unlock status code | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `cus` | Cable unlock status | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `cwsca` | Cloud websocket connected | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `efh` | ESP free heap | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `efh32` | ESP free heap 32bit aligned | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `efh8` | ESP free heap 8bit aligned | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ehs` | ESP heap size | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `emfh` | ESP minimum free heap since boot | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `emhb` | ESP maximum size of allocated heap block since boot | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
+| `cus` | Cable unlock status code | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cus` | Cable unlock status | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `cwsca` | Cloud websocket connected | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `efh` | ESP free heap | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `efh32` | ESP free heap 32bit aligned | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `efh8` | ESP free heap 8bit aligned | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ehs` | ESP heap size | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `emfh` | ESP minimum free heap since boot | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `emhb` | ESP maximum size of allocated heap block since boot | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `err` | Error | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `err` | Error code | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `esr` | RTC reset reason | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `eto` | Total energy | `diagnostic` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
-| `etop` | Total energy persisted | `diagnostic` | Wh | :white_large_square: | :white_large_square: | [^1] |
-| `ffb` | Lock feedback | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ffba` | Lock feedback age | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `fhz` | Grid frequency | `diagnostic` | Hz | :white_large_square: | :heavy_check_mark: | |
-| `fsptws` | Force single phase toggle wished since | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `host` | Hostname on STA interface | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `lbp` | Last button press | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `lccfc` | Last car state changed from charging | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | |
-| `lccfi` | Last car state changed from idle | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | |
-| `lcctc` | Last car state changed to charging | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | |
-| `lck` | Effective lock setting | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `led` | LED animation details | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `lfspt` | Last force single phase toggle | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `lmsc` | Last model status change | `diagnostic` | ms | :white_large_square: | :heavy_check_mark: | |
+| `esr` | RTC reset reason | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `dws` | Charged energy this session | `diagnostic` | Wh | :heavy_check_mark: | :white_large_square: | [^4] [^5] |
+| `eto` | Total energy | `diagnostic` | Wh | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `etop` | Total energy persisted | `diagnostic` | Wh | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ffb` | Lock feedback | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ffba` | Lock feedback age | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `fhz` | Grid frequency | `diagnostic` | Hz | :white_large_square: | :heavy_check_mark: | [^3] |
+| `fsptws` | Force single phase toggle wished since | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `host` | Hostname on STA interface | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `lbp` | Last button press | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | [^3] |
+| `lccfc` | Last car state changed from charging | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `lccfi` | Last car state changed from idle | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `lcctc` | Last car state changed to charging | `diagnostic` | ms | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `lck` | Effective lock setting | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `led` | LED animation details | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `lfspt` | Last force single phase toggle | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `lmsc` | Last model status change | `diagnostic` | ms | :white_large_square: | :heavy_check_mark: | [^3] |
 | `loa` | Load balancing available current | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
-| `loc` | Local time | `diagnostic` |  | :white_large_square: | :white_large_square: | Valueless with a high update interval of 1s |
+| `loc` | Local time | `diagnostic` |  | :white_large_square: | :white_large_square: | Valueless with a high update interval of 1s [^3] |
 | `lom` | Load balancing members | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
 | `los` | Load balancing status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `lssfc` | WiFi station disconnected since | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `lsstc` | WiFi station connected since | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `mcpea` | Minimum charge pause ends at | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] |
-| `mmp` | Maximum measured charging power | `diagnostic` | W | :white_large_square: | :white_large_square: | [^1] |
-| `modelStatus` | Status | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `modelStatus` | Status code | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `msi` | Reason why we allow charging or not | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `nrg` | Voltage L1 | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Voltage L2 | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Voltage L3 | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Voltage N | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Current L1 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Current L2 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Current L3 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power L1 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power L2 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power L3 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power N | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Current power | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power factor L1 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power factor L2 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power factor L3 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
-| `nrg` | Power factor N | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | |
-| `oca` | OTA cloud app description | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ocl` | OTA from cloud length | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ocm` | OTA from cloud message | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ocp` | OTA from cloud progress | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ocs` | OTA from cloud status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `ocu` | List of available firmware versions | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | |
-| `onv` | Newest OTA version | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `pwm` | Phase wish mode for debugging | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `pgrid` | Power from Grid |  |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `ppv` | Power from Solar Panels |  |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `pakku` | Power from External Battery |  |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `qsc` | Queue size cloud | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `qsw` | Queue size web | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
+| `lssfc` | WiFi station disconnected since | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `lsstc` | WiFi station connected since | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `mcpea` | Minimum charge pause ends at | `diagnostic` | ms | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `mmp` | Maximum measured charging power | `diagnostic` | W | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `modelStatus` | Status | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `modelStatus` | Status code | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | [^3] |
+| `msi` | Reason why we allow charging or not | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `nrg` | Voltage L1 | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Voltage L2 | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Voltage L3 | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Voltage N | `diagnostic` | V | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Current L1 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Current L2 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Current L3 | `diagnostic` | A | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power L1 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power L2 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power L3 | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power N | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Current power | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power factor L1 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power factor L2 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power factor L3 | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `nrg` | Power factor N | `diagnostic` | % | :heavy_check_mark: | :heavy_check_mark: | [^5] |
+| `oca` | OTA cloud app description | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ocl` | OTA from cloud length | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ocm` | OTA from cloud message | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ocp` | OTA from cloud progress | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ocs` | OTA from cloud status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `ocu` | List of available firmware versions | `diagnostic` |  | :white_large_square: | :heavy_check_mark: | [^3] |
+| `onv` | Newest OTA version | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `pwm` | Phase wish mode for debugging | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `pgrid` | Power from Grid |  |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `ppv` | Power from Solar Panels |  |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `pakku` | Power from External Battery |  |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `qsc` | Queue size cloud | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `qsw` | Queue size web | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `rbc` | Reboot counter | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
 | `rbt` | Uptime | `diagnostic` |  | :white_large_square: | :white_large_square: | TODO: Convert to a timestamp first |
 | `rcd` | Residual current detection | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `rfb` | Relay feedback | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `rr` | ESP reset reason | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `rssi` | WiFi signal strength | `diagnostic` | dBm | :white_large_square: | :heavy_check_mark: | |
-| `scaa` | WiFi scan age | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `scan` | WiFi scan result | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `scas` | WiFi scan status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
+| `rfb` | Relay feedback | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `rr` | ESP reset reason | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `rssi` | WiFi signal strength | `diagnostic` | dBm | :white_large_square: | :heavy_check_mark: | [^3] |
+| `scaa` | WiFi scan age | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `scan` | WiFi scan result | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `scas` | WiFi scan status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `tma` | Temperature sensor 1 | `diagnostic` | °C | :heavy_check_mark: | :heavy_check_mark: | |
 | `tma` | Temperature sensor 2 | `diagnostic` | °C | :heavy_check_mark: | :heavy_check_mark: | |
-| `tpa` | Total power average | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | |
-| `trx` | Transaction | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `tsom` | Time server operating mode | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `utc` | UTC time | `diagnostic` |  | :white_large_square: | :white_large_square: | Valueless with a high update interval of 1s |
-| `wcch` | Clients via http | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `wccw` | Clients via websocket | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `wh` | Charged energy | `diagnostic` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
-| `wsms` | WiFi state machine state | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
+| `tpa` | Total power average | `diagnostic` | W | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `trx` | Transaction | `diagnostic` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `tsom` | Time server operating mode | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `utc` | UTC time | `diagnostic` |  | :white_large_square: | :white_large_square: | Valueless with a high update interval of 1s [^3] |
+| `wcch` | Clients via http | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `wccw` | Clients via websocket | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `wh` | Charged energy | `diagnostic` | Wh | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `wsms` | WiFi state machine state | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `wst` | WiFi station status | `diagnostic` |  | :white_large_square: | :white_large_square: | [^1] |
-| `psm` | Configured phases | `config` |  | :heavy_check_mark: | :heavy_check_mark: | |
-| `cards` | Charged energy card 1 | `diagnostic` | Wh | :heavy_check_mark: | :heavy_check_mark: | |
-| `cards` | Charged energy card 2 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 3 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 4 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 5 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 6 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 7 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 8 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 9 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
-| `cards` | Charged energy card 10 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | |
+| `psm` | Configured phases | `config` |  | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 1 | `diagnostic` | Wh | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 2 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 3 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 4 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 5 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 6 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 7 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 8 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 9 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
+| `cards` | Charged energy card 10 | `diagnostic` | Wh | :white_large_square: | :heavy_check_mark: | [^3] |
 
 ### Switch entities
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
-| `ara` | Automatic stop mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `alw` | Allow charging | `config` | :heavy_check_mark: | :heavy_check_mark: | [^4] |
+| `ara` | Automatic stop mode | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 | `wen` | WiFi enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `tse` | Time server enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
+| `tse` | Time server enabled | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `nmo` | Norway mode | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `lse` | LED off on standby | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `awe` | Awattar mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `acp` | Allow charge pause | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
-| `esk` | Energy set | `config` | :white_large_square: | :white_large_square: | App only |
-| `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `fzf` | Zero feedin | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `su` | Simulate unplugging | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `hws` | HTTP STA reachable | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `hsa` | HTTP STA authentication | `config` | :white_large_square: | :white_large_square: | [^1] |
+| `awe` | Awattar mode | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `acp` | Allow charge pause | `config` | :heavy_check_mark: | :white_large_square: | [^1] [^3] |
+| `esk` | Energy set | `config` | :white_large_square: | :white_large_square: | App only [^3] |
+| `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `fzf` | Zero feedin | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `su` | Simulate unplugging | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `hws` | HTTP STA reachable | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `hsa` | HTTP STA authentication | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
 | `loe` | Load balancing enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `upo` | Unlock power outage | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `cwe` | Cloud websocket enabled | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `psm` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | |
-| `acs` | Card authorization required | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `upo` | Unlock power outage | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `cwe` | Cloud websocket enabled | `config` | :white_large_square: | :white_large_square: | [^1] [^3] |
+| `psm` | Force single phase | `diagnostic` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `acs` | Card authorization required | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 
 ### Number entities
 
@@ -299,29 +301,29 @@ This manual method achieves the same result as the HACS installation but require
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
 | `ama` | Maximum current limit | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `amp` | Requested current | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `ate` | Automatic stop energy | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `att` | Automatic stop time | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `awp` | Awattar maximum price threshold | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `dwo` | Charging energy limit | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `ate` | Automatic stop energy | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `att` | Automatic stop time | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `awp` | Awattar maximum price threshold | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `dwo` | Charging energy limit | `config` | :heavy_check_mark: | :heavy_check_mark: | [^5] |
 | `lop` | Load balancing priority | `config` | :white_large_square: | :white_large_square: | [^1] |
-| `pgt` | Grid target | `config` | :heavy_check_mark: | :heavy_check_mark: | [^2] |
-| `fst` | PV surplus starting power | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `sh` | PV surplus stop hysteresis | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `psh` | PV surplus phase switch hysteresis | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `po` | PV surplus power offset | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `zfo` | Zero feedin offset | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `pgt` | Grid target | `config` | :heavy_check_mark: | :heavy_check_mark: | [^2] [^3] |
+| `fst` | PV surplus starting power | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `sh` | PV surplus stop hysteresis | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `psh` | PV surplus phase switch hysteresis | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `po` | PV surplus power offset | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `zfo` | Zero feedin offset | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 
 ### Select entities
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
-| `bac` | Button allow current change | `config` | :heavy_check_mark: | :heavy_check_mark: | Values: `always_lock` / `lock_when_car_connected` / `lock_when_charging` / `never_lock` |
+| `bac` | Button allow current change | `config` | :heavy_check_mark: | :heavy_check_mark: | Values: `always_lock` / `lock_when_car_connected` / `lock_when_charging` / `never_lock` [^3] |
 | `sdp` | Button allow force change | `config` | :heavy_check_mark: | :heavy_check_mark: | Values: `always_lock` / `lock_when_car_connected` / `lock_when_charging` / `never_lock` |
-| `lmo` | Logic mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `psm` | Phase switch mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `lmo` | Logic mode | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `psm` | Phase switch mode | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 | `ust` | Cable unlock mode | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `frc` | Force state | `config` | :heavy_check_mark: | :heavy_check_mark: | |
-| `trx` | Transaction | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `frc` | Force state | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
+| `trx` | Transaction | `config` | :heavy_check_mark: | :heavy_check_mark: | [^3] |
 
 ## Charge with PV Surplus
 
@@ -331,7 +333,7 @@ This feature requires firmware 0.55.6 or newer.
 
 | Key | Friendly name | Category | Enabled per default | Supported | Unsupported reason |
 | --- | ------------- | -------- | ------------------- | --------- | ------------------ |
-| `ids` | Input avail Power | `config` | :white_large_square:  | :heavy_check_mark:  | |
+| `ids` | Input avail Power | `config` | :white_large_square:  | :heavy_check_mark:  | [^3] |
 
 `ids` is used to input values to the ECO PV-surplus charging mode. (PV = Photo Voltaic aka Solar Panels)
 
@@ -405,7 +407,11 @@ details please see https://github.com/goecharger/go-eCharger-API-v2/issues/35.
 
 * https://github.com/goecharger/go-eCharger-API-v2/blob/main/mqtt-en.md
 * https://github.com/goecharger/go-eCharger-API-v2/blob/main/apikeys-en.md
+* https://github.com/goecharger/go-eCharger-API-v1/blob/master/go-eCharger%20API%20v1%20DE.md
 * https://github.com/boralyl/github-custom-component-tutorial
 
 [^1]: Not exposed via MQTT in firmware 053.1
 [^2]: Exposed via MQTT since firmware 056.2
+[^3]: Not available in v1 Devices
+[^4]: Not available in v2 Devices
+[^5]: V1 `eto` and `dwo` values (0.1 kWh), `dws` values (10 Ws), and the scaled current/power fields in `nrg` are converted to the entity's displayed unit. Power-factor values in `nrg` are already percentages.

@@ -20,12 +20,17 @@ from homeassistant.helpers.service_info.mqtt import MqttServiceInfo
 import voluptuous as vol
 
 from .const import (
+    API_VERSION_AUTO,
+    API_VERSION_V1,
+    API_VERSION_V2,
     CHARGING_POWER_11KW,
     CHARGING_POWER_22KW,
+    CONF_API_VERSION,
     CONF_CHARGING_POWER,
     CONF_TOPIC,
     DEFAULT_TOPIC_PREFIX,
     DOMAIN,
+    normalize_base_topic,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -41,9 +46,20 @@ _CHARGING_POWER_SELECTOR = SelectSelector(
     )
 )
 
+_API_VERSION_SELECTOR = SelectSelector(
+    SelectSelectorConfig(
+        options=[
+            SelectOptionDict(value=API_VERSION_V1, label="API v1"),
+            SelectOptionDict(value=API_VERSION_V2, label="API v2"),
+            SelectOptionDict(value=API_VERSION_AUTO, label="Automatic detection"),
+        ]
+    )
+)
+
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_TOPIC, default=DEFAULT_TOPIC_PREFIX): cv.string,
+        vol.Required(CONF_API_VERSION, default=API_VERSION_V2): _API_VERSION_SELECTOR,
         vol.Required(
             CONF_CHARGING_POWER, default=CHARGING_POWER_22KW
         ): _CHARGING_POWER_SELECTOR,
@@ -76,7 +92,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
     if not await hub.validate_device_topic():
         raise CannotConnectError
 
-    serial_number = data[CONF_TOPIC].rstrip("/").split("/")[-1]
+    serial_number = data[CONF_TOPIC].split("/")[-1]
     return {"title": f"{DEFAULT_NAME} {serial_number}"}
 
 
@@ -89,6 +105,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize flow."""
         self._topic: str | None = None
         self._charging_power = CHARGING_POWER_22KW
+        self._api_version = API_VERSION_AUTO
 
     async def async_step_mqtt(
         self, discovery_info: MqttServiceInfo
@@ -97,11 +114,20 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         subscribed_topic = discovery_info.subscribed_topic
 
         # Subscribed topic must be in sync with the manifest.json
-        assert subscribed_topic in ["/go-eCharger/+/var", "go-eCharger/+/var"]
+        assert subscribed_topic in [
+            "/go-eCharger/+/var",
+            "go-eCharger/+/var",
+            "/go-eCharger/+/status",
+            "go-eCharger/+/status",
+        ]
 
-        # Example topic: /go-eCharger/072246/var → store as /go-eCharger/072246
-        self._topic = discovery_info.topic.replace("/var", "")
-        serial_number = self._topic.rstrip("/").split("/")[-1]
+        self._topic = normalize_base_topic(discovery_info.topic)
+        serial_number = self._topic.split("/")[-1]
+        self._api_version = (
+            API_VERSION_V1
+            if discovery_info.topic.endswith("/status")
+            else API_VERSION_V2
+        )
 
         if not serial_number.isnumeric():
             return self.async_abort(reason="invalid_discovery_info")
@@ -122,7 +148,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Confirm the setup."""
         assert self._topic is not None
-        serial_number = self._topic.rstrip("/").split("/")[-1]
+        serial_number = self._topic.split("/")[-1]
         name = f"{DEFAULT_NAME} {serial_number}"
         self.context["title_placeholders"] = {"name": name}
 
@@ -131,6 +157,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 title=name,
                 data={
                     CONF_TOPIC: self._topic,
+                    CONF_API_VERSION: self._api_version,
                     CONF_CHARGING_POWER: self._charging_power,
                 },
             )
@@ -193,6 +220,12 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                             ),
                         ): cv.string,
                         vol.Required(
+                            CONF_API_VERSION,
+                            default=reconfigure_entry.data.get(
+                                CONF_API_VERSION, API_VERSION_AUTO
+                            ),
+                        ): _API_VERSION_SELECTOR,
+                        vol.Required(
                             CONF_CHARGING_POWER,
                             default=reconfigure_entry.data.get(
                                 CONF_CHARGING_POWER, CHARGING_POWER_22KW
@@ -209,6 +242,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             reconfigure_entry,
             data={
                 CONF_TOPIC: user_input[CONF_TOPIC],
+                CONF_API_VERSION: user_input[CONF_API_VERSION],
                 CONF_CHARGING_POWER: user_input[CONF_CHARGING_POWER],
             },
         )

@@ -101,6 +101,9 @@
       }
     },
     "sensor": {
+      "amt_v1": { "name": "Maximum current" },
+      "cdi_v1": { "name": "Cloud disabled" },
+      "dws": { "name": "Charged energy this session" },
       "nrg_0": { "name": "Voltage L1" },
       "nrg_1": { "name": "Voltage L2" },
       "nrg_2": { "name": "Voltage L3" },
@@ -229,6 +232,9 @@
           "three_phases": "3 Phases"
         }
       }
+    },
+    "binary_sensor": {
+      "cdi_v1": { "name": "Cloud disabled" }
     }
   }
 }

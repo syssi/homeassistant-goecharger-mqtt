@@ -21,3 +21,4 @@ class GoEChargerEntityDescription(EntityDescription):
     disabled: bool | None = None
     disabled_reason: str | None = None
     translation_key: str | None = None
+    api_version: str | None = None

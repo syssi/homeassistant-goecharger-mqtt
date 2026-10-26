@@ -9,6 +9,7 @@ import logging
 from homeassistant.components.binary_sensor import BinarySensorEntityDescription
 from homeassistant.helpers.entity import EntityCategory
 
+from ..const import API_VERSION_V1
 from . import GoEChargerEntityDescription
 
 _LOGGER = logging.getLogger(__name__)
@@ -44,6 +45,17 @@ BINARY_SENSORS: tuple[GoEChargerBinarySensorEntityDescription, ...] = (
         icon="mdi:car",
         entity_registry_enabled_default=True,
         disabled=False,
+    ),
+    GoEChargerBinarySensorEntityDescription(
+        key="cdi",
+        name="Cloud disabled",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=None,
+        icon="mdi:cloud-off-outline",
+        entity_registry_enabled_default=True,
+        disabled=False,
+        translation_key="cdi_v1",
+        api_version=API_VERSION_V1,
     ),
     GoEChargerBinarySensorEntityDescription(
         key="pha",

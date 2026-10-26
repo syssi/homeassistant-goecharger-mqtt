@@ -3,11 +3,10 @@
 import logging
 
 from homeassistant import config_entries, core
-from homeassistant.components import mqtt
 from homeassistant.components.button import ButtonEntity
 
 from .definitions.button import BUTTONS, GoEChargerButtonEntityDescription
-from .entity import GoEChargerEntity
+from .entity import GoEChargerEntity, async_add_supported_entities
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -18,10 +17,11 @@ async def async_setup_entry(
     async_add_entities,
 ):
     """Config entry setup."""
-    async_add_entities(
-        GoEChargerButton(config_entry, description)
-        for description in BUTTONS
-        if not description.disabled
+    async_add_supported_entities(
+        config_entry,
+        BUTTONS,
+        lambda description: GoEChargerButton(config_entry, description),
+        async_add_entities,
     )
 
 
@@ -45,6 +45,4 @@ class GoEChargerButton(GoEChargerEntity, ButtonEntity):
 
         This method is a coroutine.
         """
-        await mqtt.async_publish(
-            self.hass, f"{self._topic}/set", self.entity_description.payload_press
-        )
+        await self.async_publish_value(self.entity_description.payload_press)

@@ -3,12 +3,10 @@
 import logging
 
 from homeassistant import config_entries, core
-from homeassistant.components import mqtt
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.core import callback
 
 from .definitions.sensor import SENSORS, GoEChargerSensorEntityDescription
-from .entity import GoEChargerEntity
+from .entity import GoEChargerEntity, async_add_supported_entities
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -52,10 +50,11 @@ async def async_setup_entry(
     #         f"| `{description.key}` | {description.name} | {entity_category} | {native_unit_of_measurement} | {entity_registry_enabled} | {supported} | {reason} |"
     #     )
 
-    async_add_entities(
-        GoEChargerSensor(config_entry, description)
-        for description in SENSORS
-        if not description.disabled
+    async_add_supported_entities(
+        config_entry,
+        SENSORS,
+        lambda description: GoEChargerSensor(config_entry, description),
+        async_add_entities,
     )
 
 
@@ -78,18 +77,17 @@ class GoEChargerSensor(GoEChargerEntity, SensorEntity):
         """Subscribe to MQTT events."""
         await super().async_added_to_hass()
 
-        @callback
-        def message_received(message):
+        def message_received(payload):
             """Handle new MQTT messages."""
             if self.entity_description.state is not None:
                 self._attr_native_value = self.entity_description.state(
-                    message.payload, self.entity_description.attribute
+                    payload, self.entity_description.attribute
                 )
-            elif message.payload == "null":
+            elif payload == "null":
                 self._attr_native_value = None
             else:
-                self._attr_native_value = message.payload
+                self._attr_native_value = payload
 
             self.async_write_ha_state()
 
-        await mqtt.async_subscribe(self.hass, self._topic, message_received, 1)
+        await self.async_subscribe(message_received)

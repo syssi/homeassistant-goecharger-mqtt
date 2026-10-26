@@ -101,6 +101,9 @@
       }
     },
     "sensor": {
+      "amt_v1": { "name": "Maximaler Strom" },
+      "cdi_v1": { "name": "Cloud deaktiviert" },
+      "dws": { "name": "Geladene Energie dieser Sitzung" },
       "nrg_0": { "name": "Spannung L1" },
       "nrg_1": { "name": "Spannung L2" },
       "nrg_2": { "name": "Spannung L3" },
@@ -229,6 +232,9 @@
           "three_phases": "3 Phasen"
         }
       }
+    },
+    "binary_sensor": {
+      "cdi_v1": { "name": "Cloud deaktiviert" }
     }
   }
 }

@@ -188,4 +188,14 @@ SWITCHES: tuple[GoEChargerSwitchEntityDescription, ...] = (
         entity_registry_enabled_default=True,
         disabled=False,
     ),
+    GoEChargerSwitchEntityDescription(
+        key="alw",
+        name="Allow charging",
+        payload_on="1",
+        payload_off="0",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
 )

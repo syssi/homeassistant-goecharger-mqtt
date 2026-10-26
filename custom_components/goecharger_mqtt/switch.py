@@ -3,12 +3,10 @@
 import logging
 
 from homeassistant import config_entries, core
-from homeassistant.components import mqtt
 from homeassistant.components.switch import SwitchEntity
-from homeassistant.core import callback
 
 from .definitions.switch import SWITCHES, GoEChargerSwitchEntityDescription
-from .entity import GoEChargerEntity
+from .entity import GoEChargerEntity, async_add_supported_entities
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -19,10 +17,11 @@ async def async_setup_entry(
     async_add_entities,
 ):
     """Config entry setup."""
-    async_add_entities(
-        GoEChargerSwitch(config_entry, description)
-        for description in SWITCHES
-        if not description.disabled
+    async_add_supported_entities(
+        config_entry,
+        SWITCHES,
+        lambda description: GoEChargerSwitch(config_entry, description),
+        async_add_entities,
     )
 
 
@@ -49,9 +48,7 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn the switch on."""
-        await mqtt.async_publish(
-            self.hass, f"{self._topic}/set", self.entity_description.payload_on
-        )
+        await self.async_publish_value(self.entity_description.payload_on)
         if self._optimistic:
             # Optimistically assume that switch has changed state.
             self._attr_is_on = True
@@ -59,9 +56,7 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs):
         """Turn the switch off."""
-        await mqtt.async_publish(
-            self.hass, f"{self._topic}/set", self.entity_description.payload_off
-        )
+        await self.async_publish_value(self.entity_description.payload_off)
         if self._optimistic:
             # Optimistically assume that switch has changed state.
             self._attr_is_on = False
@@ -71,20 +66,19 @@ class GoEChargerSwitch(GoEChargerEntity, SwitchEntity):
         """Subscribe to MQTT events."""
         await super().async_added_to_hass()
 
-        @callback
-        def message_received(message):
+        def message_received(payload):
             """Handle new MQTT messages."""
             if self.entity_description.state is not None:
                 self._attr_is_on = self.entity_description.state(
-                    message.payload, self.entity_description.attribute
+                    payload, self.entity_description.attribute
                 )
-            elif message.payload == self.entity_description.payload_on:
+            elif payload in (self.entity_description.payload_on, "1", "true"):
                 self._attr_is_on = True
-            elif message.payload == self.entity_description.payload_off:
+            elif payload in (self.entity_description.payload_off, "0", "false"):
                 self._attr_is_on = False
             else:
                 self._attr_is_on = None
 
             self.async_write_ha_state()
 
-        await mqtt.async_subscribe(self.hass, self._topic, message_received, 1)
+        await self.async_subscribe(message_received)

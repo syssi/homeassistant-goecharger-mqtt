@@ -25,6 +25,7 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.entity import EntityCategory
 
+from ..const import API_VERSION_V1, API_VERSION_V2
 from . import GoEChargerEntityDescription
 
 _LOGGER = logging.getLogger(__name__)
@@ -45,7 +46,7 @@ def extract_charging_duration(value, attribute) -> int | None:
     Example value: {"type":1,"value":0}
     """
     data = json.loads(value)
-    if "type" in data and data["type"] == int(attribute):
+    if isinstance(data, dict) and data.get("type") == int(attribute):
         return data["value"]
 
     return None
@@ -991,6 +992,18 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         disabled_reason="Not exposed via MQTT in firmware 053.1",
     ),
     GoEChargerSensorEntityDescription(
+        key="dws",
+        name="Charged energy this session",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=SensorDeviceClass.ENERGY,
+        native_unit_of_measurement=UnitOfEnergy.WATT_HOUR,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:lightning-bolt",
+        entity_registry_enabled_default=True,
+        disabled=False,
+        api_version=API_VERSION_V1,
+    ),
+    GoEChargerSensorEntityDescription(
         key="lrn",
         name="Learn card",
         entity_category=None,
@@ -1024,6 +1037,18 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     ),
     GoEChargerSensorEntityDescription(
         key="amt",
+        name="Maximum current",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        device_class=SensorDeviceClass.CURRENT,
+        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_registry_enabled_default=True,
+        disabled=False,
+        translation_key="amt_v1",
+        api_version=API_VERSION_V1,
+    ),
+    GoEChargerSensorEntityDescription(
+        key="amt",
         name="Current temperature limit",
         entity_category=EntityCategory.DIAGNOSTIC,
         device_class=SensorDeviceClass.TEMPERATURE,
@@ -1031,6 +1056,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         state_class=SensorStateClass.MEASUREMENT,
         entity_registry_enabled_default=True,
         disabled=False,
+        api_version=API_VERSION_V2,
     ),
     GoEChargerSensorEntityDescription(
         key="atp",
@@ -1123,6 +1149,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         icon="mdi:timer-outline",
         entity_registry_enabled_default=True,
         disabled=False,
+        api_version=API_VERSION_V2,
     ),
     GoEChargerSensorEntityDescription(
         key="cdi",
@@ -1136,6 +1163,7 @@ SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
         icon="mdi:counter",
         entity_registry_enabled_default=False,
         disabled=False,
+        api_version=API_VERSION_V2,
     ),
     GoEChargerSensorEntityDescription(
         key="cus",
